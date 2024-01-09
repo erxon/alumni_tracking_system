@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /thesis/
+RewriteRule ^index\\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /thesis/index.php [L]
