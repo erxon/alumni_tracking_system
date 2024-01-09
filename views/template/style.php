@@ -205,19 +205,19 @@
         height: 450px;
         overflow-y: scroll;
     }
+
     <?php
     /**************Alumni Profile**********************/
-    ?>
-    .label {
+    ?>.label {
         color: #737373;
         font-size: 14px;
     }
 
     .alumni-information {
-        border: 0.5px solid #dedede; 
+        border: 0.5px solid #dedede;
         border-radius: 10px;
     }
-    
+
     .alumni-profile {
         background-color: #FFF;
         border-radius: 10px;
@@ -246,5 +246,22 @@
         height: 56px;
         object-fit: cover;
         border-radius: 100%;
+    }
+
+    <?php //Contents 
+    ?>.content-form {
+        width: 70%;
+        margin: auto;
+    }
+
+    .content-form-divider {
+        border: 0.5px solid #dedede;
+        border-radius: 10px;
+    }
+
+    .content-body {
+        resize: none;
+        height: 200px;
+        overflow-y: scroll;
     }
 </style>

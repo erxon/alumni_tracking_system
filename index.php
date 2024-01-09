@@ -59,6 +59,12 @@ switch ($url) {
     case "/thesis/alumni/create":
         require __DIR__ . "/views/alumni/alumni_registration_server.php";
         break;
+    case "/thesis/contents":
+        require __DIR__ . "/views/contents/index.php";
+        break;
+    case "/thesis/contents/events":
+        require __DIR__ . "/views/contents/event_form.php";
+        break;
     default:
         require __DIR__ . "/views/error.php";
         break;
