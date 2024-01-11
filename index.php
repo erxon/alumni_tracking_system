@@ -20,6 +20,12 @@ if (isset($parse_url["query"])) {
         case "/thesis/photo?" . $parse_url["query"]:
             require __DIR__ . "/views/photo/photo.php";
             break;
+        case "/thesis/contents/events?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/events/event_details.php";
+            break;
+        case "/thesis/contents/events/edit?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/events/event_edit.php";
+            break;
     }
     die();
 }
@@ -63,8 +69,15 @@ switch ($url) {
         require __DIR__ . "/views/contents/index.php";
         break;
     case "/thesis/contents/events":
-        require __DIR__ . "/views/contents/event_form.php";
+        require __DIR__ . "/views/contents/events/event_form.php";
         break;
+    case "/thesis/contents/events/submit":
+        require __DIR__ . "/views/contents/events/event_form_submit.php";
+        break;
+    case "/thesis/contents/events/edit":
+        require __DIR__ . "/views/contents/events/event_edit_submit.php";
+        break;
+
     default:
         require __DIR__ . "/views/error.php";
         break;

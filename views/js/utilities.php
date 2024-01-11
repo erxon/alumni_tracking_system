@@ -34,7 +34,6 @@
             params
         );
     }
-
     function alumniPost(url, params) {
         xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -53,5 +52,9 @@
         xhr.send(
             params
         );
+    }
+
+    function postContent(url, params){
+        
     }
 </script>
