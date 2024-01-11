@@ -23,8 +23,14 @@ if (isset($parse_url["query"])) {
         case "/thesis/contents/events?" . $parse_url["query"]:
             require __DIR__ . "/views/contents/events/event_details.php";
             break;
+        case "/thesis/contents/news?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/news/news_details.php";
+            break;
         case "/thesis/contents/events/edit?" . $parse_url["query"]:
             require __DIR__ . "/views/contents/events/event_edit.php";
+            break;
+        case "/thesis/contents/news/edit?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/news/news_edit.php";
             break;
     }
     die();
@@ -68,16 +74,31 @@ switch ($url) {
     case "/thesis/contents":
         require __DIR__ . "/views/contents/index.php";
         break;
+    case "/thesis/contents/events/all":
+        require __DIR__ . "/views/contents/events/event_list.php";
+        break;
+    case "/thesis/contents/news/all":
+        require __DIR__ . "/views/contents/news/news_list.php";
+        break;
+    case "/thesis/contents/news":
+        require __DIR__ . "/views/contents/news/news_form.php";
+        break;
+    case "/thesis/contents/news/submit":
+        require __DIR__ . "/views/contents/news/news_form_submit.php";
+        break;
     case "/thesis/contents/events":
         require __DIR__ . "/views/contents/events/event_form.php";
         break;
     case "/thesis/contents/events/submit":
         require __DIR__ . "/views/contents/events/event_form_submit.php";
         break;
+
     case "/thesis/contents/events/edit":
         require __DIR__ . "/views/contents/events/event_edit_submit.php";
         break;
-
+    case "/thesis/contents/news/edit":
+        require __DIR__ . "/views/contents/news/news_edit_submit.php";
+        break;
     default:
         require __DIR__ . "/views/error.php";
         break;

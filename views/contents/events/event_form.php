@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("/xampp/htdocs/thesis/views/template/header.php")
+include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 
 <div style class="main-body-padding content-form">

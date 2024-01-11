@@ -8,7 +8,8 @@ include("/xampp/htdocs/thesis/views/js/alumni_registration.php");
 ?>
 
 <script src="/thesis/public/js/events_form.js"></script>
-
+<script src="/thesis/public/js/news_form.js"></script>
+<script src="/thesis/public/js/contents.js"></script>
 
 </body>
 
