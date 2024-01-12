@@ -167,4 +167,132 @@ class Contents
 
         return $result;
     }
+
+    public function addSurveyQuestion($values, $author)
+    {
+        $db = new Database();
+
+        $question = $values["question"];
+        $body = $values["body"];
+        $coverImage = $values["coverImage"];
+
+        $query = "INSERT INTO survey_questions 
+        (question, body, coverImage, author) VALUES
+        ('$question', '$body', '$coverImage', '$author')";
+
+        $result = $db->query($query);
+
+        if ($result) {
+            return $db->getId();
+        }
+
+        $db->close();
+        return $result;
+    }
+
+    public function addSurveyAnswers($questionId)
+    {
+        $db = new Database();
+        $query = "";
+
+        for ($i = 1; $i < $_POST["answers"] + 1; $i++) {
+            $answer = $_POST["answer" . $i];
+            $query .= "INSERT INTO survey_answers (questionId, answer)
+            VALUES ('$questionId', '$answer');";
+        }
+
+        $result = $db->multi_query($query);
+        $db->close();
+
+        return $result;
+    }
+
+    public function getSurveys()
+    {
+        $db = new Database();
+        $query = "SELECT * FROM survey_questions";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
+
+    public function getSurveyQuestion($id)
+    {
+        $db = new Database();
+        $query = "SELECT * FROM survey_questions WHERE id=$id";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_assoc();
+    }
+
+    public function getSurveyAnswers($questionId)
+    {
+        $db = new Database();
+        $query = "SELECT * FROM survey_answers WHERE questionId=$questionId";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
+
+    public function deleteSurvey($id)
+    {
+        $db = new Database();
+        $query = "DELETE FROM survey_answers WHERE questionId=$id;";
+        $query .= "DELETE FROM survey_questions WHERE id=$id";
+
+        $result = $db->multi_query($query);
+        $db->close();
+
+        return $result;
+    }
+
+    public function updateSurveyQuestion($coverImageUpdated)
+    {
+        $db = new Database();
+        $id = $_POST["id"];
+        $question = $_POST["question"];
+        $body = $_POST["body"];
+        $coverImage = $coverImageUpdated;
+
+
+
+        $query = "UPDATE 
+        survey_questions 
+        SET question='$question',
+        body='$body',
+        coverImage='$coverImage',
+        WHERE id=$id";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result;
+    }
+
+    public function updateSurveyAnswers()
+    {
+        $db = new Database();
+        $id = $_POST["id"];
+        $query = "";
+        $deleteQuery = "DELETE FROM survey_answers WHERE questionId=$id";
+        $db->query($deleteQuery);
+
+        for ($i = 1; $i < $_POST["answers"] + 1; $i++) {
+            $answer = $_POST["answer" . $i];
+            $query .= "INSERT INTO survey_answers (questionId, answer)
+            VALUES ('$id', '$answer');";
+        }
+
+        $result = $db->multi_query($query);
+
+        $db->close();
+
+        return $result;
+    }
 }

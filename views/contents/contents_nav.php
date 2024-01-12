@@ -17,7 +17,7 @@
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="/thesis/contents/survey/all">
+                <a class="dropdown-item" href="/thesis/contents/surveys/all">
                     <i class="fas fa-question me-2"></i>Survey
                 </a>
             </li>
@@ -39,7 +39,7 @@
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="/thesis/contents/survey">
+                <a class="dropdown-item" href="/thesis/contents/surveys">
                     <i class="fas fa-question me-2"></i>Survey
                 </a>
             </li>

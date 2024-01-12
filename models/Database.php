@@ -21,6 +21,10 @@ class Database
         return $this->conn->query($sql);
     }
 
+    public function multi_query($sql){
+        return $this->conn->multi_query($sql);
+    }
+
     public function getId(){
         return $this->conn->insert_id;
     }
