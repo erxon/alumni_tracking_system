@@ -14,7 +14,8 @@ class Contents
         $coverImage = $content["coverImage"];
 
         $query = "INSERT INTO content 
-        (type, 
+        (
+        type, 
         title, 
         body, 
         author, 

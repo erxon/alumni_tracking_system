@@ -15,9 +15,8 @@
                     <li class="nav-item"><a class="nav-link" href="/thesis/user/index">Profile</a></li>
                     <?php if ($_SESSION["type"] == "admin") { ?>
                         <li class="nav-item"><a class="nav-link" href="/thesis/users">Users</a></li>
-                    <?php } ?>
-                    <?php if ($_SESSION["type"] == "admin") { ?>
                         <li class="nav-item"><a class="nav-link" href="/thesis/alumni/index">Alumni</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/thesis/contents">Contents</a></li>
                     <?php } ?>
                 <?php } ?>
             </ul>

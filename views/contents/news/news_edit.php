@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+if (!isset($_SESSION["type"]) || $_SESSION["type"] != "admin") {
+    header("Location: /thesis/");
+    return;
+}
+
 include("/xampp/htdocs/thesis/views/template/header.php");
 include("/xampp/htdocs/thesis/models/Contents.php");
 

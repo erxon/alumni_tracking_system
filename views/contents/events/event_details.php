@@ -27,8 +27,15 @@ if (isset($_POST["delete-action"])) {
         </nav>
         <div class="d-flex mb-2 py-2 align-items-center">
             <h5 class="me-3 mb-0"><?php echo $contentDetails["title"]; ?></h5>
-            <a role="button" href="/thesis/contents/events/edit?id=<?php echo $contentDetails["id"]; ?>" class="btn btn-sm btn-light me-1"><i class="fas fa-pen"></i></a>
-            <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#on-delete-confirm"><i class="fas fa-trash"></i></button>
+            <?php if (
+                isset($_SESSION["type"]) &&
+                $_SESSION["type"] == "admin" &&
+                $_SESSION["user_id"] ==
+                $contentDetails["author"]
+            ) { ?>
+                <a role="button" href="/thesis/contents/events/edit?id=<?php echo $contentDetails["id"]; ?>" class="btn btn-sm btn-light me-1"><i class="fas fa-pen"></i></a>
+                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#on-delete-confirm"><i class="fas fa-trash"></i></button>
+            <?php } ?>
         </div>
 
         <p class="mb-1" style="font-size: 14px;"><i class="far fa-clock"></i> Starts on: <?php echo $stringUtil->dateAndTime($contentDetails["eventStart"]); ?></p>
