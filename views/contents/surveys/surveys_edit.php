@@ -15,7 +15,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 <div class="main-body-padding">
     <div style="border-radius: 10px;" class="container w-75 m-auto bg-white p-3">
         <h3 class="mb-3">Edit Survey</h3>
-        <form id="edit-surveys-form" class="surveys-form">
+        <form id="edit-surveys-form">
             <input hidden name="id" value="<?php echo $id; ?>" />
             <div class="row mb-3">
                 <div class="col-lg-8">
@@ -23,7 +23,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
                     <input hidden name="coverImage" value="<?php echo $survey["coverImage"]; ?>" />
                     <img class="mb-2" style="width: 100%; height: 300px; object-fit: cover;" src="/thesis/public/images/cover/<?php echo $survey["coverImage"]; ?>" />
                     
-                    <input name="coverImage" type="file" class="form-control mb-2" />
+                    <input name="coverImageFile" type="file" class="form-control mb-2" />
                     <input name="question" type="text" class="form-control mb-2" placeholder="Question" value="<?php echo $survey["question"]; ?>" />
                     <textarea name="body" id="content-body" class="form-control">
                         <?php echo $survey["body"]; ?>

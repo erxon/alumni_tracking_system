@@ -4,24 +4,17 @@ require("Database.php");
 
 class Authentication
 {
-
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = new Database();
-    }
-
     public function login($username, $password)
     {
+        $db = new Database();
         if (empty($username) || empty($password)) {
             throw new Exception("Please type your username and password");
-            die();
+
         }
         //Query database for existing username
         $sql = "SELECT * FROM user WHERE username = '$username'";
 
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -36,11 +29,9 @@ class Authentication
                 header("Location: /thesis/home");
             } else {
                 throw new Exception("Password is incorrect");
-                die();
             }
         } else {
             throw new Exception("Username do not exist");
-            die();
         }
     }
 

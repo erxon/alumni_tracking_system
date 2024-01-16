@@ -260,13 +260,11 @@ class Contents
         $body = $_POST["body"];
         $coverImage = $coverImageUpdated;
 
-
-
         $query = "UPDATE 
         survey_questions 
         SET question='$question',
         body='$body',
-        coverImage='$coverImage',
+        coverImage='$coverImage'
         WHERE id=$id";
 
         $result = $db->query($query);
@@ -291,6 +289,39 @@ class Contents
 
         $result = $db->multi_query($query);
 
+        $db->close();
+
+        return $result;
+    }
+
+    public function surveyVote($userId, $questionId, $answerId){
+        $db = new Database();
+        
+        $query = "INSERT INTO survey_results (userId, questionId, answerId)
+        VALUES ('$userId', '$questionId', '$answerId')";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result;
+    }
+
+    public function getSurveyVotes($questionId,$answerId){
+        $db = new Database();
+        $query = "SELECT * FROM survey_results WHERE answerId='$answerId' AND questionId='$questionId'";
+
+        $result = $db->query($query);
+
+        $count = $result->num_rows;
+
+        return $count;
+    }
+
+    public function homePage($surveyId){
+        $db = new Database();
+        $query = "INSERT INTO home_page (survey) VALUES ('$surveyId')";
+
+        $result = $db->query($query);
         $db->close();
 
         return $result;

@@ -7,8 +7,29 @@ $auth = new Authentication();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['logout'])) {
         $auth->logout();
+    } 
+}
+
+include("/xampp/htdocs/thesis/models/Home.php");
+
+$surveyQuestion;
+$surveyAnswers;
+$home = new Home();
+$survey = $home->getSurvey();
+
+if(isset($_POST["delete-action"])) {
+    $result = $home->removeSurvey($survey["id"]);
+
+    if ($result) {
+        header("Location: /thesis");
     }
 }
+
+if (isset($survey)) {
+    $surveyQuestion = $home->getSurveyQuestion($survey["survey"]);
+    $surveyAnswers = $home->getSurveyAnswers($surveyQuestion["id"]);
+}
+
 ?>
 
 <?php
@@ -49,7 +70,7 @@ if (empty($_SESSION["username"])) { ?>
     </div>
 <?php } else { ?>
     <div class="dashboard">
-        <div class="welcome">
+        <div class="welcome mb-3">
             <p class="mb-0">Welcome <?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?>!</p>
             <p class="type">Administrator</p>
             <form class="logout" method="post">

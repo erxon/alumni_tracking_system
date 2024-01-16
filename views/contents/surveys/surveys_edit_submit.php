@@ -10,7 +10,7 @@ $coverImage = $_POST["coverImage"];
 $questionId = 0;
 
 //upload cover image
-if (isset($_FILES) && count($_FILES) > 0) {
+if ($_FILES["coverImageFile"]["name"] != "") {
     $tempname = $_FILES["coverImage"]["tmp_name"];
     $target_file = "./public/images/cover/" . basename($_FILES["coverImage"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -33,7 +33,6 @@ if (
     }
 }
 
-//add answers to DB
 if (isset($_POST["answers"]) && $_POST["answers"] > 0) {
     $result = $contents->updateSurveyAnswers();
 

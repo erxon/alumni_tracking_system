@@ -57,10 +57,21 @@ include("/xampp/htdocs/thesis/views/template/header.php");
             <!--Survey choices-->
             <p style="font-weight: 600;">Choices</p>
             <?php foreach ($answers as $answer) { ?>
-                <p><?php echo $answer[2]; ?></p>
+                <div class="d-flex">
+                    <p class="flex-grow-1"><?php
+                        echo $answer[2]?> </p>
+                    <p><?php
+                        $votes = $content->getSurveyVotes($id, $answer[0]);
+                        echo $votes;
+                        ?></p>
+                </div>
+
             <?php } ?>
         </div>
+
+
     </div>
+</div>
 </div>
 <form method="post">
     <input hidden name="delete-action" value="delete" />
