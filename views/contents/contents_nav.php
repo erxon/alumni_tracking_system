@@ -21,6 +21,11 @@
                     <i class="fas fa-question me-2"></i>Survey
                 </a>
             </li>
+            <li>
+                <a class="dropdown-item" href="/thesis/contents/gallery/all">
+                    <i class="far fa-images me-2"></i>Gallery
+                </a>
+            </li>
         </ul>
     </div>
     <div class="dropdown">
@@ -41,6 +46,11 @@
             <li>
                 <a class="dropdown-item" href="/thesis/contents/surveys">
                     <i class="fas fa-question me-2"></i>Survey
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="/thesis/contents/gallery">
+                    <i class="far fa-images me-2"></i>Gallery
                 </a>
             </li>
         </ul>

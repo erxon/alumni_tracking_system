@@ -41,6 +41,9 @@ if (isset($parse_url["query"])) {
         case "/thesis/contents/home/edit/survey?" . $parse_url["query"]:
             require __DIR__ . "/views/home/contents_edit_survey.php";
             break;
+        case "/thesis/contents/gallery?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/gallery/gallery_details.php";
+            break;
     }
     die();
 }
@@ -124,6 +127,15 @@ switch ($url) {
         break;
     case "/thesis/contents/survey/answer":
         require __DIR__ . "/views/home/survey_answer.php";
+        break;
+    case "/thesis/contents/gallery":
+        require __DIR__ . "/views/contents/gallery/gallery_form.php";
+        break;
+    case "/thesis/contents/gallery/all":
+        require __DIR__ . "/views/contents/gallery/gallery_list.php";
+        break;
+    case "/thesis/contents/gallery/imageupload":
+        require __DIR__ . "/views/contents/gallery/gallery_image_upload.php";
         break;
     default:
         require __DIR__ . "/views/error.php";

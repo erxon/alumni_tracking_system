@@ -121,6 +121,9 @@
                 </div>
                 <div class="col">
                     <p class="fw-bold">Archive</p>
+                    <a class="d-block text-decoration-none" style="font-style: italic" href="#">Year 2023</a>
+                    <a class="d-block text-decoration-none" style="font-style: italic" href="#">Year 2022</a>
+                    <a class="d-block text-decoration-none" style="font-style: italic" href="#">Year 2021</a>
                 </div>
             </div>
 

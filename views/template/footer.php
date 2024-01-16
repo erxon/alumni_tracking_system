@@ -13,6 +13,7 @@ include("/xampp/htdocs/thesis/views/js/alumni_registration.php");
 <script src="/thesis/public/js/contents.js"></script>
 <script src="/thesis/public/js/contents_edit.js"></script>
 <script src="/thesis/public/js/survey.js"></script>
+<script src="/thesis/public/js/gallery_form.js"></script>
 </body>
 
 </html>
