@@ -47,19 +47,22 @@ class Contents
         $title = $content["title"];
         $body = $content["body"];
         $coverImage = $content["coverImage"];
+        $description = $content["description"];
 
         $query = "INSERT INTO content 
         (type, 
         title, 
         body, 
         author, 
-        coverImage) 
+        coverImage,
+        description) 
         VALUES (
         'news',
         '$title',
         '$body',
         $userId,
-        '$coverImage')";
+        '$coverImage',
+        '$description')";
 
         $result = $db->query($query);
         $db->close();
@@ -97,7 +100,7 @@ class Contents
     public function getNews()
     {
         $db = new Database();
-        $query = "SELECT title, body, author, coverImage, id, dateCreated FROM content WHERE type='news' ORDER BY dateCreated DESC";
+        $query = "SELECT title, body, author, coverImage, id, dateCreated, description FROM content WHERE type='news' ORDER BY dateCreated DESC";
         $events = $db->query($query);
 
         if (!empty($events)) {

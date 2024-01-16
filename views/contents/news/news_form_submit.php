@@ -23,21 +23,29 @@ if (isset($_FILES) && count($_FILES) > 0) {
 }
 
 if (
-    isset($_POST["title"]) &&
-    isset($_POST["body"])
+    $_POST["title"] != "" &&
+    $_POST["body"] != "" &&
+    $_POST["description"] != "" &&
+    $coverImage != ""
 ) {
     $title = $_POST["title"];
     $body = $_POST["body"];
+    $description = $_POST["description"];
 
     $data = array(
         "title" => $title,
         "body" => $body,
+        "description" => $description,
         "coverImage" => $coverImage
+
     );
 
     $result = $contents->createNews($data, $userId);
 
     if ($result) {
-        echo json_encode(array("success" => "event successfully added"));
+        echo json_encode(array("success" => "news successfully added"));
     }
+} else {
+    header('HTTP/1.1 400 Please fill all the required fields');
+    echo json_encode(array("error" => "please fill all the required fields"));
 }
