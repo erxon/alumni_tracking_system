@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <?php
 require("/xampp/htdocs/thesis/models/Authentication.php");
+require("/xampp/htdocs/thesis/models/utilities/StringUtilities.php");
 
 $auth = new Authentication();
 
@@ -16,6 +17,7 @@ $surveyQuestion;
 $surveyAnswers;
 $home = new Home();
 $survey = $home->getSurvey();
+$stringUtil = new StringUltilities();
 
 if(isset($_POST["delete-action"])) {
     $result = $home->removeSurvey($survey["id"]);

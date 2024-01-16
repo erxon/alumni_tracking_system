@@ -10,13 +10,12 @@ class Home
         $result = $db->query($query);
 
         $db->close();
-        
-        if ($result){
+
+        if ($result) {
             return $result->fetch_assoc();
         } else {
             return false;
         }
-        
     }
 
     public function getSurveyQuestion($id)
@@ -77,5 +76,52 @@ class Home
         $db->close();
 
         return $result;
+    }
+
+    public function getEvents()
+    {
+        $db = new Database();
+        $query = "SELECT * FROM content WHERE type='event'  LIMIT 2";
+
+        $result = $db->query($query);
+
+        if ($result) {
+            return $result->fetch_all();
+        }
+    }
+
+    public function getLatestNews()
+    {
+        $db = new Database();
+        $query = "SELECT * FROM content WHERE type='news' ORDER BY dateCreated DESC LIMIT 1";
+
+        $result = $db->query($query);
+
+        if ($result) {
+            return $result->fetch_assoc();
+        }
+    }
+
+    public function getNews()
+    {
+        $db = new Database();
+        $query = "SELECT * FROM content WHERE type='news' ORDER BY dateCreated DESC LIMIT 3";
+
+        $result = $db->query($query);
+
+        if ($result) {
+            return $result->fetch_all();
+        }
+    }
+
+    public function getAuthor($id)
+    {
+        $db = new Database();
+        $query = "SELECT firstName, lastName FROM user WHERE id=$id";
+        $result = $db->query($query);
+
+        if ($result) {
+            return $result->fetch_assoc();
+        }
     }
 }

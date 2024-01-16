@@ -20,11 +20,19 @@ if (isset($_POST["delete-action"])) {
 
 <div class="main-body-padding">
     <div class="container-fluid w-75 m-auto">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/thesis/contents/events/all"><i class="fas fa-arrow-left"></i> Contents</a></li>
-            </ol>
-        </nav>
+        <?php if ($_SESSION["type"] == "admin") { ?>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/thesis/contents/events/all"><i class="fas fa-arrow-left"></i> Contents</a></li>
+                </ol>
+            </nav>
+        <?php } else { ?>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/thesis"><i class="fas fa-arrow-left"></i> Home </a></li>
+                </ol>
+            </nav>
+        <?php } ?>
         <div class="d-flex mb-2 py-2 align-items-center">
             <h5 class="me-3 mb-0"><?php echo $contentDetails["title"]; ?></h5>
             <?php if (
