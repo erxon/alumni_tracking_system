@@ -53,11 +53,13 @@ include("/xampp/htdocs/thesis/views/template/header.php");
         </div>
         <div class="mb-3">
             <!----------------Image Upload-------------------->
-            <input id="cover-image" name="coverImage" type="file" class="form-control" />
+            <input id="cover-image" name="coverImage" type="file" class="form-control" required />
         </div>
         <div class="mb-5">
             <!--Title & Body-->
+
             <input name="title" class="form-control mb-2" placeholder="Event name" required />
+            <textarea name="description" class="form-control mb-2" placeholder="Description" required></textarea>
             <textarea id="content-body" name="body" placeholder="Content" required></textarea>
         </div>
         <button type="submit" class="btn btn-dark">Save</button>

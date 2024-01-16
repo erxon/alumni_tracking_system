@@ -12,6 +12,7 @@ class Contents
         $title = $content["title"];
         $body = $content["body"];
         $coverImage = $content["coverImage"];
+        $description = $content["description"];
 
         $query = "INSERT INTO content 
         (
@@ -21,7 +22,8 @@ class Contents
         author, 
         eventStart, 
         eventEnd, 
-        coverImage) 
+        coverImage,
+        description) 
         VALUES (
         'event',
         '$title',
@@ -29,7 +31,8 @@ class Contents
         $userId,
         '$eventStart',
         '$eventEnd',
-        '$coverImage')";
+        '$coverImage',
+        '$description')";
 
         $result = $db->query($query);
         $db->close();
@@ -67,7 +70,7 @@ class Contents
     public function getContents($type)
     {
         $db = new Database();
-        $query = "SELECT title, body, author, eventStart, eventEnd, coverImage, id FROM content WHERE type='$type' ORDER BY eventStart DESC";
+        $query = "SELECT title, body, author, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='$type' ORDER BY eventStart DESC";
         $events = $db->query($query);
 
         if (!empty($events)) {
@@ -294,9 +297,10 @@ class Contents
         return $result;
     }
 
-    public function surveyVote($userId, $questionId, $answerId){
+    public function surveyVote($userId, $questionId, $answerId)
+    {
         $db = new Database();
-        
+
         $query = "INSERT INTO survey_results (userId, questionId, answerId)
         VALUES ('$userId', '$questionId', '$answerId')";
 
@@ -306,7 +310,8 @@ class Contents
         return $result;
     }
 
-    public function getSurveyVotes($questionId,$answerId){
+    public function getSurveyVotes($questionId, $answerId)
+    {
         $db = new Database();
         $query = "SELECT * FROM survey_results WHERE answerId='$answerId' AND questionId='$questionId'";
 
@@ -317,7 +322,8 @@ class Contents
         return $count;
     }
 
-    public function homePage($surveyId){
+    public function homePage($surveyId)
+    {
         $db = new Database();
         $query = "INSERT INTO home_page (survey) VALUES ('$surveyId')";
 
