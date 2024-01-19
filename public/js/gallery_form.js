@@ -24,6 +24,12 @@ $("#upload-image-gallery").on("submit", (event) => {
     return;
   }
 
+  Object.values(event.target).forEach((element) => {
+    if(element.name === "gallery_id"){
+      galleryId = element.value;
+    }
+  });
+
   const data = new FormData(event.target);
   data.append("gallery_id", galleryId);
 

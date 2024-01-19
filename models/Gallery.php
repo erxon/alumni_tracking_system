@@ -55,6 +55,7 @@ class Gallery
         $result = $db->query($query);
 
         $db->close();
+        
         if ($result->num_rows > 0) {
             return $result->fetch_all();
         } else {

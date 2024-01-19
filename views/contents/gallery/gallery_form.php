@@ -30,6 +30,22 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 
 <div class="main-body-padding content-form">
+    <?php if (isset($id)) { ?>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all">Galleries</a></li>
+                <li class="breadcrumb-item"><a href="/thesis/contents/gallery?id=<?php echo $id; ?>">Details</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add gallery or image</li>
+            </ol>
+        </nav>
+    <?php } else { ?>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all">Galleries</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add gallery or image</li>
+            </ol>
+        </nav>
+    <?php } ?>
     <h3>Gallery</h3>
     <select id="gallery-selection" class="form-select" aria-label="Default select example">
         <option value="">Select a gallery to add an image</option>
@@ -60,6 +76,9 @@ include("/xampp/htdocs/thesis/views/template/header.php");
         <p>Please select an image to add to your gallery</p>
         <form id="upload-image-gallery" enctype="multipart/form-data">
             <div class="d-flex">
+                <?php if (isset($id)) { ?>
+                    <input hidden name="gallery_id" value="<?php echo $id ?>" />
+                <?php } ?>
                 <input name="gallery_image" type="file" class="form-control me-2" />
                 <button type="submit" class="btn btn-sm btn-dark">Upload</button>
             </div>
