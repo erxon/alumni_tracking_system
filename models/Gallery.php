@@ -62,4 +62,14 @@ class Gallery
             return false;
         }
     }
+
+    public function deleteImage($imageId){
+        $db = new Database();
+        $query = "DELETE FROM gallery_image WHERE id=$imageId";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result;
+    }
 }

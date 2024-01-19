@@ -16,6 +16,17 @@ $stringUtil = new StringUltilities();
 $galleryDetails = $gallery->galleryById($id);
 $galleryImages = $gallery->galleryImages($id);
 
+//Delete image
+if (isset($_POST["delete-action"])) {
+    $imageName = $_POST["image_name"];
+    $path = $_SERVER['DOCUMENT_ROOT'] . "/thesis/public/images/gallery/$imageName";
+
+    unlink($path);
+    $gallery->deleteImage($_POST["delete-action"]);
+
+    header("Location: /thesis/contents/gallery?id=$id");
+}
+
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 
@@ -41,6 +52,12 @@ include("/xampp/htdocs/thesis/views/template/header.php");
                             <div class="card-body">
                                 <p class="card-text"><?php echo $image[1] ?></p>
                                 <p class="card-text text-secondary">Uploaded on: <?php echo $stringUtil->dateAndTime($image[3]); ?></p>
+                            </div>
+                            <div class="card-footer">
+                                <form method="post">
+                                    <input hidden name="image_name" value="<?php echo $image[1] ?>" />
+                                    <button name="delete-action" value="<?php echo $image[0] ?>" class="btn btn-sm btn-light"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                     </div>
