@@ -11,7 +11,7 @@ class Home
 
         $db->close();
 
-        if ($result) {
+        if ($result->num_rows > 0) {
             return $result->fetch_assoc();
         } else {
             return false;

@@ -6,7 +6,7 @@
                 <h3>Survey for today</h3>
                 <?php //if userId in questionId is in result
                 $surveyAnswered;
-                if (isset($survey)) {
+                if ($survey) {
                     $surveyAnswered = $home->userAnsweredSurvey($_SESSION["user_id"], $survey["survey"]);
                 }
 
@@ -36,15 +36,15 @@
                             </form>
                         </div>
                     <?php } ?>
-                    <?php if ($_SESSION["type"] == "admin") { ?>
-                        <?php if (isset($survey)) { ?>
-                            <form method="post">
-                                <input hidden name="delete-action" value="delete" />
-                                <button type="submit" class="mt-3 btn btn-sm btn-light">Remove</button>
-                            </form>
-                        <?php } else { ?>
-                            <a class="btn btn-sm btn-dark" role="button" href="/thesis/contents/edit">Add</a>
-                        <?php } ?>
+                <?php } ?>
+                <?php if ($_SESSION["type"] == "admin") { ?>
+                    <?php if ($survey) { ?>
+                        <form method="post">
+                            <input hidden name="delete-action" value="delete" />
+                            <button type="submit" class="mt-3 btn btn-sm btn-light">Remove</button>
+                        </form>
+                    <?php } else { ?>
+                        <a class="btn btn-sm btn-dark" role="button" href="/thesis/contents/edit">Add</a>
                     <?php } ?>
                 <?php } ?>
             </div>

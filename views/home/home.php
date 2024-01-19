@@ -27,7 +27,7 @@ if(isset($_POST["delete-action"])) {
     }
 }
 
-if (isset($survey)) {
+if ($survey) {
     $surveyQuestion = $home->getSurveyQuestion($survey["survey"]);
     $surveyAnswers = $home->getSurveyAnswers($surveyQuestion["id"]);
 }

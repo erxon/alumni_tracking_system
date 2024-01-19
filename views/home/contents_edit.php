@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("/xampp/htdocs/thesis/models/Contents.php");
 
 $content = new Contents();
@@ -32,7 +33,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 
                 <div id="survey-container"></div>
             </div>
-            <button>Save</button>
+            <button class="btn btn-sm btn-dark">Save</button>
         </form>
     </div>
 </div>
