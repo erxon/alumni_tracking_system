@@ -74,7 +74,7 @@ if (empty($_SESSION["username"])) { ?>
     <div class="dashboard">
         <div class="welcome mb-3">
             <p class="mb-0">Welcome <?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?>!</p>
-            <p class="type">Administrator</p>
+            <p class="type"><?php echo $_SESSION["type"];?></p>
             <form class="logout" method="post">
                 <input class="btn btn-link" type="submit" name="logout" value="Logout">
             </form>

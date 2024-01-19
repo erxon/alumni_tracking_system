@@ -24,7 +24,8 @@ $stringUtil = new StringUltilities();
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><i class="far fa-folder"></i> <?php echo $galleryItem[1] ?></h5>
-                        <p class="card-text"><?php echo $stringUtil->dateAndTime($galleryItem[2]) ?></p>
+                        <p style="font-size: 14px" class="card-text"><i class="far fa-clock"></i> <?php echo $stringUtil->dateAndTime($galleryItem[3]) ?></p>
+                        <p class="card-text text-secondary"><?php echo $galleryItem[2] ?></p>
                         <a href="/thesis/contents/gallery?id=<?php echo $galleryItem[0]; ?>" class="btn btn-sm btn-light">Open Gallery</a>
                     </div>
                 </div>

@@ -3,10 +3,10 @@
 include("Database.php");
 class Gallery
 {
-    public function createGallery($galleryName)
+    public function createGallery($galleryName, $description)
     {
         $db = new Database();
-        $query = "INSERT INTO gallery (name) VALUES ('$galleryName')";
+        $query = "INSERT INTO gallery (name, description) VALUES ('$galleryName', '$description')";
 
         $result = $db->query($query);
         $db->close();
@@ -47,14 +47,18 @@ class Gallery
         return $result->fetch_assoc();
     }
 
-    public function galleryImages($galleryId){
+    public function galleryImages($galleryId)
+    {
         $db = new Database();
         $query = "SELECT * FROM gallery_image WHERE galleryId=$galleryId";
 
         $result = $db->query($query);
 
         $db->close();
-
-        return $result->fetch_all();
+        if ($result->num_rows > 0) {
+            return $result->fetch_all();
+        } else {
+            return false;
+        }
     }
 }

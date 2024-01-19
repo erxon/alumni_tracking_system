@@ -20,6 +20,10 @@ $("#new-gallery").on("keyup", (event) => {
 $("#upload-image-gallery").on("submit", (event) => {
   event.preventDefault();
 
+  if (event.target.gallery_image.value === "") {
+    return;
+  }
+
   const data = new FormData(event.target);
   data.append("gallery_id", galleryId);
 

@@ -44,6 +44,9 @@ if (isset($parse_url["query"])) {
         case "/thesis/contents/gallery?" . $parse_url["query"]:
             require __DIR__ . "/views/contents/gallery/gallery_details.php";
             break;
+        case "/thesis/contents/gallery/imageupload?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/gallery/gallery_form.php";
+            break;
     }
     die();
 }
