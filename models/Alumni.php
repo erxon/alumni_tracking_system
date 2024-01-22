@@ -227,7 +227,7 @@ class Alumni extends AlumniUtility
 
     public function getAllAlumni()
     {
-        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email FROM alumni ORDER BY dateCreated ASC";
+        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status FROM alumni ORDER BY dateCreated ASC";
         $result = $this->db->query($sql);
 
         if (isset($result)) {
@@ -236,23 +236,25 @@ class Alumni extends AlumniUtility
         }
     }
 
-    public function editAlumni(
-        $firstName,
-        $middleName,
-        $lastName,
-        $contactNumber,
-        $email,
-        $gender,
-        $age,
-        $birthday,
-        $address,
-        $trackFinished,
-        $strandFinished,
-        $yearGraduated,
-        $presentStatus,
-        $curriculumExit,
-        $id
-    ) {
+    public function editAlumni()
+    {
+
+        $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_SPECIAL_CHARS);
+        $firstName = filter_input(INPUT_POST, "first_name", FILTER_SANITIZE_SPECIAL_CHARS);
+        $middleName = filter_input(INPUT_POST, "middle_name", FILTER_SANITIZE_SPECIAL_CHARS);
+        $lastName = filter_input(INPUT_POST, "last_name", FILTER_SANITIZE_SPECIAL_CHARS);
+        $contactNumber = filter_input(INPUT_POST, "contact_number", FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+        $gender = filter_input(INPUT_POST, "gender", FILTER_SANITIZE_SPECIAL_CHARS);
+        $age = filter_input(INPUT_POST, "age");
+        $birthday = filter_input(INPUT_POST, "birthday");
+        $address = filter_input(INPUT_POST, "address");
+        $trackFinished = filter_input(INPUT_POST, "track_finished", FILTER_SANITIZE_SPECIAL_CHARS);
+        $strandFinished = filter_input(INPUT_POST, "strand_finished", FILTER_SANITIZE_SPECIAL_CHARS);
+        $yearGraduated = filter_input(INPUT_POST, "date_graduated", FILTER_SANITIZE_SPECIAL_CHARS);
+        $presentStatus = filter_input(INPUT_POST, "present_status", FILTER_SANITIZE_SPECIAL_CHARS);
+        $curriculumExit =  filter_input(INPUT_POST, "curriculum_exit", FILTER_SANITIZE_SPECIAL_CHARS);
+        $status = filter_input(INPUT_POST, "status", FILTER_SANITIZE_SPECIAL_CHARS);
 
         $sql = "UPDATE alumni SET 
         firstName='$firstName',
@@ -268,7 +270,8 @@ class Alumni extends AlumniUtility
         strandFinished='$strandFinished',
         dateGraduated='$yearGraduated',
         presentStatus='$presentStatus',
-        curriculumExit='$curriculumExit'
+        curriculumExit='$curriculumExit',
+        status='$status'
         WHERE id=$id";
 
         $result = $this->db->query($sql);
@@ -284,7 +287,8 @@ class Alumni extends AlumniUtility
         return $result;
     }
 
-    public function addPhotoToUser($user_id, $file){
+    public function addPhotoToUser($user_id, $file)
+    {
         $sql = "UPDATE user SET photo='$file' WHERE id=$user_id";
         $this->db->query($sql);
     }
@@ -292,15 +296,26 @@ class Alumni extends AlumniUtility
     public function uploadProfilePhoto($user_id, $alumni_id)
     {
         $tempname = $_FILES["profilePhoto"]["tmp_name"];
-        $target_file = "./public/images/profile/".basename($_FILES["profilePhoto"]["name"]);
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        $file = $user_id.'.'.$imageFileType;
-        $folder = "./public/images/profile/" . $user_id.'.'.$imageFileType;
+        $target_file = "./public/images/profile/" . basename($_FILES["profilePhoto"]["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $file = $user_id . '.' . $imageFileType;
+        $folder = "./public/images/profile/" . $user_id . '.' . $imageFileType;
 
         $sql = "UPDATE alumni SET photo='$file' WHERE id=$alumni_id";
         $this->db->query($sql);
         $this->addPhotoToUser($user_id, $file);
 
         return move_uploaded_file($tempname, $folder);
+    }
+
+    public function sendDeleteEmail($emailAddress)
+    {
+        $msg = "Your alumni profile has been deleted";
+
+        // use wordwrap() if lines are longer than 70 characters
+        $msg = wordwrap($msg, 70);
+
+        // send email
+        mail($emailAddress, "Alumni Account Deleted", $msg);
     }
 }

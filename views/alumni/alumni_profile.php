@@ -12,6 +12,14 @@ $undergradDetails;
 $alumniDetails = $alumni->getAlumniByUserId($_SESSION["user_id"]);
 $curriculumExitQuestions = $alumni->getCurriculumExitQuestions($alumniDetails["id"]);
 
+$statusBadgeClass = "";
+
+if ($alumniDetails["status"] == "pending") {
+    $statusBadgeClass = "badge rounded-pill bg-secondary";
+} else {
+    $statusBadgeClass = "badge rounded-pill bg-primary";
+}
+
 if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
     $undergradDetails = $alumni->getUndergradDetails($alumniDetails["undergraduate"]);
 }
@@ -26,6 +34,10 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
             <?php } else { ?>
                 <div class="photo-container mb-2 m-auto"></div>
             <?php } ?>
+        </div>
+        <!--Alumni status-->
+        <div class="mb-3">
+            <p>Alumni status <span class="<?php echo $statusBadgeClass; ?>"><?php echo $alumniDetails["status"] ?></span></p>
         </div>
         <!--Name-->
         <p class="mb-1">

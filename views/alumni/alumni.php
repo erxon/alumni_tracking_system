@@ -7,6 +7,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $alumni = new Alumni();
 
     $alumniDetails = $alumni->getAlumniById($id);
+
+    $statusBadgeClass = "";
+
+    if ($alumniDetails["status"] == "pending") {
+        $statusBadgeClass = "badge rounded-pill bg-secondary";
+    } else {
+        $statusBadgeClass = "badge rounded-pill bg-primary";
+    }
 }
 ?>
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
@@ -16,12 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <!--Photo-->
         <div class="mb-3 p-2 alumni-information text-center">
             <?php if (isset($alumniDetails["photo"])) { ?>
-                <img src="/thesis/public/images/profile/<?php echo($alumniDetails["photo"]) ?>" class="profile-photo" />
+                <img src="/thesis/public/images/profile/<?php echo ($alumniDetails["photo"]) ?>" class="profile-photo" />
             <?php } else { ?>
                 <div class="photo-container mb-2 m-auto"></div>
             <?php } ?>
         </div>
         <!--Name-->
+        <div class="mb-3">
+            <p>Alumni status <span class="<?php echo $statusBadgeClass; ?>"><?php echo $alumniDetails["status"] ?></span></p>
+        </div>
         <p class="mb-1">
             <i class="fas fa-user me-1"></i>
             <?php if (isset($alumniDetails["middleName"])) {

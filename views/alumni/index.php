@@ -33,6 +33,7 @@ $alumniAccounts = $alumni->getAllAlumni();
                 <th scope="col">Last Name</th>
                 <th scope="col">Contact Number</th>
                 <th scope="col">Email</th>
+                <th scope="col">Status</th>
                 <th scope="col"></th>
             </tr>
         </thead>

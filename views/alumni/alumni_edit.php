@@ -10,39 +10,7 @@ $alumniDetails = $alumni->getAlumniById($id);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"];
     if ($action == "edit") {
-        $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_SPECIAL_CHARS);
-        $firstName = filter_input(INPUT_POST, "first_name", FILTER_SANITIZE_SPECIAL_CHARS);
-        $middleName = filter_input(INPUT_POST, "middle_name", FILTER_SANITIZE_SPECIAL_CHARS);
-        $lastName = filter_input(INPUT_POST, "last_name", FILTER_SANITIZE_SPECIAL_CHARS);
-        $contactNumber = filter_input(INPUT_POST, "contact_number", FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-        $gender = filter_input(INPUT_POST, "gender", FILTER_SANITIZE_SPECIAL_CHARS);
-        $age = filter_input(INPUT_POST, "age");
-        $birthday = filter_input(INPUT_POST, "birthday");
-        $address = filter_input(INPUT_POST, "address");
-        $trackFinished = filter_input(INPUT_POST, "track_finished", FILTER_SANITIZE_SPECIAL_CHARS);
-        $strandFinished = filter_input(INPUT_POST, "strand_finished", FILTER_SANITIZE_SPECIAL_CHARS);
-        $yearGraduated = filter_input(INPUT_POST, "date_graduated", FILTER_SANITIZE_SPECIAL_CHARS);
-        $presentStatus = filter_input(INPUT_POST, "present_status", FILTER_SANITIZE_SPECIAL_CHARS);
-        $curriculumExit =  filter_input(INPUT_POST, "curriculum_exit", FILTER_SANITIZE_SPECIAL_CHARS);
-
-        $result = $alumni->editAlumni(
-            $firstName,
-            $middleName,
-            $lastName,
-            $contactNumber,
-            $email,
-            $gender,
-            $age,
-            $birthday,
-            $address,
-            $trackFinished,
-            $strandFinished,
-            $yearGraduated,
-            $presentStatus,
-            $curriculumExit,
-            $id
-        );
+        $result = $alumni->editAlumni();
 
         if ($result) {
             header("Location: /thesis/alumni?id=" . $id);
@@ -51,12 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     if ($action == "delete") {
-        $result = $alumni->deleteAlumni($id);
-        if ($result) {
-            header("Location: /thesis/alumni/index");
-        } else {
-            echo "something went wrong deleting alumni";
-        }
+        // $result = $alumni->deleteAlumni($id);
+        $email = $alumniDetails["email"];
+        $alumni->sendDeleteEmail($email);
+
+        // x
     }
     if ($action == "image_upload") {
         $upload = $alumni->uploadProfilePhoto($alumniDetails["userAccountID"], $id);
@@ -90,6 +57,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#uploadPhotoModal">Add Photo</button>
             </div>
             <input hidden name="id" value="<?php echo $alumniDetails["id"]; ?>" />
+
+            <!--Set status-->
+            <div class="mb-3">
+                <select name="status" class="form-select">
+                    <option <?php echo ($alumniDetails["status"] == "pending") ? "selected" : ""; ?> value="pending">Pending</option>
+                    <option <?php echo ($alumniDetails["status"] == "active") ? "selected" : ""; ?> value="active">Active</option>
+                </select>
+            </div>
             <!--Name-->
             <div class="p-2 alumni-information flex-fill me-1 mb-2">
                 <label class="label" for="first_name">First Name</label>
@@ -162,9 +137,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label class="label" for="curriculum_exit">Curriculum Exit</label>
                 <input name="curriculum_exit" id="curriculum_exit" class="form-control" value="<?php echo $alumniDetails["curriculumExit"]; ?>" />
             </div>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#confirmationDialog" class="btn btn-outline-dark">Save</button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationDialog" class="btn btn-outline-danger">Delete</button>
 
+            <button type="button" data-bs-toggle="modal" data-bs-target="#confirmationDialog" class="btn btn-outline-dark">Save</button>
+            <?php if ($_SESSION["type"] == "admin") { ?>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationDialog" class="btn btn-outline-danger">Delete</button>
+            <?php } ?>
             <div class="modal fade" id="confirmationDialog" tabindex="-1" aria-labelledby="confirmationDialog" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
