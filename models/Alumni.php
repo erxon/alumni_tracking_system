@@ -75,6 +75,20 @@ class Alumni extends AlumniUtility
         }
     }
 
+    public function insertTracerStudy($values, $alumniId) {
+        $tracerSurveyAnswer1 = $values["tracerSurveyAnswer1"];
+        $tracerSurveyAnswer2 = $values["tracerSurveyAnswer2"];
+        $tracerSurveyAnswer3 = $values["tracerSurveyAnswer3"];
+        $tracerSurveyAnswer4 = $values["tracerSurveyAnswer4"];
+
+        $query = "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 1, '$tracerSurveyAnswer1');";
+        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 2, '$tracerSurveyAnswer2');";
+        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 3, '$tracerSurveyAnswer3');";
+        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 4, '$tracerSurveyAnswer4')";
+
+        $this->db->multi_query($query);
+    }
+
     public function addAlumni($values, $userId, $isUndergrad)
     {
         $firstName = $values["firstName"];
@@ -135,6 +149,9 @@ class Alumni extends AlumniUtility
             $alumniId = $this->db->getId();
 
             $this->insertCurriculumExitQuestions($values, $alumniId);
+            $this->insertTracerStudy($values, $alumniId);
+
+            $this->db->close();
 
             return $result;
         } else {
@@ -176,6 +193,9 @@ class Alumni extends AlumniUtility
             $alumniId = $this->db->getId();
 
             $this->insertCurriculumExitQuestions($values, $alumniId);
+            $this->insertTracerStudy($values, $alumniId);
+
+            $this->db->close();
 
             return $result;
         }

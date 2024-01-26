@@ -115,6 +115,7 @@
 
             if (page === 4) {
                 let params = new URLSearchParams(data).toString();
+                console.log(data);
                 alumniPost("/thesis/alumni/create", params);
             }
 

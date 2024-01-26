@@ -123,7 +123,7 @@
             </div>
         </div>
         <!--Tracer study-->
-        <div class="container-fluid bg-white">
+        <div class="container-fluid bg-white p-3 rounded">
             <div class="d-flex">
                 <div style="width: 20%"></div>
                 <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
@@ -152,11 +152,11 @@
             );
 
             for ($i = 0; $i < count($sections); $i++) {
-                $inputName = "question_" . ($i + 1);
+                $inputName = "tracer_survey_answer_" . ($i + 1);
             ?>
-                <div class="d-flex align-items-center">
+                <div class="d-flex bg-body-secondary align-items-center rounded mb-2">
                     <!--Question-->
-                    <div class="p-2 tracer-study-question" style="width: 20%; font-size: 14px;">
+                    <div class="p-2" style="width: 20%; font-size: 14px;">
                         <p><?php echo $sections[$i]; ?></p>
                     </div>
                     <!--Answers-->
@@ -173,6 +173,7 @@
                         <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="1">
                     </div>
                 </div>
+
             <?php } ?>
         </div>
     </div>

@@ -35,7 +35,11 @@ $values = array(
     "answer2" => $_POST["answer2"],
     "answer3" => $_POST["answer3"],
     "answer4" => $_POST["answer4"],
-    "answer5" => $_POST["answer5"]
+    "answer5" => $_POST["answer5"],
+    "tracerSurveyAnswer1" => $_POST["tracer_survey_answer_1"],
+    "tracerSurveyAnswer2" => $_POST["tracer_survey_answer_2"],
+    "tracerSurveyAnswer3" => $_POST["tracer_survey_answer_3"],
+    "tracerSurveyAnswer4" => $_POST["tracer_survey_answer_4"]
 );
 
 if ($values["presentStatus"] == "University Student") {
