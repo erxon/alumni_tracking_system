@@ -95,7 +95,7 @@
         try {
             const formData = new FormData();
             const data = processForm(event);
-            const validate = await validation(data, page);
+            // const validate = await validation(data, page);
 
             page += 1;
 

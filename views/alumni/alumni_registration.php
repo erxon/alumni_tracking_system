@@ -1,12 +1,13 @@
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
 
 <form id="alumni-registration-form" class="m-auto alumni-registration-form p-2" novalidate>
-    <h2>Alumni Registration</h2>
+    <h1>Alumni Registration</h1>
     <p>Page <span id="pageNumber"></span> of 3</p>
     <div class="progress mb-4" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
         <div id="progress" class="progress-bar"></div>
     </div>
     <div id="form-page-1">
+        <h3>Personal Information</h3>
         <div class="d-flex mb-3">
             <input id="first_name" type="text" class="form-control me-2" name="first_name" placeholder="First Name" required />
             <input id="middle_name" type="text" class="form-control me-2" name="middle_name" placeholder="Middle Name" />
@@ -74,9 +75,10 @@
         </div>
         <input id="cert" type="text" class="mb-3 form-control" name="certifications" default placeholder="National Certification/s Acquired in High School" />
     </div>
-    <div class="mb-3" style="display:none" id="form-page-2">
+    <div id="form-page-2" class="mb-3" style="display:none">
         <div class="mb-2">
-            <h3>Curriculum Exit</h3>
+            <h3>Tracer Study on the Kto12 Curriculum Exits of LYFJSHS
+                Graduates</h3>
             <p>Please answer the items applicable to you</p>
         </div>
         <div class="mb-3">
@@ -120,8 +122,61 @@
                 <label for="business-specialization">Which specialization did you engaged in?</label>
             </div>
         </div>
+        <!--Tracer study-->
+        <div class="container-fluid bg-white">
+            <div class="d-flex">
+                <div style="width: 20%"></div>
+                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                    <p class="mb-1">4</p>
+                    <p>Strongly Agree</p>
+                </div>
+                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                    <p class="mb-1">3</p>
+                    <p>Agree</p>
+                </div>
+                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                    <p class="mb-1">2</p>
+                    <p>Fairly Agree</p>
+                </div>
+                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                    <p class="mb-1">1</p>
+                    <p>Disagree</p>
+                </div>
+            </div>
+            <?php
+            $sections = array(
+                "Information, media and technology skills",
+                "Learning and innovation skills",
+                "Effective communication skills",
+                "Life and career skills"
+            );
+
+            for ($i = 0; $i < count($sections); $i++) {
+                $inputName = "question_" . ($i + 1);
+            ?>
+                <div class="d-flex align-items-center">
+                    <!--Question-->
+                    <div class="p-2 tracer-study-question" style="width: 20%; font-size: 14px;">
+                        <p><?php echo $sections[$i]; ?></p>
+                    </div>
+                    <!--Answers-->
+                    <div class="flex-fill text-center" style="width: 20%;">
+                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="4">
+                    </div>
+                    <div class="flex-fill text-center" style="width: 20%;">
+                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="3">
+                    </div>
+                    <div class="flex-fill text-center" style="width: 20%;">
+                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="2">
+                    </div>
+                    <div class="flex-fill text-center" style="width: 20%;">
+                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="1">
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
     </div>
-    <div class="mb-3" style="display:none" id="form-page-3">
+    <div id="form-page-3" class="mb-3" style="display:none">
         <h3>Signup</h3>
         <div class="form-floating mb-3">
             <input id="username" class="form-control" type="text" name="username" placeholder="username" required />

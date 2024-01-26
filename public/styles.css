@@ -83,11 +83,17 @@ body {
   .alumni-registration-form {
       width: 75%;
   }
+  .tracer-study-question {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 425px) {
   .alumni-registration-form {
       width: 100%;
+  }
+  .tracer-study-question {
+    font-size: 12px;
   }
 }
 
@@ -252,3 +258,4 @@ body {
   height: 200px;
   overflow-y: scroll;
 }
+
