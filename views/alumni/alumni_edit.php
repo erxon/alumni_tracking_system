@@ -1,11 +1,14 @@
 <?php session_start(); ?>
 <?php
 include("/xampp/htdocs/thesis/models/Alumni.php");
+include("/xampp/htdocs/thesis/models/Email.php");
 
 $alumni = new Alumni();
 
 $id = $_GET["id"];
 $alumniDetails = $alumni->getAlumniById($id);
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"];
@@ -19,11 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     if ($action == "delete") {
-        // $result = $alumni->deleteAlumni($id);
-        $email = $alumniDetails["email"];
-        $alumni->sendDeleteEmail($email);
+        $email = new Email();
+        $emailAddress = $alumniDetails["email"];
+        $name = $alumniDetails["firstName"];
 
-        // x
+        $emailContent = $_POST["delete_reason"];
+
+        $email->sendEmail($emailAddress, $name, $emailContent);
+
+        $result = $alumni->deleteAlumni($id, $alumniDetails["userAccountID"]);
+
+        if ($result) {
+            header("Location: /thesis/alumni/index");
+        }
     }
     if ($action == "image_upload") {
         $upload = $alumni->uploadProfilePhoto($alumniDetails["userAccountID"], $id);
@@ -168,11 +179,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Are you sure you want to delete this alumni record?
+                            <p>Are you sure you want to delete this alumni record?</p>
+
+                            <input id="delete-reason" name="delete_reason" class="form-control" placeholder="Please state your reason here" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" name="action" value="delete" class="btn btn-primary">Confirm delete</button>
+                            <button disabled id="confirm-alumni-delete-button" type="submit" name="action" value="delete" class="btn btn-primary">Confirm delete</button>
                         </div>
                     </div>
                 </div>

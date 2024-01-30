@@ -140,6 +140,9 @@ switch ($url) {
     case "/thesis/contents/gallery/imageupload":
         require __DIR__ . "/views/contents/gallery/gallery_image_upload.php";
         break;
+    case "/thesis/email":
+        require __DIR__ . "/views/alumni/send_email.php";
+        break;
     default:
         require __DIR__ . "/views/error.php";
         break;

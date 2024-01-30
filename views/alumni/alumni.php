@@ -48,7 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     </div>
     <div class="col-8">
         <?php if (($alumniDetails["userAccountID"] == $_SESSION["user_id"]) || ($_SESSION["type"] == "admin")) { ?>
-            <a role="button" href=<?php echo "/thesis/alumni/edit?id=" . $id; ?> class="btn btn-outline-dark btn-sm mb-2"><i class="fas fa-pen"></i> Edit</a>
+            <a role="button" href=<?php echo "/thesis/alumni/edit?id=" . $id; ?> class="btn btn-outline-dark btn-sm me-2"><i class="fas fa-pen"></i> Edit</a>
+
         <?php } ?>
         <!-- Gender, Age, Birthday -->
         <div class="d-flex">

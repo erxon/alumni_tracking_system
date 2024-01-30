@@ -1,6 +1,6 @@
 <?php
-require("/xampp/htdocs/thesis/models/utilities/AlumniUtility.php");
 
+require("/xampp/htdocs/thesis/models/utilities/AlumniUtility.php");
 class Alumni extends AlumniUtility
 {
 
@@ -75,7 +75,8 @@ class Alumni extends AlumniUtility
         }
     }
 
-    public function insertTracerStudy($values, $alumniId) {
+    public function insertTracerStudy($values, $alumniId)
+    {
         $tracerSurveyAnswer1 = $values["tracerSurveyAnswer1"];
         $tracerSurveyAnswer2 = $values["tracerSurveyAnswer2"];
         $tracerSurveyAnswer3 = $values["tracerSurveyAnswer3"];
@@ -299,10 +300,12 @@ class Alumni extends AlumniUtility
         return $result;
     }
 
-    public function deleteAlumni($id)
+    public function deleteAlumni($id, $userAccountID)
     {
-        $sql  = "DELETE FROM alumni WHERE id=$id";
-        $result = $this->db->query($sql);
+        $sql  = "DELETE FROM alumni WHERE id=$id;";
+        $sql .= "DELETE FROM user WHERE id=$userAccountID";
+
+        $result = $this->db->multi_query($sql);
 
         return $result;
     }
@@ -328,14 +331,28 @@ class Alumni extends AlumniUtility
         return move_uploaded_file($tempname, $folder);
     }
 
-    public function sendDeleteEmail($emailAddress)
+    public function sendDeleteEmail($emailAddress, $name)
     {
-        $msg = "Your alumni profile has been deleted";
+        $email = new \SendGrid\Mail\Mail();
+        $email->setFrom("ericson.es@outlook.com", "ATS - Administrator");
+        $email->setSubject("Your account has been deleted");
+        $email->addTo($emailAddress, $name);
+        $email->addContent("text/plain", "and easy to do anywhere, even with PHP");
+        $email->addContent(
+            "text/html",
+            "
+            <h1>Hello $name,</h1>
+            <p>We're sorry to inform you that your account has been deleted by the admin.</p> 
+            <p>Thank you for kind understanding.</p>
+            "
+        );
+        
+        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
 
-        // use wordwrap() if lines are longer than 70 characters
-        $msg = wordwrap($msg, 70);
-
-        // send email
-        mail($emailAddress, "Alumni Account Deleted", $msg);
+        try {
+            $sendgrid->send($email);
+        } catch (Exception $e) {
+            echo 'Caught exception: ' . $e->getMessage() . "\n";
+        }
     }
 }
