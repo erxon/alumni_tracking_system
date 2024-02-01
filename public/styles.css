@@ -1,3 +1,16 @@
+
+/**************************Utilities*************************/
+.link {
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.letter-spacing {
+  letter-spacing: 0.5px;
+ }
+
+/**************************Utilities*************************/
 body {
   font-family: Poppins, sans-serif;
   background-color: #f7f7f7;
@@ -12,11 +25,17 @@ body {
 }
 
 .nav-item {
-  margin-right: 2rem;
+  margin-right: 5px;
 }
 
 .introduction {
+  height: 100vh;
   background-color: black;
+}
+
+.carousel-img {
+  object-fit: cover;
+  height: 100vh;
 }
 
 .carousel {
@@ -31,6 +50,28 @@ body {
   padding-top: 15px;
   margin-left: 30px;
 }
+/*
+*
+*
+*
+*/
+/************************Landing Page************************/
+
+.contact, .about {
+  padding: 5% 10%;
+}
+
+.about-section-title {
+  width: 50%;
+}
+
+
+/*************************************************************/
+/*
+*
+*
+*
+*/
 
 .intro {
   background-color: white;
@@ -48,7 +89,7 @@ body {
 .reg-container {
   position: absolute;
   z-index: 2;
-  margin: 15% 5%;
+  margin: 15% 10%;
 }
 
 .reg-start {
@@ -59,41 +100,47 @@ body {
 }
 
 .system-name {
-  color: #F4CE14;
+  color: #f4ce14;
 }
 
 .reg-start p {
   letter-spacing: 1px;
   font-weight: 300;
   font-size: 18px;
-  color: #EAEAEA;
+  color: #eaeaea;
 }
 
 .register-now {
-  --bs-btn-bg: #F4CE14;
+  --bs-btn-bg: #f4ce14;
   --bs-btn-border-color: none;
-  --bs-btn-hover-bg: #D6B511;
+  --bs-btn-hover-bg: #d6b511;
 }
 
 .alumni-registration-form {
   width: 50%;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .alumni-registration-form {
-      width: 75%;
+    width: 75%;
   }
   .tracer-study-question {
     font-size: 12px;
+  }
+  .about-section-title {
+    width: 100%;
   }
 }
 
-@media (max-width: 425px) {
+@media (min-width: 425px) {
   .alumni-registration-form {
-      width: 100%;
+    width: 100%;
   }
   .tracer-study-question {
     font-size: 12px;
+  }
+  .about-section-title {
+    width: 100%;
   }
 }
 
@@ -134,7 +181,6 @@ body {
 }
 
 .logout {
-
   display: inline;
 }
 
@@ -149,7 +195,7 @@ body {
 }
 
 .users .fa-trash {
-  color: #ADADAD;
+  color: #adadad;
 }
 
 .add-user-form .user-type {
@@ -184,7 +230,7 @@ body {
 }
 
 .user .information .value {
-  margin-bottom: 0.50rem;
+  margin-bottom: 0.5rem;
 }
 
 .edit-user {
@@ -195,7 +241,7 @@ body {
 .delete-user {
   border-radius: 10px;
   padding: 20px;
-  background-color: #D6D6D6;
+  background-color: #d6d6d6;
 }
 
 .users-table {
@@ -214,7 +260,7 @@ body {
 }
 
 .alumni-profile {
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 10px;
 }
 
@@ -258,4 +304,3 @@ body {
   height: 200px;
   overflow-y: scroll;
 }
-
