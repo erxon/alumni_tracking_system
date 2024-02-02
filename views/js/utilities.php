@@ -6,8 +6,6 @@
     }
 
     function processForm(event) {
-        event.preventDefault();
-
         const formData = new FormData(event.target);
         const data = {};
 

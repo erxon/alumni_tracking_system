@@ -116,12 +116,12 @@ body {
   --bs-btn-hover-bg: #d6b511;
 }
 
-.alumni-registration-form {
-  width: 50%;
+.registration-form {
+  padding: 3% 15%;
 }
 
 @media (min-width: 768px) {
-  .alumni-registration-form {
+  .registration-form {
     width: 75%;
   }
   .tracer-study-question {
@@ -133,7 +133,7 @@ body {
 }
 
 @media (min-width: 425px) {
-  .alumni-registration-form {
+  .registration-form {
     width: 100%;
   }
   .tracer-study-question {

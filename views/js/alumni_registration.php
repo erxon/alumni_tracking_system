@@ -35,8 +35,15 @@
     }
 
     async function validateSecondPage(formData) {
-        if (formData.curriculum_exits === "") {
-            throw new Error("Please specify your pursued curriculum exits after graduation");
+
+        if (formData.curriculum_exit === "" ||
+            !formData.hasOwnProperty("tracer_survey_answer_1") ||
+            !formData.hasOwnProperty("tracer_survey_answer_2") ||
+            !formData.hasOwnProperty("tracer_survey_answer_3") ||
+            !formData.hasOwnProperty("tracer_survey_answer_4")) {
+
+            throw new Error("Please fill all required fields");
+
             return;
         }
     }
@@ -92,10 +99,11 @@
     document.getElementById("alumni-registration-form").addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        const formData = new FormData();
+        const data = processForm(event);
+        console.log(data)
         try {
-            const formData = new FormData();
-            const data = processForm(event);
-            // const validate = await validation(data, page);
+            const validate = await validation(data, page);
 
             page += 1;
 
