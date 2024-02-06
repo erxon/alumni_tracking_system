@@ -16,6 +16,7 @@ include("/xampp/htdocs/thesis/views/js/alumni_registration.php");
 <script src="/thesis/public/js/gallery_form.js"></script>
 <script src="/thesis/public/js/alumni_delete.js"></script>
 <script src="/thesis/public/js/alumni_send_email.js"></script>
+<script src="/thesis/public/js/alumni_search_name.js"></script>
 </body>
 
 </html>

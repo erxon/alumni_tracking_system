@@ -5,12 +5,6 @@ require("/xampp/htdocs/thesis/models/utilities/StringUtilities.php");
 
 $auth = new Authentication();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['logout'])) {
-        $auth->logout();
-    }
-}
-
 include("/xampp/htdocs/thesis/models/Home.php");
 
 $surveyQuestion;
@@ -39,7 +33,6 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 <?php
 if (empty($_SESSION["username"])) { ?>
-
     <div class="reg-container">
         <div class="reg-start">
             <h1 style="font-weight: bold">Welcome to Luis Y. Ferrer Jr. Senior High School <span class="system-name">Alumni Tracking System</span></h1>
@@ -139,18 +132,18 @@ if (empty($_SESSION["username"])) { ?>
     <div class="bg-dark p-3">
         <p style="font-size: 12px;" class="mb-0 text-light fw-light text-center">&copy Copyright 2024</p>
     </div>
+<?php } else if ($_SESSION["type"] == "admin") { ?>
+
+
+
 <?php } else { ?>
+
     <div class="dashboard">
-        <div class="welcome mb-3">
-            <p class="mb-0">Welcome <?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?>!</p>
-            <p class="type"><?php echo $_SESSION["type"]; ?></p>
-            <form class="logout" method="post">
-                <input class="btn btn-link" type="submit" name="logout" value="Logout">
-            </form>
-        </div>
         <?php include("/xampp/htdocs/thesis/views/home/contents.php"); ?>
     </div>
 <?php } ?>
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="termsAndConditions" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

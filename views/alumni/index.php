@@ -1,11 +1,5 @@
 <?php session_start(); ?>
 <?php
-if ($_SESSION["type"] != "admin") {
-    header("Location: /thesis/home");
-    die();
-}
-?>
-<?php
 
 require("/xampp/htdocs/thesis/models/Alumni.php");
 
@@ -13,16 +7,46 @@ $alumni = new Alumni();
 
 $alumniAccounts = $alumni->getAllAlumni();
 
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+    $name = filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS);
+    $track = filter_input(INPUT_POST,"track", FILTER_SANITIZE_SPECIAL_CHARS);
+    $strand = filter_input(INPUT_POST,"strand", FILTER_SANITIZE_SPECIAL_CHARS);
+    $batch = filter_input(INPUT_POST,"batch", FILTER_SANITIZE_SPECIAL_CHARS);
+}
+
 ?>
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
 <div class="main-body-padding">
     <h3>Alumni</h3>
-    <button data-bs-toggle="modal" data-bs-target="#sendEmail" class="btn btn-outline-dark btn-sm"><i class="fas fa-at"></i> Send email</button>
-    <form id="search">
-        <div class="input-group flex-nowrap my-3 w-50">
-            <input id="search-field" type="text" class="form-control" placeholder="Search" />
-            <button class="btn"><i class="fas fa-search"></i></button>
+    <!--Move to admin dashboard-->
+    <!-- <button data-bs-toggle="modal" data-bs-target="#sendEmail" class="btn btn-outline-dark btn-sm"><i class="fas fa-at"></i> Send email</button> -->
+    <form id="search" method="post" class="mb-3">
+        <div class="d-flex">
+            <input hidden id="name-search-firstName" value="" />
+            <input hidden id="name-search-middleName" value="" />
+            <input hidden id="name-search-lastName" value="" />
+            <input id="alumni-name-search" name="name" class="form-control me-2" placeholder="Name" />
+            <select class="form-select me-2">
+                <option selected>Track</option>
+                <option value="1">Academic</option>
+                <option value="2">Technical Vocational</option>
+                <option value="3">Sports and Recreation</option>
+            </select>
+            <select class="form-select me-2">
+                <option selected>Strand</option>
+                <option value="1">Academic</option>
+                <option value="2">Technical Vocational</option>
+                <option value="3">Sports and Recreation</option>
+            </select>
+            <select class="form-select me-3">
+                <option selected>Batch</option>
+                <option value="1"><?php echo date("Y"); ?></option>
+                <option value="2"><?php echo date("Y") - 1; ?></option>
+                <option value="3"><?php echo date("Y") - 2; ?></option>
+            </select>
+            <button type="submit" class="flex-fill btn btn-sm btn-dark"><i class="fas fa-search"></i> Search</button>
         </div>
+        <div id="search-result-container"></div>
     </form>
     <table class="table table-responsive-lg table-hover align-middle">
         <thead>

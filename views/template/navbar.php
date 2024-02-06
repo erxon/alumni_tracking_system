@@ -1,3 +1,12 @@
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['logout'])) {
+        $auth->logout();
+    }
+}
+
+?>
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">LYFJSHS - Alumni Tracking System</a>
@@ -20,13 +29,15 @@
                             <p class="me-3 mb-0">Hello, <?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?></p>
                         </li>
                         <li class="nav-item">
-                            <button class="btn btn-light"><i class="fas fa-sign-out-alt"></i></button>
+                            <form method="post">
+                                <button name="logout" value="." class="btn btn-light"><i class="fas fa-sign-out-alt"></i></button>
+                            </form>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item"><a class="nav-link" href="/thesis/home">News / Announcements / Events</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Survey</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Search Alumni</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/thesis/alumni/index">Search Alumni</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Profile
@@ -34,7 +45,13 @@
                             <ul style="font-size: 14px;" class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#"><i class="fas fa-user-alt"></i> Profile</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Account Setting</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                <li>
+                                    <form method="post">
+                                        <button role="button" name="logout" value="." type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
                             </ul>
                         </li>
                     <?php } ?>

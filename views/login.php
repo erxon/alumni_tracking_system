@@ -23,27 +23,36 @@ if (isset($_SESSION["username"])) {
   include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 
-  <div class="login-form">
-    <p class="mb-0">Alumni Tracking System</p>
-    <h2 class="mb-3">Please Login</h2>
-    <form method="post">
-      <div class="form-floating">
-        <input id="floatingInput" class="form-control username" type="text" placeholder="username" name="username">
-        <label for="floatingInput">Username</label>
-      </div>
-      <div class="form-floating">
-        <input type="password" class="form-control password" type="text" placeholder="password" name="password" />
-        <label for="floatingInput">Password</label>
-      </div>
-      <div class="d-grid gap-2 mx-auto text-center">
-        <button class="btn btn-primary mt-3 " type="submit">Login</button>
-        <?php if (isset($message)) { ?>
-          <div class="alert alert-danger" role="alert">
-            <?php echo $message; ?>
+  <div class="login-form bg-white rounded shadow-sm p-2">
+    <div class="row g-0">
+      <img style="object-fit: cover;" class="col-lg-6 col-md-12" src="/thesis/public/assets/login-form.jpg" />
+      <div class="col-lg-6 col-md-12 p-4">
+
+        <p class="mb-0">Alumni Tracking System</p>
+        <h2 class="mb-3">Login</h2>
+        <form method="post">
+          <div class="form-floating">
+            <input id="floatingInput" class="form-control username" type="text" placeholder="username" name="username">
+            <label for="floatingInput">Username</label>
           </div>
-        <?php } ?>
+          <div class="form-floating">
+            <input type="password" class="form-control password" type="text" placeholder="password" name="password" />
+            <label for="floatingInput">Password</label>
+          </div>
+          <div class="d-grid gap-2 mx-auto text-center">
+            <button class="btn btn-primary mt-3 " type="submit">Login</button>
+            <p style="font-size: 14px;">Don't have an account yet? <a href="/thesis/register">Register here</a></p>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
+
+    <?php if (isset($message)) { ?>
+      <div class="alert alert-danger mt-3" role="alert">
+        <?php echo $message; ?>
+      </div>
+    <?php } ?>
   </div>
+
 <?php } ?>
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

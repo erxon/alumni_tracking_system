@@ -257,6 +257,17 @@ class Alumni extends AlumniUtility
         }
     }
 
+    public function searchName($query){
+        $sql = "SELECT firstName, middleName, lastName FROM alumni WHERE firstName='$query' OR middleName='$query' OR lastName='$query'";
+
+        $result = $this->db->query($sql);
+        if (isset($result)) {
+            return $result;
+        }
+
+        $this->db->close();
+    }
+
     public function editAlumni()
     {
 

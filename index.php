@@ -5,6 +5,9 @@ $parse_url = parse_url($url);
 
 if (isset($parse_url["query"])) {
     switch ($url) {
+        case "/thesis/searchname?" . $parse_url["query"];
+            require __DIR__ . "/views/alumni/search_name.php";
+            break;
         case '/thesis/users?' . $parse_url["query"]:
             require __DIR__ . "/views/users/user.php";
             break;
@@ -142,6 +145,9 @@ switch ($url) {
         break;
     case "/thesis/email":
         require __DIR__ . "/views/alumni/send_email.php";
+        break;
+    case "/thesis/register":
+        require __DIR__ . "/views/register.php";
         break;
     default:
         require __DIR__ . "/views/error.php";
