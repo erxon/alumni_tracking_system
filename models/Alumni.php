@@ -257,8 +257,17 @@ class Alumni extends AlumniUtility
         }
     }
 
-    public function searchName($query){
-        $sql = "SELECT firstName, middleName, lastName FROM alumni WHERE firstName='$query' OR middleName='$query' OR lastName='$query'";
+    public function searchName($query)
+    {
+        $sql = "SELECT 
+            id,
+            firstName, 
+            middleName, 
+            lastName,
+            trackFinished,
+            strandFinished,
+            dateGraduated
+            FROM alumni WHERE firstName='$query' OR middleName='$query' OR lastName='$query'";
 
         $result = $this->db->query($sql);
         if (isset($result)) {
@@ -266,6 +275,26 @@ class Alumni extends AlumniUtility
         }
 
         $this->db->close();
+    }
+
+    public function searchAlumni($name, $track, $strand, $batch)
+    {
+        $sql = "SELECT * FROM alumni 
+        WHERE (firstName='$name' OR 
+        middleName='$name' OR 
+        lastName='$name') OR
+        (trackFinished='$track' OR
+        strandFinished='$strand' OR
+        dateGraduated='$batch') LIMIT 3";
+
+        $result = $this->db->query($sql);
+        $this->db->close();
+
+        if ($result->num_rows > 0) {
+            return array("response"=>$result->fetch_all(), "success"=>true);
+        } else {
+            return array("response"=>"Alumni not found", "success"=>false);
+        }
     }
 
     public function editAlumni()
@@ -357,7 +386,7 @@ class Alumni extends AlumniUtility
             <p>Thank you for kind understanding.</p>
             "
         );
-        
+
         $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
 
         try {

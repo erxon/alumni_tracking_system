@@ -7,11 +7,15 @@ $alumni = new Alumni();
 
 $alumniAccounts = $alumni->getAllAlumni();
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){
-    $name = filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS);
-    $track = filter_input(INPUT_POST,"track", FILTER_SANITIZE_SPECIAL_CHARS);
-    $strand = filter_input(INPUT_POST,"strand", FILTER_SANITIZE_SPECIAL_CHARS);
-    $batch = filter_input(INPUT_POST,"batch", FILTER_SANITIZE_SPECIAL_CHARS);
+$result = array();
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS);
+    $track = filter_input(INPUT_POST, "track", FILTER_SANITIZE_SPECIAL_CHARS);
+    $strand = filter_input(INPUT_POST, "strand", FILTER_SANITIZE_SPECIAL_CHARS);
+    $batch = filter_input(INPUT_POST, "batch", FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $result = $alumni->searchAlumni($name, $track, $strand, $batch);
 }
 
 ?>
@@ -20,31 +24,40 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     <h3>Alumni</h3>
     <!--Move to admin dashboard-->
     <!-- <button data-bs-toggle="modal" data-bs-target="#sendEmail" class="btn btn-outline-dark btn-sm"><i class="fas fa-at"></i> Send email</button> -->
-    <form id="search" method="post" class="mb-3">
+    <form id="search" class="mb-3">
         <div class="d-flex">
             <input hidden id="name-search-firstName" value="" />
             <input hidden id="name-search-middleName" value="" />
             <input hidden id="name-search-lastName" value="" />
             <input id="alumni-name-search" name="name" class="form-control me-2" placeholder="Name" />
-            <select class="form-select me-2">
+            <select id="alumni-track" name="track" class="form-select me-2">
                 <option selected>Track</option>
-                <option value="1">Academic</option>
-                <option value="2">Technical Vocational</option>
-                <option value="3">Sports and Recreation</option>
+                <option value="Academic">Academic</option>
+                <option value="TVL">Technical Vocational</option>
+                <option value="Sports and Arts">Sports and Recreation</option>
             </select>
-            <select class="form-select me-2">
+            <select id="alumni-track" name="strand" class="form-select me-2">
                 <option selected>Strand</option>
-                <option value="1">Academic</option>
-                <option value="2">Technical Vocational</option>
-                <option value="3">Sports and Recreation</option>
+                <option value="GA">General Academic</option>
+                <option value="HUMSS">Humanities and Social Sciences</option>
+                <option value="STEM">Science, Technology, Engineering, and Mathematics</option>
+                <option value="ABM">Accountancy, Business and Management</option>
+                <option value="Agri-Fishery Arts">Agri-Fishery Arts</option>
+                <option value="Home Economics">Home Economics</option>
+                <option value="Industrial Arts">Industrial Arts</option>
+                <option value="ICT">Information Communications Technology</option>
+                <option value="others">Others</option>
             </select>
-            <select class="form-select me-3">
+            <select id="alumni-batch" name="batch" class="form-select me-3">
                 <option selected>Batch</option>
-                <option value="1"><?php echo date("Y"); ?></option>
-                <option value="2"><?php echo date("Y") - 1; ?></option>
-                <option value="3"><?php echo date("Y") - 2; ?></option>
+                <option value="<?php echo date("Y"); ?>"><?php echo date("Y"); ?></option>
+                <option value="<?php echo date("Y") - 1; ?>"><?php echo date("Y") - 1; ?></option>
+                <option value="<?php echo date("Y") - 2; ?>"><?php echo date("Y") - 2; ?></option>
+                <option value="<?php echo date("Y") - 3; ?>"><?php echo date("Y") - 3; ?></option>
+                <option value="<?php echo date("Y") - 4; ?>"><?php echo date("Y") - 4; ?></option>
+                <option value="<?php echo date("Y") - 5; ?>"><?php echo date("Y") - 5; ?></option>
             </select>
-            <button type="submit" class="flex-fill btn btn-sm btn-dark"><i class="fas fa-search"></i> Search</button>
+            <button id="search-button" type="submit" class="flex-fill btn btn-sm btn-dark"><i class="fas fa-search"></i> Search</button>
         </div>
         <div id="search-result-container"></div>
     </form>

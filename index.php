@@ -149,6 +149,9 @@ switch ($url) {
     case "/thesis/register":
         require __DIR__ . "/views/register.php";
         break;
+    case "/thesis/alumni/search":
+        require __DIR__ . "/views/alumni/alumni_search.php";
+        break;
     default:
         require __DIR__ . "/views/error.php";
         break;

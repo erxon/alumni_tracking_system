@@ -1,16 +1,9 @@
-function select(firstName, middleName, lastName) {
-  console.log("selected");
-  $("#name-search-firstName").val(firstName);
-  $("#name-search-middleName").val(middleName);
-  $("#name-search-lastName").val(lastName);
-  $("#alumni-name-search").val(`${firstName} ${middleName} ${lastName}`);
-}
-
 $("#alumni-name-search").keyup(() => {
   const name = $("#alumni-name-search").val();
 
   if (!$("#search-result-container").is(":empty")) {
     $("#search-result-container").empty();
+    $("#search-result-container").removeClass();
   }
 
   $.ajax({
@@ -24,11 +17,49 @@ $("#alumni-name-search").keyup(() => {
         const result = JSON.parse(response);
 
         $("#search-result-container").append(`
-                <div class="d-flex align-items-center bg-white rounded p-2">
+                <div class="d-flex align-items-center bg-white rounded p-2 mt-3">
                     <p class="mb-0 me-2">${result.firstName} ${result.middleName} ${result.lastName}</p>
-                    <button type="button" onclick="select('${result.firstName}', '${result.middleName}', '${result.lastName}')"
-                    class="btn btn-sm btn-outline-dark">Select</button>
+                    <a href="/thesis/alumni?id=${result.id}">View</a>
                 </div>`);
+      }
+    },
+  });
+});
+
+$("#search").on("submit", (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+
+  $.ajax({
+    type: "POST",
+    data: formData,
+    url: `/thesis/alumni/search`,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: (response) => {
+      const parseResponse = JSON.parse(response);
+
+      $("#search-result-container").empty();
+      $("#search-result-container").removeClass();
+
+      if (parseResponse.success) {
+        $("#search-result-container").addClass("rounded bg-white p-2 mt-3");
+        $("#search-result-container").append(`<h3 class="text-secondary">Results</h3>`);
+        parseResponse.response.map((data, index) => {
+          return $("#search-result-container").append(`<div class="d-flex">
+            <p class="me-2">${index+1}</p>
+            <p class="me-2">${data[3]}</p>
+            <p class="me-2">${data[4]}</p>
+            <p class="me-2">${data[5]}</p>
+            <a class="me-2" href="/thesis/alumni?id=${data[0]}">view</a>
+          </div>`);
+        });
+      } else {
+        $("#search-result-container").append(
+          `<p class="text-secondary mt-3">${parseResponse.response}</p>`
+        );
       }
     },
   });
