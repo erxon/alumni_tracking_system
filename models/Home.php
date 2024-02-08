@@ -5,14 +5,14 @@ class Home
     public function getSurvey()
     {
         $db = new Database();
-        $query = "SELECT * FROM home_page ORDER BY id ASC LIMIT 1 ";
+        $query = "SELECT * FROM home_page ORDER BY id ASC LIMIT 2";
 
         $result = $db->query($query);
 
         $db->close();
 
         if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
+            return $result->fetch_all();
         } else {
             return false;
         }

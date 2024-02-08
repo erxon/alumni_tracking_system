@@ -2,29 +2,12 @@
 <?php
 require("/xampp/htdocs/thesis/models/Authentication.php");
 require("/xampp/htdocs/thesis/models/utilities/StringUtilities.php");
+include("/xampp/htdocs/thesis/models/Home.php");
 
 $auth = new Authentication();
 
-include("/xampp/htdocs/thesis/models/Home.php");
-
-$surveyQuestion;
-$surveyAnswers;
 $home = new Home();
-$survey = $home->getSurvey();
 $stringUtil = new StringUltilities();
-
-if (isset($_POST["delete-action"])) {
-    $result = $home->removeSurvey($survey["id"]);
-
-    if ($result) {
-        header("Location: /thesis");
-    }
-}
-
-if ($survey) {
-    $surveyQuestion = $home->getSurveyQuestion($survey["survey"]);
-    $surveyAnswers = $home->getSurveyAnswers($surveyQuestion["id"]);
-}
 
 ?>
 

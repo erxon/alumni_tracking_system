@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["type"]) || $_SESSION["type"] != "admin") {
+if (!isset($_SESSION["user_id"])) {
     header("Location: /thesis/");
     return;
 }
@@ -42,7 +42,9 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 
     <div class="bg-white rounded p-3">
         <h3>Images</h3>
-        <a role="button" class="btn btn-sm btn-dark my-3" href="/thesis/contents/gallery/imageupload?galleryId=<?php echo $galleryDetails["id"]; ?>">Upload images</a>
+        <?php if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
+            <a role="button" class="btn btn-sm btn-dark my-3" href="/thesis/contents/gallery/imageupload?galleryId=<?php echo $galleryDetails["id"]; ?>">Upload images</a>
+        <?php } ?>
         <?php if ($galleryImages) { ?>
             <div class="row">
                 <?php foreach ($galleryImages as $image) { ?>

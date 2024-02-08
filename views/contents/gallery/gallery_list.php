@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["type"]) || $_SESSION["type"] != "admin") {
+if (!isset($_SESSION["user_id"])) {
     header("Location: /thesis/");
     return;
 }
@@ -17,7 +17,11 @@ $stringUtil = new StringUltilities();
 ?>
 
 <div class="main-body-padding">
-    <?php include("/xampp/htdocs/thesis/views/contents/contents_nav.php"); ?>
+    <?php
+    if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") {
+        include("/xampp/htdocs/thesis/views/contents/contents_nav.php");
+    }
+    ?>
     <div class="row mt-4">
         <?php foreach ($allGallery as $galleryItem) { ?>
             <div class="col-sm-6 col-md-4 mb-2">

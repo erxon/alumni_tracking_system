@@ -223,7 +223,6 @@ class Contents
 
         return $result->fetch_all();
     }
-
     public function getSurveyQuestion($id)
     {
         $db = new Database();
@@ -313,6 +312,32 @@ class Contents
         return $result;
     }
 
+    public function hasVoted($userId, $questionId)
+    {
+        $db = new Database();
+
+        $query = "SELECT * FROM survey_results WHERE userId='$userId' AND questionId='$questionId'";
+
+        $result = $db->query($query);
+
+        if ($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function removeVote($userId, $questionId)
+    {
+        $db = new Database();
+
+        $query = "DELETE FROM survey_results WHERE userId='$userId' AND questionId='$questionId'";
+
+        $db->query($query);
+        $db->close();
+        
+        return true;
+    }
     public function getSurveyVotes($questionId, $answerId)
     {
         $db = new Database();

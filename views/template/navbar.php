@@ -1,8 +1,10 @@
 <?php
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['logout'])) {
-        $auth->logout();
+        session_destroy();
+        header("Location: /thesis/login");
     }
 }
 
@@ -35,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </li>
                     <?php } else { ?>
                         <li class="nav-item"><a class="nav-link" href="/thesis/home">News / Announcements / Events</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Survey</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/thesis/contents/gallery/all">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/thesis/surveys/answers">Survey</a></li>
                         <li class="nav-item"><a class="nav-link" href="/thesis/alumni/index">Search Alumni</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
