@@ -1,64 +1,20 @@
 <?php session_start(); ?>
 <?php
-
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
-<div class="user">
-    <h2>Profile</h2>
-    <?php
-    if ($_SESSION["type"] == "alumni") {
-        include("/xampp/htdocs/thesis/models/Alumni.php");
-        $alumni = new Alumni();
-        $alumniDetails = $alumni->getAlumniByUserId($_SESSION["user_id"]);
-        if (isset($alumniDetails["photo"])) {
-            $file = $alumniDetails["photo"];
-            echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
-        } else {
-            echo "<div class='photo-container mb-3'></div>";
-        }
-    } else {
-        include("/xampp/htdocs/thesis/models/Users.php");
-        $user = new Users();
-        $result = $user->getUser($_SESSION["user_id"]);
-        $userDetails = $result->fetch_assoc();
 
-        if (isset($userDetails["photo"])) {
-            $file = $userDetails["photo"];
-            echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
-        } else {
-            echo "<div class='photo-container mb-3'></div>";
-        }
-    }
-    ?>
-    <div class="information">
-        <p class="m-0 label">Username</p>
-        <p class="value"><?php echo $_SESSION["username"]; ?></p>
+<?php if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
+    <div class="d-flex">
+        <?php include("/xampp/htdocs/thesis/views/template/admin.php") ?>
+        <div class="main-body-padding admin-views">
+            <?php include("/xampp/htdocs/thesis/views/user/profile.php"); ?>
+        </div>
     </div>
-    <div class="information">
-        <p class="m-0 label">First Name</p>
-        <p class="value"><?php echo $_SESSION["first_name"]; ?></p>
+<?php } else { ?>
+    <div class="main-body-padding" style="margin-top:48px;">
+        <?php include("/xampp/htdocs/thesis/views/user/profile.php"); ?>
     </div>
-    <div class="information">
-        <p class="m-0 label">Last Name</p>
-        <p class="value"><?php echo $_SESSION["last_name"]; ?></p>
-    </div>
-    <div class="information">
-        <p class="m-0 label">Email</p>
-        <p class="value"><?php echo $_SESSION["email"]; ?></p>
-    </div>
-    <div class="information">
-        <p class="m-0 label">Type</p>
-        <p class="value"><?php echo $_SESSION["type"]; ?></p>
-    </div>
-    <?php if ($_SESSION["type"] == "alumni") { ?>
-        <a role="button" href="/thesis/alumni/profile" class="btn btn-sm btn-outline-dark">
-            <i class="fas fa-graduation-cap"></i> Almuni profile
-        </a>
-    <?php } ?>
-    <a role="button" href=<?php echo "/thesis/users/edit?id=" . $_SESSION["user_id"]; ?> class="btn btn-sm btn-outline-dark">
-        <i class="fas fa-pen"></i> Edit
-    </a>
-</div>
+<?php } ?>
 
 <?php
 include("/xampp/htdocs/thesis/views/template/footer.php");

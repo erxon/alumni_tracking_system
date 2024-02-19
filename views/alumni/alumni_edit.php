@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
 
 <form method="post" enctype="multipart/form-data">
-    <div class="row main-body-padding w-75 m-auto alumni-profile">
+    <div class="row main-body-padding w-75 mx-auto alumni-profile">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <?php if ($_SESSION["type"] == "admin") {

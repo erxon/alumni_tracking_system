@@ -39,6 +39,7 @@ class Authentication
             }
 
             if (password_verify($password, $row["password"])) {
+                $_SESSION["photo"] = $row["photo"];
                 $_SESSION["user_id"] = $row["id"];
                 $_SESSION["username"] = $row["username"];
                 $_SESSION["first_name"] = $row["firstName"];

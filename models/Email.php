@@ -1,6 +1,13 @@
 <?php
 
-require '/xampp/htdocs/thesis/vendor/autoload.php';
+require "vendor/autoload.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+
+require "/xampp/htdocs/thesis/vendor/phpmailer/phpmailer/src/Exception.php";
+require "/xampp/htdocs/thesis/vendor/phpmailer/phpmailer/src/PHPMailer.php";
+require "/xampp/htdocs/thesis/vendor/phpmailer/phpmailer/src/SMTP.php";
 class Email
 {
     public function sendEmail($emailAddress, $name, $content)
@@ -25,5 +32,29 @@ class Email
         } catch (Exception $e) {
             echo 'Caught exception: ' . $e->getMessage() . "\n";
         }
+    }
+
+    public function sendCustomEmail($title, $body, $subject, $recipientName, $recipientEmail)
+    {
+        $message = "<div><h1>$title</h1><p>$body</p></div>";
+
+        $mail = new PHPMailer(true);
+
+        $mail->isSMTP();
+        $mail->Host = "smtp.sendgrid.net";
+        $mail->SMTPAuth = true;
+        $mail->Username = "apikey";
+        $mail->Password = "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";
+        $mail->SMTPSecure = "ssl";
+        $mail->Port = 465;
+
+        $mail->setFrom("ericson.es@outlook.com");
+        $mail->addCC($recipientEmail, $recipientName);
+        $mail->isHTML(true);
+
+        $mail->Subject = $subject;
+        $mail->Body = $message;
+
+        $mail->send();
     }
 }

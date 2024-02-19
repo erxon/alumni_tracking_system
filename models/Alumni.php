@@ -248,7 +248,7 @@ class Alumni extends AlumniUtility
 
     public function getAllAlumni()
     {
-        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status FROM alumni ORDER BY dateCreated ASC";
+        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status FROM alumni WHERE status='active' ORDER BY dateCreated ASC";
         $result = $this->db->query($sql);
 
         if (isset($result)) {
@@ -291,9 +291,9 @@ class Alumni extends AlumniUtility
         $this->db->close();
 
         if ($result->num_rows > 0) {
-            return array("response"=>$result->fetch_all(), "success"=>true);
+            return array("response" => $result->fetch_all(), "success" => true);
         } else {
-            return array("response"=>"Alumni not found", "success"=>false);
+            return array("response" => "Alumni not found", "success" => false);
         }
     }
 
@@ -394,5 +394,26 @@ class Alumni extends AlumniUtility
         } catch (Exception $e) {
             echo 'Caught exception: ' . $e->getMessage() . "\n";
         }
+    }
+
+    public function unregisteredAlumni()
+    {
+        $query = "SELECT * FROM alumni WHERE status='pending'";
+
+        $result = $this->db->query($query);
+        $this->db->close();
+
+        return $result;
+
+        
+    }
+
+    public function setStatus($status, $id)
+    {
+        $query = "UPDATE alumni SET status='$status' WHERE id='$id'";
+
+        $result = $this->db->query($query);
+
+        return $result;
     }
 }

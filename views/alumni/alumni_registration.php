@@ -98,7 +98,7 @@
                     <option value="Higher Education">Higher Education</option>
                     <option value="Employment">Employment</option>
                     <option value="Entrepreneurship">Entrepreneurship</option>
-                    <option value="Middle level skills development">Middle-level skills development</option>
+                    <option value="Middle-level skills development">Middle-level skills development</option>
                 </select>
             </div>
             <div id="for-higher-education" class="curriculum-exits collapse">

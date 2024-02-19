@@ -53,6 +53,10 @@ class Users extends UserUtility
         }
     }
 
+    public function changePhoto(){
+        
+    }
+
     public function changePassword($current_password, $new_password, $user_id)
     {
         $sql = "SELECT password FROM user WHERE id='$user_id'";

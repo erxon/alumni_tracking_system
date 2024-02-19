@@ -19,6 +19,7 @@
       selector: '#content-body'
     });
   </script>
+  <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
   <link rel="stylesheet" href="/thesis/public/styles.css" />
   <title>Alumni Tracker</title>
 </head>

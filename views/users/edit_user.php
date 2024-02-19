@@ -74,23 +74,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
 
-
-<div class="edit-user m-auto">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/thesis/users">Users</a></li>
-            <li class="breadcrumb-item"><a href=<?php echo "/thesis/users?id=" . $id ?>><?php echo $rows["username"]; ?></a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit</li>
-        </ol>
-    </nav>
-
-    <!--Basic information-->
-    <?php include("/xampp/htdocs/thesis/views/users/edit_user/basic_information.php"); ?>
-    <!--Change password-->
-    <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_password.php"); ?>
-    <form class="delete-user mb-3" method="post">
-        <p class="mb-1">Delete user</p>
-        <input class="btn btn-sm btn-danger" type="submit" name="delete_profile" value="Delete" />
-    </form>
-</div>
+<?php if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
+    <div class="d-flex">
+        <?php include("/xampp/htdocs/thesis/views/template/admin.php"); ?>
+        <div class="main-body-padding admin-views">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/thesis/users">Users</a></li>
+                    <li class="breadcrumb-item"><a href=<?php echo "/thesis/users?id=" . $id ?>><?php echo $rows["username"]; ?></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                </ol>
+            </nav>
+            <!--Basic information-->
+            <?php include("/xampp/htdocs/thesis/views/users/edit_user/basic_information.php"); ?>
+            <!--Change password-->
+            <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_password.php"); ?>
+            <form class="delete-user mb-3" method="post">
+                <p class="mb-1">Delete user</p>
+                <input class="btn btn-sm btn-danger" type="submit" name="delete_profile" value="Delete" />
+            </form>
+        </div>
+    </div>
+<?php } else { ?>
+    <div class="edit-user mx-auto">
+        <!--Basic information-->
+        <?php include("/xampp/htdocs/thesis/views/users/edit_user/basic_information.php"); ?>
+        <!--Change password-->
+        <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_password.php"); ?>
+        <form class="delete-user mb-3" method="post">
+            <p class="mb-1">Delete user</p>
+            <input class="btn btn-sm btn-danger" type="submit" name="delete_profile" value="Delete" />
+        </form>
+    </div>
+<?php } ?>
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

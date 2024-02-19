@@ -5,7 +5,6 @@ require("/xampp/htdocs/thesis/models/utilities/StringUtilities.php");
 include("/xampp/htdocs/thesis/models/Home.php");
 
 $auth = new Authentication();
-
 $home = new Home();
 $stringUtil = new StringUltilities();
 
@@ -115,12 +114,10 @@ if (empty($_SESSION["username"])) { ?>
     <div class="bg-dark p-3">
         <p style="font-size: 12px;" class="mb-0 text-light fw-light text-center">&copy Copyright 2024</p>
     </div>
-<?php } else if ($_SESSION["type"] == "admin") { ?>
-
-
-
-<?php } else { ?>
-
+<?php
+} else if ($_SESSION["type"] == "admin") {
+    include("/xampp/htdocs/thesis/views/home/admin.php");
+} else { ?>
     <div class="dashboard">
         <?php include("/xampp/htdocs/thesis/views/home/contents.php"); ?>
     </div>

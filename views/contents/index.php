@@ -8,15 +8,15 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] != "admin") {
 
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
-
-<?php
-
-?>
-
-<div class="main-body-padding">
-    <?php include("/xampp/htdocs/thesis/views/contents/contents_nav.php"); ?>
-    <div class="container-fluid contents-container">
-        <p class="text-secondary my-4">Posted contents will appear here</p>
+<div class="d-flex">
+    <div>
+        <?php include("/xampp/htdocs/thesis/views/template/admin.php"); ?>
+    </div>
+    <div class="main-body-padding admin-views">
+        <?php include("/xampp/htdocs/thesis/views/contents/contents_nav.php"); ?>
+        <div class="container-fluid contents-container">
+            <p class="text-secondary my-4">Posted contents will appear here</p>
+        </div>
     </div>
 </div>
 

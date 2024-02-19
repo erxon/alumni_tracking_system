@@ -11,7 +11,8 @@ $userId = $_SESSION["user_id"];
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 
-<div class="main-body-padding">
+<div class="main-body-padding" style="margin-top: 48px">
+    <h3>Surveys</h3>
     <div class="row">
         <?php foreach ($surveys as $survey) { ?>
             <div class="col-4">

@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 ?>
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
 
-<div class="row main-body-padding w-75 m-auto alumni-profile">
+<div class="row main-body-padding w-75 mx-auto alumni-profile">
     <div class="col-4">
         <!--Photo-->
         <div class="mb-3 p-2 alumni-information text-center">
