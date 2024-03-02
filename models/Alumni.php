@@ -248,7 +248,7 @@ class Alumni extends AlumniUtility
 
     public function getAllAlumni()
     {
-        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status FROM alumni WHERE status='active' ORDER BY dateCreated ASC";
+        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status, userAccountID FROM alumni WHERE status='active' ORDER BY dateCreated ASC";
         $result = $this->db->query($sql);
 
         if (isset($result)) {
@@ -356,7 +356,27 @@ class Alumni extends AlumniUtility
         $this->db->query($sql);
     }
 
-    public function uploadProfilePhoto($user_id, $alumni_id)
+    public function getAlumniUserProfile($id)
+    {
+        $sql = "SELECT * FROM user WHERE id='$id'";
+
+        $result = $this->db->query($sql);
+
+        return $result->fetch_assoc();
+    }
+
+    protected function isProfilePictureNew($user_id)
+    {
+        $user = $this->getAlumniUserProfile($user_id);
+
+        if (empty($user["photo"])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function uploadFile($user_id, $alumni_id)
     {
         $tempname = $_FILES["profilePhoto"]["tmp_name"];
         $target_file = "./public/images/profile/" . basename($_FILES["profilePhoto"]["name"]);
@@ -369,6 +389,25 @@ class Alumni extends AlumniUtility
         $this->addPhotoToUser($user_id, $file);
 
         return move_uploaded_file($tempname, $folder);
+    }
+
+    protected function changeFile($user_id, $alumni_id)
+    {
+        $user = $this->getAlumniUserProfile($user_id);
+        $photo = $user["photo"];
+
+        unlink("/xampp/htdocs/thesis/public/images/profile/$photo");
+
+        $this->uploadFile($user_id, $alumni_id);
+    }
+
+    public function uploadProfilePhoto($user_id, $alumni_id)
+    {
+        if ($this->isProfilePictureNew($user_id)) {
+            $this->uploadFile($user_id, $alumni_id);
+        } else {
+            $this->changeFile($user_id, $alumni_id);
+        }
     }
 
     public function sendDeleteEmail($emailAddress, $name)
@@ -404,8 +443,6 @@ class Alumni extends AlumniUtility
         $this->db->close();
 
         return $result;
-
-        
     }
 
     public function setStatus($status, $id)

@@ -1,28 +1,16 @@
 <div class="user">
     <h2>Profile</h2>
     <?php
-    if ($_SESSION["type"] == "alumni") {
-        include("/xampp/htdocs/thesis/models/Alumni.php");
-        $alumni = new Alumni();
-        $alumniDetails = $alumni->getAlumniByUserId($_SESSION["user_id"]);
-        if (isset($alumniDetails["photo"])) {
-            $file = $alumniDetails["photo"];
-            echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
-        } else {
-            echo "<div class='photo-container mb-3'></div>";
-        }
-    } else {
-        include("/xampp/htdocs/thesis/models/Users.php");
-        $user = new Users();
-        $result = $user->getUser($_SESSION["user_id"]);
-        $userDetails = $result->fetch_assoc();
+    include("/xampp/htdocs/thesis/models/Users.php");
+    $user = new Users();
+    $result = $user->getUser($_SESSION["user_id"]);
+    $userDetails = $result->fetch_assoc();
 
-        if (isset($userDetails["photo"])) {
-            $file = $userDetails["photo"];
-            echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
-        } else {
-            echo "<div class='photo-container mb-3'></div>";
-        }
+    if (isset($userDetails["photo"])) {
+        $file = $userDetails["photo"];
+        echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
+    } else {
+        echo "<div class='photo-container mb-3'></div>";
     }
     ?>
     <div class="information">

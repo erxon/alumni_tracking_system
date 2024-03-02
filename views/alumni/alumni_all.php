@@ -55,11 +55,13 @@
         <tbody>
             <?php foreach ($alumniAccounts as $account) { ?>
                 <tr class="row-hover">
-                    <?php for ($i = 0; $i < count($account); $i++) { ?>
-                        <?php if ($i == 1) { ?>
-                            <?php if (isset($account[$i])) {
-                                $file = $account[$i];
-                                echo "<td><img class='avatar' src='/thesis/public/images/profile/$file' /></td>";
+                    <?php for ($i = 0; $i < count($account) - 1; $i++) { ?>
+                        <?php if ($i == 1) {
+                            $userProfile = $alumni->getAlumniUserProfile($account[8]);
+                            $photo = $userProfile["photo"];
+                        ?>
+                            <?php if (!empty($photo)) {
+                                echo "<td><img class='avatar' src='/thesis/public/images/profile/$photo' /></td>";
                             } else { ?>
                                 <td>No photo</td>
                             <?php } ?>
@@ -75,5 +77,3 @@
         </tbody>
     </table>
 </div>
-
-

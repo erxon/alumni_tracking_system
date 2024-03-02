@@ -1,9 +1,8 @@
 {
     "require": {
         "tinymce/tinymce": "^6.8",
-        "laminas/laminas-mail": "^2.25",
         "phpmailer/phpmailer": "^6.9",
         "sendgrid/sendgrid": "^8.1",
-        "symfony/mailer": "^7.0"
+        "tecnickcom/tcpdf": "^6.6"
     }
 }

@@ -115,7 +115,7 @@ if (empty($_SESSION["username"])) { ?>
         <p style="font-size: 12px;" class="mb-0 text-light fw-light text-center">&copy Copyright 2024</p>
     </div>
 <?php
-} else if ($_SESSION["type"] == "admin") {
+} else if ($_SESSION["type"] == "admin" || $_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal") {
     include("/xampp/htdocs/thesis/views/home/admin.php");
 } else { ?>
     <div class="dashboard">

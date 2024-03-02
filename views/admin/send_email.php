@@ -1,4 +1,7 @@
 <?php session_start(); ?>
+
+
+<?php include("/xampp/htdocs/thesis/models/Database.php"); ?>
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
 
 <div>

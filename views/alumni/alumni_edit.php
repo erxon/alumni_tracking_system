@@ -7,8 +7,7 @@ $alumni = new Alumni();
 
 $id = $_GET["id"];
 $alumniDetails = $alumni->getAlumniById($id);
-
-
+$userProfile = $alumni->getAlumniUserProfile($alumniDetails["userAccountID"]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"];
@@ -37,9 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     if ($action == "image_upload") {
-        $upload = $alumni->uploadProfilePhoto($alumniDetails["userAccountID"], $id);
-        if ($upload) {
-            header("Location: /thesis/alumni?id=" . $id);
+        if ($_FILES["profilePhoto"]["name"]) {
+            $alumni->uploadProfilePhoto($alumniDetails["userAccountID"], $id);
+            header("Location: /thesis/alumni?id=$id");
+        } else {
+            header("Location: /thesis/alumni?id=$id");
         }
     }
 }
@@ -60,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col-4">
             <!--Photo-->
             <div class="mb-3 p-2 alumni-information text-center">
-                <?php if (isset($alumniDetails["photo"])) { ?>
-                    <img class="profile-photo" src="/thesis/public/images/profile/<?php echo $alumniDetails["photo"] ?>" />
+                <?php if (isset($userProfile["photo"])) { ?>
+                    <img class="profile-photo" src="/thesis/public/images/profile/<?php echo $userProfile["photo"] ?>" />
                 <?php } else { ?>
                     <div class="photo-container mb-2 m-auto"></div>
                 <?php } ?>

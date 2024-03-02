@@ -6,7 +6,9 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] != "admin") {
     return;
 }
 
+include("/xampp/htdocs/thesis/models/Database.php");
 include("/xampp/htdocs/thesis/views/template/header.php");
+
 ?>
 <div class="d-flex">
     <div>

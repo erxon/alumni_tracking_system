@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
 <?php
-if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
+if (isset($_SESSION["type"]) && ($_SESSION["type"] == "admin" || $_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal")) { ?>
     <div class="d-flex">
         <?php include("/xampp/htdocs/thesis/views/template/admin.php"); ?>
         <div class="main-body-padding admin-views">
@@ -30,7 +30,7 @@ if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
 <?php } else { ?>
     <div class="main-body-padding" style="margin-top: 48px;">
         <h3>Alumni</h3>
-        <?php include("/xampp/htdocs/thesis/views/alumni/alumni_all.php"); ?>
+        <?php include "/xampp/htdocs/thesis/views/alumni/alumni_all.php"; ?>
     </div>
     </div>
 <?php } ?>

@@ -53,7 +53,17 @@ class Users extends UserUtility
         }
     }
 
-    public function changePhoto(){
+    public function changePhoto($id){
+        $tempname = $_FILES["profilePhoto"]["tmp_name"];
+        $target_file = "./public/images/profile/" . basename($_FILES["profilePhoto"]["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $file = $id . '.' . $imageFileType;
+        $folder = "./public/images/profile/" . $id . '.' . $imageFileType;
+
+        $sql = "UPDATE user SET photo='$file' WHERE id=$id";
+        $this->db->query($sql);
+
+        return move_uploaded_file($tempname, $folder);
         
     }
 

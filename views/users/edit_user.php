@@ -97,8 +97,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 <?php } else { ?>
     <div class="edit-user mx-auto">
+        <!--Change photo-->
+        <div class="mb-3">
+            <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_photo.php"); ?>
+        </div>
         <!--Basic information-->
-        <?php include("/xampp/htdocs/thesis/views/users/edit_user/basic_information.php"); ?>
+        <div class="mb-3">
+            <?php include("/xampp/htdocs/thesis/views/users/edit_user/basic_information.php"); ?>
+        </div>
         <!--Change password-->
         <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_password.php"); ?>
         <form class="delete-user mb-3" method="post">

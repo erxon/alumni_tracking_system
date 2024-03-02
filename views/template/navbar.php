@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <i class="fas fa-sign-in-alt me-1"></i> Login</a>
                     </li>
                 <?php } else { ?>
-                    <?php if ($_SESSION["type"] == "admin") { ?>
+                    <?php if ($_SESSION["type"] == "admin" || $_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal") { ?>
                         <li class="nav-item text-light">
                             <p class="me-3 mb-0">Hello, <?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?></p>
                         </li>

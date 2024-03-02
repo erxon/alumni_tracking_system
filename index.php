@@ -83,6 +83,9 @@ switch ($url) {
     case '/thesis/user/edit/change-password':
         require __DIR__ . "/views/users/edit_user/change_password_server.php";
         break;
+    case '/thesis/user/edit/change-photo':
+        require __DIR__ . "/views/users/edit_user/change_photo_server.php";
+        break;
     case "/thesis/alumni":
         require __DIR__ . "/views/alumni/alumni_registration.php";
         break;
@@ -168,10 +171,19 @@ switch ($url) {
         require __DIR__ . "/views/admin/registration_status.php";
         break;
     case "/thesis/admin/reports":
-        require __DIR__ . "/views/admin/reports.php";
+        require __DIR__ . "/views/admin/reports/reports_alumni.php";
+        break;
+    case "/thesis/admin/reports/print":
+        require __DIR__ . "/views/admin/reports/reports_print.php";
+        break;
+    case "/thesis/admin/reports/tracer":
+        require __DIR__ . "/views/admin/reports/reports_tracer.php";
         break;
     case "/thesis/admin/reports/filter":
-        require __DIR__ . "/views/admin/reports_filter.php";
+        require __DIR__ . "/views/admin/reports/reports_filter.php";
+        break;
+    case "/thesis/admin/reports/survey":
+        require __DIR__ . "/views/admin/reports/reports_survey.php";
         break;
     default:
         require __DIR__ . "/views/error.php";

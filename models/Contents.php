@@ -338,6 +338,18 @@ class Contents
         
         return true;
     }
+
+    public function getSurveysWithRespondents(){
+        $db = new Database();
+
+        $query = "SELECT survey_results.questionId, 
+        survey_questions.question, COUNT(*) 
+        FROM survey_results JOIN survey_questions ON survey_results.questionId=survey_questions.id GROUP BY questionId";
+
+        $result = $db->query($query);
+
+        return $result->fetch_all();
+    }
     public function getSurveyVotes($questionId, $answerId)
     {
         $db = new Database();

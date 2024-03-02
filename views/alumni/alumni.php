@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $alumni = new Alumni();
 
     $alumniDetails = $alumni->getAlumniById($id);
+    $userProfile = $alumni->getAlumniUserProfile($alumniDetails["userAccountID"]);
 
     $statusBadgeClass = "";
 
@@ -23,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <div class="col-4">
         <!--Photo-->
         <div class="mb-3 p-2 alumni-information text-center">
-            <?php if (isset($alumniDetails["photo"])) { ?>
-                <img src="/thesis/public/images/profile/<?php echo ($alumniDetails["photo"]) ?>" class="profile-photo" />
+            <?php if (isset($userProfile["photo"])) { ?>
+                <img src="/thesis/public/images/profile/<?php echo ($userProfile["photo"]) ?>" class="profile-photo" />
             <?php } else { ?>
                 <div class="photo-container mb-2 m-auto"></div>
             <?php } ?>

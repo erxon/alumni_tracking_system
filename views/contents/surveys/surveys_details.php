@@ -27,7 +27,8 @@ if (isset($_POST["delete-action"])) {
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 
-<div class="main-body-padding">
+<?php include("/xampp/htdocs/thesis/views/template/admin.php"); ?>
+<div class="main-body-padding admin-views">
     <div class="row w-75 m-auto">
         <div>
             <div class="d-flex align-items-center">

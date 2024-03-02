@@ -29,8 +29,8 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
     <div class="col-4">
         <!--Photo-->
         <div class="mb-3 p-2 alumni-information text-center">
-            <?php if (isset($alumniDetails["photo"])) { ?>
-                <img class="profile-photo" src="/thesis/public/images/profile/<?php echo $alumniDetails["photo"] ?>" />
+            <?php if (isset($_SESSION["photo"])) { ?>
+                <img class="profile-photo" src="/thesis/public/images/profile/<?php echo $_SESSION["photo"] ?>" />
             <?php } else { ?>
                 <div class="photo-container mb-2 m-auto"></div>
             <?php } ?>

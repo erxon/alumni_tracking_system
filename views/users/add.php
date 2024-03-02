@@ -5,6 +5,7 @@
     <div class="row mb-3">
       <div class="col">
         <div class="form-floating">
+          <input hidden name="action" value="createUser" />
           <input id="firstName" class="form-control" type="text" placeholder="First name" name="first_name" />
           <label for="firstName">First Name</label>
         </div>

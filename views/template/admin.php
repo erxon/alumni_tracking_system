@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $photo = $_SESSION["photo"];
             unlink("/xampp/htdocs/thesis/public/images/profile/$photo");
         }
-        
+
         $str = rand();
         $uniqueFilename = md5($str);
 
@@ -48,32 +48,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <!--Navlinks-->
     <div>
-        <nav class="nav flex-column side-nav">
-            <a class="nav-link active side-nav-link text-white" aria-current="page" href="/thesis/home">
-                <i class="fas fa-home me-2"></i> Dashboard
-            </a>
-            <a class="nav-link side-nav-link text-white" href="/thesis/admin/registration">
-                <i class="fas fa-user-check me-2"></i> Registration Status
-            </a>
-            <a class="nav-link side-nav-link text-white" href="/thesis/contents">
-                <i class="fas fa-newspaper me-2"></i>Contents
-            </a>
-            <a class="nav-link side-nav-link text-white" href="/thesis/alumni/index">
-                <i class="fas fa-folder-open me-2"></i> Records
-            </a>
-            <a class="nav-link side-nav-link text-white" href="/thesis/admin/reports">
-                <i class="fas fa-chart-bar me-2"></i>Reports
-            </a>
-            <a class="nav-link side-nav-link text-white" href="/thesis/admin/email">
-                <i class="fas fa-envelope me-2"></i> Send email
-            </a>
-            <a class="nav-link side-nav-link text-white" href="/thesis/users">
-                <i class="fas fa-users me-2"></i>Users
-            </a>
-            <a class="nav-link side-nav-link text-white" href="/thesis/user/index">
-                <i class="fas fa-cogs me-2"></i>Account settings
-            </a>
-        </nav>
+        <?php if ($_SESSION["type"] == "admin") { ?>
+            <nav class="nav flex-column side-nav">
+                <a class="nav-link active side-nav-link text-white" aria-current="page" href="/thesis/home">
+                    <i class="fas fa-home me-2"></i> Dashboard
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/admin/registration">
+                    <i class="fas fa-user-check me-2"></i> Registration Status
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/contents">
+                    <i class="fas fa-newspaper me-2"></i>Contents
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/alumni/index">
+                    <i class="fas fa-folder-open me-2"></i> Records
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/admin/reports">
+                    <i class="fas fa-chart-bar me-2"></i>Reports
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/admin/email">
+                    <i class="fas fa-envelope me-2"></i> Send email
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/users">
+                    <i class="fas fa-users me-2"></i>Users
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/user/index">
+                    <i class="fas fa-cogs me-2"></i>Account settings
+                </a>
+            </nav>
+        <?php } ?>
+        <?php if ($_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal") { ?>
+            <nav class="nav flex-column side-nav">
+                <a class="nav-link active side-nav-link text-white" aria-current="page" href="/thesis/home">
+                    <i class="fas fa-home me-2"></i> Dashboard
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/alumni/index">
+                    <i class="fas fa-folder-open me-2"></i> Records
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/admin/reports">
+                    <i class="fas fa-chart-bar me-2"></i>Reports
+                </a>
+                <a class="nav-link side-nav-link text-white" href="/thesis/user/index">
+                    <i class="fas fa-cogs me-2"></i>Account settings
+                </a>
+            </nav>
+        <?php } ?>
+
     </div>
 </div>
 
