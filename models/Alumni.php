@@ -257,6 +257,33 @@ class Alumni extends AlumniUtility
         }
     }
 
+    public function getAllAlumniEmail(){
+        $sql = "SELECT email, firstName, lastName FROM alumni";
+        $result = $this->db->query($sql);
+
+        if(isset($result)){
+            return $result->fetch_all();
+        }
+    }
+
+    public function getAlumniEmailByTrack($track){
+        $sql = "SELECT email, firstName, lastName FROM alumni WHERE trackFinished='$track'";
+        $result = $this->db->query($sql);
+
+        if (isset($result)){
+            return $result->fetch_all();
+        }
+    }
+
+    public function getAlumniEmailByBatch($batch){
+        $sql = "SELECT email, firstName, lastName FROM alumni WHERE dateGraduated='$batch'";
+        $result = $this->db->query($sql);
+
+        if (isset($result)){
+            return $result->fetch_all();
+        }
+    }
+
     public function searchName($query)
     {
         $sql = "SELECT 

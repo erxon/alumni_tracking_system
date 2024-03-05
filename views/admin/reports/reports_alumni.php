@@ -33,16 +33,36 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
         </li>
         <a role="button" class="btn btn-sm btn-dark ms-auto" href="/thesis/admin/reports/print"><i class="fas fa-print"></i> Print</a>
     </ul>
-
     <div>
         <div class="mb-2">
+
             <div class="d-flex flex-row align-items-center mb-2">
                 <p class="m-0">Number of Alumni according to Batch/Year Graduated</p>
                 <button data-bs-toggle="collapse" data-bs-target="#graph-1" id="collapse-1" class="btn btn-sm btn-outline-dark ms-2"><i class="fas fa-caret-down"></i></button>
             </div>
             <div class="collapse" id="graph-1">
-                <div id="graphContainer1" style="height: 370px; width: 100%"></div>
+                <div class="row">
+                    <div class="col-8">
+                        <div id="graphContainer1" style="height: 370px; width: 100%"></div>
+                    </div>
+                    <div class="col-4">
+                        <table class="table">
+                            <thead>
+                                <th>Batch</th>
+                                <th class="text-end"><i class="fas fa-user-graduate me-1"></i> Graduates</th>
+                            </thead>
+                            <?php foreach ($numberOfAlumniPerYear as $batch) { ?>
+
+                                <tr>
+                                    <td><?php echo $batch["label"]; ?></td>
+                                    <td class="text-end"><?php echo $batch["y"]; ?></td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+                    </div>
+                </div>
             </div>
+
         </div>
         <div class="mb-2">
             <div class="d-flex flex-row align-items-center mb-2">
@@ -58,13 +78,13 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
                         <table class="table">
                             <thead>
                                 <th></th>
-                                <th>Academic</th>
-                                <th>TVL</th>
+                                <th class="text-end">Academic</th>
+                                <th class="text-end">TVL</th>
                             </thead>
                             <tr>
                                 <th scope="row">Alumni</th>
-                                <td><?php echo $alumniAccordingToTrackNumeric["Academic"] ?></td>
-                                <td><?php echo $alumniAccordingToTrackNumeric["TVL"] ?></td>
+                                <td class="text-end"><?php echo $alumniAccordingToTrackNumeric["Academic"] ?></td>
+                                <td class="text-end"><?php echo $alumniAccordingToTrackNumeric["TVL"] ?></td>
                             </tr>
                         </table>
                     </div>
@@ -75,12 +95,12 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
                         <table class="table mt-2">
                             <thead>
                                 <th>Strand</th>
-                                <th>Alumni</th>
+                                <th class="text-end">Alumni</th>
                             </thead>
                             <tr>
                                 <?php foreach ($alumniAccordingToStrandNumeric["TVL"] as $strand) { ?>
                                     <td><?php echo $strand["label"] ?></td>
-                                    <td><?php echo $strand["y"]; ?></td>
+                                    <td class="text-end"><?php echo $strand["y"]; ?></td>
                                 <?php } ?>
                             </tr>
                         </table>
@@ -90,12 +110,12 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
                         <table class="table mt-2">
                             <thead>
                                 <th>Strand</th>
-                                <th>Alumni</th>
+                                <th class="text-end">Alumni</th>
                             </thead>
                             <tr>
                                 <?php foreach ($alumniAccordingToStrandNumeric["Academic"] as $strand) { ?>
                                     <td><?php echo $strand["label"] ?></td>
-                                    <td><?php echo $strand["y"]; ?></td>
+                                    <td class="text-end"><?php echo $strand["y"]; ?></td>
                                 <?php } ?>
                             </tr>
                         </table>
@@ -111,6 +131,19 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
             </div>
             <div class="collapse" id="graph-3">
                 <div id="graphContainer3" style="height: 370px"></div>
+                <table class="table mt-3">
+                    <thead class="text-end">
+                        <th>Did not continue to college</th>
+                        <th>Employed</th>
+                        <th>Unemployed</th>
+                        <th>University Student</th>
+                    </thead>
+                    <tr>
+                        <?php foreach($alumniAccordingToPresentStatus as $alumni) { ?>
+                            <td class="text-end"><?php echo $alumni["y"]; ?></td>
+                        <?php } ?>
+                    </tr>
+                </table>
             </div>
         </div>
         <div>
@@ -121,8 +154,10 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
             <div class="collapse" id="graph-4">
                 <div id="graphContainer4" style="height: 370px"></div>
             </div>
+
         </div>
     </div>
+</div>
 </div>
 
 <script>

@@ -13,8 +13,10 @@ require("/xampp/htdocs/thesis/models/Alumni.php");
 
 
 $alumni = new Alumni();
-$alumniAccounts = $alumni->getAllAlumni();
-
+$alumniAccounts = $alumni->getAllAlumniEmail();
+$recipient = $_POST["recipient"];
+$perTrackRecipient = $_POST["per-track-recipient"];
+$perBatchRecipient = $_POST["per-batch-recipient"];
 $title = $_POST["title"];
 $body = $_POST["alumni_email_content"];
 $subject = $_POST["subject"];
@@ -33,9 +35,20 @@ $mail->Port = 465;
 
 $mail->setFrom("ericson.es@outlook.com");
 
+if($recipient == "track"){
+    $alumniAccounts = $alumni->getAlumniEmailByTrack($perTrackRecipient);
+}
+
+if($recipient == "batch"){
+    $alumniAccounts = $alumni->getAlumniEmailByBatch($perBatchRecipient);
+}
+
+
 foreach ($alumniAccounts as $account) {
-    $name = $account[1] . " " . $account[3];
-    $email = $account[6];
+    $firstName = $account[1];
+    $lastName = $account[2];
+    $name = "$firstName $lastName";
+    $email = $account[0];
 
     $mail->addCC($email, $name);
 }

@@ -55,12 +55,14 @@ include("/xampp/htdocs/thesis/views/template/header.php");
                                 <p class="card-text"><?php echo $image[1] ?></p>
                                 <p class="card-text text-secondary">Uploaded on: <?php echo $stringUtil->dateAndTime($image[3]); ?></p>
                             </div>
-                            <div class="card-footer">
-                                <form method="post">
-                                    <input hidden name="image_name" value="<?php echo $image[1] ?>" />
-                                    <button name="delete-action" value="<?php echo $image[0] ?>" class="btn btn-sm btn-light"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </div>
+                            <?php if ($_SESSION["type"] == "admin") { ?>
+                                <div class="card-footer">
+                                    <form method="post">
+                                        <input hidden name="image_name" value="<?php echo $image[1] ?>" />
+                                        <button name="delete-action" value="<?php echo $image[0] ?>" class="btn btn-sm btn-light"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 <?php } ?>

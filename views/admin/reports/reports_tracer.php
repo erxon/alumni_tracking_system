@@ -30,21 +30,13 @@ $currentYear = date("Y");
         </li>
     </ul>
     <div class="d-flex mb-2">
-        <select id="date-graduated" class="form-select me-2" name="dateGraduated">
-            <option value="all">All</option>
-            <option value=<?php echo $currentYear; ?>><?php echo ($currentYear - 1) . "-" . $currentYear; ?></option>
-            <option value=<?php echo $currentYear - 1; ?>><?php echo ($currentYear - 2) . "-" . ($currentYear - 1); ?></option>
-            <option value=<?php echo $currentYear - 2; ?>><?php echo ($currentYear - 3) . "-" . ($currentYear - 2); ?></option>
-            <option value=<?php echo $currentYear - 3; ?>><?php echo ($currentYear - 4) . "-" . ($currentYear - 3); ?></option>
-            <option value=<?php echo $currentYear - 4; ?>><?php echo ($currentYear - 5) . "-" . ($currentYear - 4); ?></option>
-            <option value=<?php echo $currentYear - 5; ?>><?php echo ($currentYear - 6) . "-" . ($currentYear - 5); ?></option>
-        </select>
         <form id="custom-filter" class="d-flex me-2 align-items-center">
-            <input type="number" class="form-control me-2" />
+            <input id="custom-filter-year-1" name="custom-filter-year-1" type="number" class="form-control me-2" />
             <p class="m-0 me-2">-</p>
-            <input type="number" class="form-control" />
+            <input id="custom-filter-year-2" name="custom-filter-year-2" type="number" class="form-control me-3" />
+            <button disabled id="filter-graph" type="submit" class="btn btn-sm btn-dark me-2">Filter</button>
+            <button id="refresh-graph" type="button" class="btn btn-sm btn-outline-dark w-50"><i class="fas fa-redo"></i> Clear</button>
         </form>
-        <button id="filter-graph" type="button" class="btn btn-sm btn-dark">Filter</button>
     </div>
     <div class="bar-graph-container p-3 rounded shadow bg-white mb-3">
         <div id="bar-graph" style="height: 300px; width: 100%;"></div>
@@ -146,16 +138,64 @@ $currentYear = date("Y");
 
 <script>
     let filter = "all";
+    const date = new Date();
+    let currentYear = date.getFullYear();
 
     $("#date-graduated").on("change", (event) => {
         filter = event.target.value;
     });
 
-    $("#filter-graph").on("click", () => {
+    $("#custom-filter-year-1").keyup(() => {
+        if ($("#custom-filter-year-1").val() < 2000 || $("#custom-filter-year-1").val() >= currentYear) {
+            $("#custom-filter-year-1").addClass("border border-danger");
+            $("#custom-filter-year-2").addClass("border border-danger");
 
-        if (filter === "all") {
-            location.reload();
-            return;
+            $("#filter-graph").prop("disabled", true);
+
+            $("#custom-filter-year-2").val("");
+        } else {
+            $("#custom-filter-year-1").removeClass("border border-danger");
+            $("#custom-filter-year-2").removeClass("border border-danger");
+            $("#custom-filter-year-1").addClass("border border-success");
+            $("#custom-filter-year-2").addClass("border border-success");
+
+            $("#filter-graph").prop("disabled", false);
+
+            $("#custom-filter-year-2").val(Number($("#custom-filter-year-1").val()) + 1);
+        }
+    });
+
+    $("#custom-filter-year-2").keyup(() => {
+        if ($("#custom-filter-year-2").val() < 2000 || $("#custom-filter-year-2").val() > currentYear) {
+            $("#custom-filter-year-1").addClass("border border-danger");
+            $("#custom-filter-year-2").addClass("border border-danger");
+
+            $("#filter-graph").prop("disabled", true);
+
+            $("#custom-filter-year-1").val("");
+        } else {
+            $("#custom-filter-year-1").removeClass("border border-danger");
+            $("#custom-filter-year-2").removeClass("border border-danger");
+            $("#custom-filter-year-1").addClass("border border-success");
+            $("#custom-filter-year-2").addClass("border border-success");
+
+            $("#filter-graph").prop("disabled", false);
+
+            $("#custom-filter-year-1").val(Number($("#custom-filter-year-2").val()) - 1);
+        }
+    });
+
+    $("#refresh-graph").on("click", () => {
+        location.reload();
+        return;
+    });
+
+    $("#custom-filter").on("submit", (event) => {
+        event.preventDefault();
+
+        if ($("#custom-filter-year-1").val() !== "" &&
+            $("#custom-filter-year-2").val() !== "") {
+            filter = $("#custom-filter-year-2").val();
         }
 
         const data = new FormData();
