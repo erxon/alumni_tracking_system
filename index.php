@@ -56,6 +56,9 @@ if (isset($parse_url["query"])) {
         case "/thesis/admin/alumni?" . $parse_url["query"]:
             require __DIR__ . "/views/admin/alumni.php";
             break;
+        case "/thesis/alumni/index?" . $parse_url["query"]:
+            require __DIR__ . "/views/alumni/index.php";
+            break;
     }
     die();
 }

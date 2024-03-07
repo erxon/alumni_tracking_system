@@ -45,7 +45,7 @@ if (empty($_SESSION["username"])) { ?>
             </button>
         </div>
     </div>
-    <div class="container-fluid about main-body-padding">
+    <div id="about" class="container-fluid about main-body-padding">
         <h1 class="text-center mb-5">About</h1>
         <div>
             <div class="d-flex flex-column flex-lg-row bg-dark rounded mb-3">
@@ -86,7 +86,7 @@ if (empty($_SESSION["username"])) { ?>
             </div>
         </div>
     </div>
-    <div class="container-fluid text-white contact bg-secondary main-body-padding">
+    <div id="contact" class="container-fluid text-white contact bg-secondary main-body-padding">
         <h1 class="mb-5">Contact us</h1>
         <div style="font-size: 14px;" class="letter-spacing d-flex fw-normal">
             <div class="flex-fill border-end border-white pe-2 me-3">

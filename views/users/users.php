@@ -24,7 +24,7 @@ $rows = $result->fetch_all();
             <td><?php echo $item ?></td>
           <?php } ?>
           <td class="actions">
-            <a role="button" class="btn btn-link" href=<?php echo "/thesis/users?id=".$row[0] ?>>View</a>
+            <a role="button" class="btn btn-sm btn-light" href=<?php echo "/thesis/users?id=".$row[0] ?>>View</a>
           </td>
         </tr>
       <?php } ?>

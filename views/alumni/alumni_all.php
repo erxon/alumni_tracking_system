@@ -53,9 +53,11 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($alumniAccounts as $account) { ?>
+            <?php for ($j = $min - 1; $j < $max; $j++) { ?>
                 <tr class="row-hover">
-                    <?php for ($i = 0; $i < count($account) - 1; $i++) { ?>
+                    <?php for ($i = 0; $i < count($alumniAccounts[$j]) - 1; $i++) {
+                        $account = $alumniAccounts[$j];
+                    ?>
                         <?php if ($i == 1) {
                             $userProfile = $alumni->getAlumniUserProfile($account[8]);
                             $photo = $userProfile["photo"];
@@ -70,10 +72,41 @@
                         <?php } ?>
                     <?php } ?>
                     <td class="actions">
-                        <a role="button" class="btn btn-link" href=<?php echo "/thesis/alumni?id=" . $account[0] ?>>View</a>
+                        <a role="button" class="btn btn-sm btn-light" href=<?php echo "/thesis/alumni?id=" . $account[0] ?>>View</a>
                     </td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
+    <?php
+    $numberOfPages = ceil(count($alumniAccounts) / 5);
+    ?>
+    <p class="mb-1 text-secondary" style="font-size: 14px;">Page <?php echo "$page out of $numberOfPages"; ?></p>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <?php if ($page > 1) { ?>
+                <li class="page-item">
+                    <a class="page-link" href="/thesis/alumni/index?page=<?php echo $page - 1 ?>">Previous</a>
+                </li>
+            <?php } else { ?>
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            <?php } ?>
+
+            <?php for ($i = 1; $i < $numberOfPages + 1 && $i < 3; $i++) { ?>
+                <li class="page-item"><a class="page-link" href="/thesis/alumni/index?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+            <?php } ?>
+
+            <?php if ($page < $numberOfPages) { ?>
+                <li class="page-item">
+                    <a class="page-link" href="/thesis/alumni/index?page=<?php echo $i + 1; ?>">Next</a>
+                </li>
+            <?php } else { ?>
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            <?php } ?>
+        </ul>
+    </nav>
 </div>
