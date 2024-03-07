@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a class="nav-link side-nav-link text-white" href="/thesis/contents">
                     <i class="fas fa-newspaper me-2"></i>Contents
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/alumni/index">
+                <a class="nav-link side-nav-link text-white" href="/thesis/alumni/index?page=1">
                     <i class="fas fa-folder-open me-2"></i> Records
                 </a>
                 <a class="nav-link side-nav-link text-white" href="/thesis/admin/reports">

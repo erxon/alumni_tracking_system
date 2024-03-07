@@ -25,15 +25,7 @@
                 <option value="ICT">Information Communications Technology</option>
                 <option value="others">Others</option>
             </select>
-            <select id="alumni-batch" name="batch" class="form-select me-3">
-                <option selected>Batch</option>
-                <option value="<?php echo date("Y"); ?>"><?php echo date("Y"); ?></option>
-                <option value="<?php echo date("Y") - 1; ?>"><?php echo date("Y") - 1; ?></option>
-                <option value="<?php echo date("Y") - 2; ?>"><?php echo date("Y") - 2; ?></option>
-                <option value="<?php echo date("Y") - 3; ?>"><?php echo date("Y") - 3; ?></option>
-                <option value="<?php echo date("Y") - 4; ?>"><?php echo date("Y") - 4; ?></option>
-                <option value="<?php echo date("Y") - 5; ?>"><?php echo date("Y") - 5; ?></option>
-            </select>
+            <input id="alumni-batch" name="batch" class="form-control me-3" type="number" />
             <button id="search-button" type="submit" class="flex-fill btn btn-sm btn-dark"><i class="fas fa-search"></i> Search</button>
         </div>
         <div id="search-result-container"></div>
