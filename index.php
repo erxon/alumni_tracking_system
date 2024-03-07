@@ -188,6 +188,9 @@ switch ($url) {
     case "/thesis/admin/reports/survey":
         require __DIR__ . "/views/admin/reports/reports_survey.php";
         break;
+    case "/thesis/admin/user/search":
+        require __DIR__ . "/views/users/search_user.php";
+        break;
     default:
         require __DIR__ . "/views/error.php";
         break;
