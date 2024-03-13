@@ -41,7 +41,7 @@ if (isset($_SESSION["username"])) {
           </div>
           <div class="d-grid gap-2 mx-auto text-center">
             <button class="btn btn-primary mt-3 " type="submit">Login</button>
-            <p style="font-size: 14px;">Don't have an account yet? <a href="/thesis/register">Register here</a></p>
+            <p style="font-size: 14px;">Don't have an account yet? <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#termsAndConditions">Register here</button></p>
           </div>
         </form>
       </div>
@@ -55,4 +55,6 @@ if (isset($_SESSION["username"])) {
   </div>
 
 <?php } ?>
+
+<?php include "/xampp/htdocs/thesis/views/home/alumni_registration_modal.php"; ?>
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>
