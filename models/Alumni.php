@@ -92,6 +92,7 @@ class Alumni extends AlumniUtility
 
     public function addAlumni($values, $userId, $isUndergrad)
     {
+        $photo = $values["photo"];
         $firstName = $values["firstName"];
         $middleName = $values["middleName"];
         $lastName = $values["lastName"];
@@ -112,6 +113,7 @@ class Alumni extends AlumniUtility
             $undergradId = $this->insertUndergradAlumni($values);
             $sql = "INSERT INTO alumni (
                 userAccountID,
+                photo,
                 firstName, 
                 middleName,
                 lastName,
@@ -129,6 +131,7 @@ class Alumni extends AlumniUtility
                 undergraduate
                 ) VALUES (
                     $userId,
+                    '$photo',
                     '$firstName',
                     '$middleName',
                     '$lastName',
@@ -158,6 +161,7 @@ class Alumni extends AlumniUtility
         } else {
             $insertAlumni = "INSERT INTO alumni (
                 userAccountID,
+                photo,
                 firstName, 
                 middleName,
                 lastName,
@@ -174,6 +178,7 @@ class Alumni extends AlumniUtility
                 curriculumExit
                 ) VALUES (
                     $userId,
+                    '$photo',
                     '$firstName',
                     '$middleName',
                     '$lastName',

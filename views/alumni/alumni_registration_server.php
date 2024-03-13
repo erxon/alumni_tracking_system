@@ -3,8 +3,24 @@ include("/xampp/htdocs/thesis/models/Alumni.php");
 
 $alumni = new Alumni();
 $isUndergrad = false;
+$photo = "";
 
-$values = array(
+//photo upload
+if ($_FILES["alumni_photo"]) {
+    $str = rand();
+    $uniqueFilename = md5($str);
+
+    $tempname = $_FILES["alumni_photo"]["tmp_name"];
+    $target_file = "./public/images/alumni/" . basename($_FILES["alumni_photo"]["name"]);
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $photo = "$uniqueFilename.$imageFileType";
+    $folder = "./public/images/alumni/$photo";
+
+    move_uploaded_file($tempname, $folder);
+}
+
+$values = [
+    "photo" => $photo,
     "firstName" => $_POST["first_name"],
     "middleName" => $_POST["middle_name"],
     "lastName" => $_POST["last_name"],
@@ -40,7 +56,7 @@ $values = array(
     "tracerSurveyAnswer2" => $_POST["tracer_survey_answer_2"],
     "tracerSurveyAnswer3" => $_POST["tracer_survey_answer_3"],
     "tracerSurveyAnswer4" => $_POST["tracer_survey_answer_4"]
-);
+];
 
 if ($values["presentStatus"] == "University Student") {
     $isUndergrad = true;
@@ -58,7 +74,8 @@ $userId = $alumni->signupUser(
 $result = $alumni->addAlumni($values, $userId, $isUndergrad);
 
 if ($result == true) {
-    $response = array("response" => "success");
+    $response = ["response" => "success"];
+
     echo json_encode($response);
 } else {
     $response = array("response" => $result);

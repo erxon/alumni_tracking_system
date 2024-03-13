@@ -1,6 +1,6 @@
-<?php session_start(); ?>
-
 <?php
+
+session_start();
 
 include("/xampp/htdocs/thesis/models/Reports.php");
 include("/xampp/htdocs/thesis/models/Database.php");
@@ -15,12 +15,8 @@ $alumniAccordingToStrandNumeric = $reports->alumniAccordingToStrandNumeric();
 $alumniAccordingToPresentStatus = $reports->alumniAccordingToPresentStatus();
 $alumniAccordingToGender = $reports->alumniAccordingToGender();
 
-?>
 
-<?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
-<?php include("/xampp/htdocs/thesis/views/template/admin.php"); ?>
-
-<div class="main-body-padding admin-views">
+echo '<div class="main-body-padding admin-views">
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item" href="/thesis/admin/reports">
             <a class="nav-link active" aria-current="page" href="/thesis/admin/reports">Alumni</a>
@@ -31,9 +27,9 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
         <li class="nav-item">
             <a class="nav-link" href="/thesis/admin/reports/survey">Survey</a>
         </li>
-        <!-- <button id="print-records" class="btn btn-sm btn-dark ms-auto"><i class="fas fa-print"></i> Print</button> -->
-    </ul>
-    <div>
+        <button id="print-records" class="btn btn-sm btn-dark ms-auto"><i class="fas fa-print"></i> Print</button>
+    </ul>';
+echo '<div>
         <div class="mb-2">
 
             <div class="d-flex flex-row align-items-center mb-2">
@@ -50,21 +46,22 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
                             <thead>
                                 <th>Batch</th>
                                 <th class="text-end"><i class="fas fa-user-graduate me-1"></i> Graduates</th>
-                            </thead>
-                            <?php foreach ($numberOfAlumniPerYear as $batch) { ?>
+                            </thead>';
+foreach ($numberOfAlumniPerYear as $batch) {
 
-                                <tr>
-                                    <td><?php echo $batch["label"]; ?></td>
-                                    <td class="text-end"><?php echo $batch["y"]; ?></td>
-                                </tr>
-                            <?php } ?>
-                        </table>
+    echo '<tr>';
+    echo '<td>' . $batch["label"] . '</td>';
+    echo '<td class="text-end">' . $batch["y"];
+    '</td>';
+    echo '</tr>';
+}
+echo '</table>
                     </div>
                 </div>
             </div>
 
-        </div>
-        <div class="mb-2">
+        </div>';
+echo '<div class="mb-2">
             <div class="d-flex flex-row align-items-center mb-2">
                 <p class="m-0">Number of Alumni according to track and strand (Pie graph)</p>
                 <button data-bs-toggle="collapse" data-bs-target="#graph-2" id="collapse-2" class="btn btn-sm btn-outline-dark ms-2"><i class="fas fa-caret-down"></i></button>
@@ -80,16 +77,16 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
                                 <th></th>
                                 <th class="text-end">Academic</th>
                                 <th class="text-end">TVL</th>
-                            </thead>
-                            <tr>
-                                <th scope="row">Alumni</th>
-                                <td class="text-end"><?php echo $alumniAccordingToTrackNumeric["Academic"] ?></td>
-                                <td class="text-end"><?php echo $alumniAccordingToTrackNumeric["TVL"] ?></td>
-                            </tr>
+                            </thead>';
+echo '<tr>';
+echo '<th scope="row">Alumni</th>';
+echo '<td class="text-end">' . $alumniAccordingToTrackNumeric["Academic"] . '</td>';
+echo '<td class="text-end">' . $alumniAccordingToTrackNumeric["TVL"] . '</td>';
+echo '</tr>
                         </table>
                     </div>
-                </div>
-                <div class="row">
+                </div>';
+echo '<div class="row">
                     <div class="col-lg-6">
                         <div id="tvlTrackGraph" style="height: 300px;"></div>
                         <table class="table mt-2">
@@ -97,34 +94,33 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
                                 <th>Strand</th>
                                 <th class="text-end">Alumni</th>
                             </thead>
-                            <tr>
-                                <?php foreach ($alumniAccordingToStrandNumeric["TVL"] as $strand) { ?>
-                                    <td><?php echo $strand["label"] ?></td>
-                                    <td class="text-end"><?php echo $strand["y"]; ?></td>
-                                <?php } ?>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-lg-6">
+                            <tr>';
+foreach ($alumniAccordingToStrandNumeric["TVL"] as $strand) {
+    echo '<td>' . $strand["label"] . '</td>';
+    echo '<td class="text-end">' . $strand["y"] . '</td>';
+}
+echo '</tr>';
+echo '</table>
+                    </div>';
+echo '<div class="col-lg-6">
                         <div id="academicTrackGraph" style="height: 300px;"></div>
                         <table class="table mt-2">
                             <thead>
                                 <th>Strand</th>
                                 <th class="text-end">Alumni</th>
                             </thead>
-                            <tr>
-                                <?php foreach ($alumniAccordingToStrandNumeric["Academic"] as $strand) { ?>
-                                    <td><?php echo $strand["label"] ?></td>
-                                    <td class="text-end"><?php echo $strand["y"]; ?></td>
-                                <?php } ?>
-                            </tr>
+                            <tr>';
+foreach ($alumniAccordingToStrandNumeric["Academic"] as $strand) {
+    echo '<td>' . $strand["label"] . '</td>';
+    echo '<td class="text-end">' . $strand["y"] . '</td>';
+}
+echo '</tr>
                         </table>
-
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mb-2">
+        </div>';
+echo '<div class="mb-2">
             <div class="d-flex flex-row align-items-center mb-2">
                 <p class="m-0">Number of Alumni according to present status</p>
                 <button data-bs-toggle="collapse" data-bs-target="#graph-3" id="collapse-3" class="btn btn-sm btn-outline-dark ms-2"><i class="fas fa-caret-down"></i></button>
@@ -138,15 +134,15 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
                         <th>Unemployed</th>
                         <th>University Student</th>
                     </thead>
-                    <tr>
-                        <?php foreach ($alumniAccordingToPresentStatus as $alumni) { ?>
-                            <td class="text-end"><?php echo $alumni["y"]; ?></td>
-                        <?php } ?>
-                    </tr>
+                    <tr>';
+foreach ($alumniAccordingToPresentStatus as $alumni) {
+    echo '<td class="text-end">' . $alumni["y"] . '</td>';
+}
+echo '</tr>
                 </table>
             </div>
-        </div>
-        <div>
+        </div>';
+echo '<div>
             <div class="d-flex flex-row align-items-center mb-2">
                 <p class="m-0">Number of Alumni according to gender</p>
                 <button data-bs-toggle="collapse" data-bs-target="#graph-4" id="collapse-4" class="btn btn-sm btn-outline-dark ms-2"><i class="fas fa-caret-down"></i></button>
@@ -157,9 +153,9 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
         </div>
     </div>
 </div>
-</div>
+</div>';
 
-<script>
+echo '<script>
     let open = {
         collapse1: false,
         collapse2: false,
@@ -314,32 +310,4 @@ $alumniAccordingToGender = $reports->alumniAccordingToGender();
 
         graphContainer4.render();
     });
-
-    // $("#print-records").on("click", () => {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/thesis/records/print",
-    //         contentType: false,
-    //         cache: false,
-    //         processData: false,
-    //         success: (response) => {
-    //             let html = `${response}`;
-    //             console.log(html);
-    //             const formData = new FormData();
-
-    //             formData.append("html", html);
-
-    //             $.ajax({
-    //                 type: "POST",
-    //                 url: "/thesis/admin/reports/print",
-    //                 data: formData,
-    //                 contentType: false,
-    //                 cache: false,
-    //                 processData: false,
-    //             })
-    //         }
-    //     });
-    // })
-</script>
-
-<?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>
+</script>';

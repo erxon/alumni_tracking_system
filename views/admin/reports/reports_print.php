@@ -1,211 +1,78 @@
 <?php
 
-require("/xampp/htdocs/thesis/vendor/tecnickcom/tcpdf/tcpdf.php");
-
-include("/xampp/htdocs/thesis/models/Database.php");
+require "/xampp/htdocs/thesis/vendor/tecnickcom/tcpdf/tcpdf.php";
 include("/xampp/htdocs/thesis/models/Reports.php");
+include("/xampp/htdocs/thesis/models/Database.php");
+
 
 
 $reports = new Reports();
-$alumni = $reports->alumni();
-$curriculumExits = $reports->getCurriculumExits(0);
-$strandsInAcademicTrack = $reports->getAlumniByTrack(0, 'Academic');
-$strandsInTvlTrack = $reports->getAlumniByTrack(0, 'TVL',);
-$questions = $reports->getAlumniRatingsPerQuestion();
-$currentYear = date("Y");
+$numberOfAlumniPerYear = $reports->numberOfAlumniPerYear();
 
 $pdf = new TCPDF();
 
 $pdf->AddPage();
 
-$pdf->writeHTML('<div class="mb-2">
+$html = '<!DOCTYPE html>
+<html lang="en">
 
-<div class="d-flex flex-row align-items-center mb-2">
-    <p class="m-0">Number of Alumni according to Batch/Year Graduated</p>
-    <button data-bs-toggle="collapse" data-bs-target="#graph-1" id="collapse-1" class="btn btn-sm btn-outline-dark ms-2"><i class="fas fa-caret-down"></i></button>
-</div>
-<div class="collapse" id="graph-1">
-    <div class="row">
-        <div class="col-8">
-            <div id="graphContainer1" style="height: 370px; width: 100%"></div>
-        </div>
-        <div class="col-4">
-            <table class="table">
-                <thead>
-                    <th>Batch</th>
-                    <th class="text-end"><i class="fas fa-user-graduate me-1"></i> Graduates</th>
-                </thead>');
-foreach ($numberOfAlumniPerYear as $batch) {
-    $pdf->writeHTML('<tr>
-                    <td><?php echo $batch["label"]; ?></td>
-                    <td class="text-end"><?php echo $batch["y"]; ?></td>
-                </tr>');
-}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a29e11090c.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="/thesis/vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+  <link rel="stylesheet" href="/thesis/public/styles.css" />
+  <title>Alumni Tracker</title>
+</head>
+<body>
+  <header class="header">
+    <?php include("navbar.php") ?>
+  </header>
+  <main>
+    <div class="d-flex flex-row align-items-center mb-2">
+        <p class="m-0">Number of Alumni according to Batch/Year Graduated</p>
+    </div>
+    <div id="graphContainer1" style="height: 370px; width: 100%"></div>
+  </main>
+  </body></html>';
 
-$pdf->writeHTML('</table>
-</div>
-</div>
-</div>
-</div>
-');
+$pdf->writeHTML($html);
 
-$js = '
-let open = {
-    collapse1: false,
-    collapse2: false,
-    collapse3: false,
-    collapse4: false,
-};
+$dataPoints = json_encode($numberOfAlumniPerYear, JSON_NUMERIC_CHECK);
 
-const collapseButton = (open, id) => {
-    if (open) {
-        $(id).empty();
-        $(id).append(`<i class="fas fa-caret-up"></i>`);
-
-    } else {
-        $(id).empty();
-        $(id).append(`<i class="fas fa-caret-down"></i>`);
-    }
-}
-
-$("#collapse-1").on("click", () => {
-    open.collapse1 = !open.collapse1;
-    collapseButton(open.collapse1, "#collapse-1");
-
-    var graphContainer1 = new CanvasJS.Chart("graphContainer1", {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1",
-        axisY: {
-            includeZero: true,
-            title: "Number of Alumni"
-        },
-        axisX: {
-            includeZero: true,
-            title: "Year"
-        },
-        data: [{
-            type: "column",
-            indexLabel: "{y}",
-            yValueFormatString: "#, alumni",
-            dataPoints: <?php echo json_encode($numberOfAlumniPerYear, JSON_NUMERIC_CHECK); ?>
-        }]
-    });
-
-    if (open.collapse1) {
-        graphContainer1.render();
-    }
+$js = <<<EOD
+var graphContainer1 = new CanvasJS.Chart("graphContainer1", {
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: "light1",
+    axisY: {
+        includeZero: true,
+        title: "Number of Alumni"
+    },
+    axisX: {
+        includeZero: true,
+        title: "Year"
+    },
+    data: [{
+        type: "column",
+        indexLabel: "{y}",
+        yValueFormatString: "#, alumni",
+        dataPoints: $dataPoints
+    }]
 });
-$("#collapse-2").on("click", () => {
-    open.collapse2 = !open.collapse2;
-    collapseButton(open.collapse2, "#collapse-2");
 
-    var graphContainer2 = new CanvasJS.Chart("graphContainer2", {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1",
-        title: {
-            text: "Number of Alumni According to Track"
-        },
-        data: [{
-            type: "pie", //change type to bar, line, area, pie, etc
-            yValueFormatString: "#,##0.00\"%\"",
-            indexLabel: "{label} ({y})",
-            dataPoints: <?php echo json_encode($alumniAccordingToTrack, JSON_NUMERIC_CHECK); ?>
-        }]
-    });
+graphContainer1.render();
+EOD;
 
-    var academicTrackGraph = new CanvasJS.Chart("academicTrackGraph", {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1",
-        title: {
-            text: "Academic Track"
-        },
-        data: [{
-            type: "pie", //change type to bar, line, area, pie, etc
-            yValueFormatString: "#,##0.00\"%\"",
-            indexLabel: "{label} ({y})",
-            dataPoints: <?php echo json_encode($alumniAccordingToStrand["Academic"], JSON_NUMERIC_CHECK); ?>
-        }]
-    });
-
-    var tvlTrackGraph = new CanvasJS.Chart("tvlTrackGraph", {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1",
-        title: {
-            text: "TVL Track"
-        },
-        data: [{
-            type: "pie", //change type to bar, line, area, pie, etc
-            yValueFormatString: "#,##0.00\"%\"",
-            indexLabel: "{label} ({y})",
-            dataPoints: <?php echo json_encode($alumniAccordingToStrand["TVL"], JSON_NUMERIC_CHECK); ?>
-        }]
-    });
-
-    if (open.collapse2) {
-        academicTrackGraph.render();
-        tvlTrackGraph.render();
-        graphContainer2.render();
-    }
-
-});
-$("#collapse-3").on("click", () => {
-    open.collapse3 = !open.collapse3;
-    collapseButton(open.collapse3, "#collapse-3");
-
-    var graphContainer3 = new CanvasJS.Chart("graphContainer3", {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1",
-        axisY: {
-            includeZero: true,
-            title: "Alumni"
-        },
-        axisX: {
-            includeZero: true,
-            title: "Present Status"
-        },
-        data: [{
-            type: "column",
-            indexLabel: "{y}",
-            yValueFormatString: "#, alumni",
-            dataPoints: <?php echo json_encode($alumniAccordingToPresentStatus, JSON_NUMERIC_CHECK); ?>
-        }]
-    });
-
-    graphContainer3.render();
-});
-$("#collapse-4").on("click", () => {
-    open.collapse4 = !open.collapse4;
-    collapseButton(open.collapse4, "#collapse-4");
-
-    var graphContainer4 = new CanvasJS.Chart("graphContainer4", {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1",
-        axisY: {
-            includeZero: true,
-            title: "Alumni"
-        },
-        axisX: {
-            includeZero: true,
-            title: "Gender"
-        },
-        data: [{
-            type: "column",
-            indexLabel: "{y}",
-            yValueFormatString: "#",
-            dataPoints: <?php echo json_encode($alumniAccordingToGender, JSON_NUMERIC_CHECK); ?>
-        }]
-    });
-
-    graphContainer4.render();
-});';
 
 $pdf->IncludeJS($js);
 
 
-$pdf->Output();
+$pdf->Output('reports.pdf', 'I');

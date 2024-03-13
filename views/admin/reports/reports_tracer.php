@@ -216,6 +216,7 @@ $currentYear = date("Y");
                     $("#bar-graph").append(`<p class="text-secondary">No graph to show</p>`);
                 } else {
                     var barGraph = new CanvasJS.Chart("bar-graph", {
+                        exportEnabled: true,
                         data: [{
                             type: "column",
                             yValueFormatString: "#, alumni",
@@ -302,6 +303,7 @@ $currentYear = date("Y");
 
     window.onload = function() {
         var barGraph = new CanvasJS.Chart("bar-graph", {
+            exportEnabled: true,
             data: [{
                 type: "column",
                 yValueFormatString: "#, alumni",
@@ -312,6 +314,7 @@ $currentYear = date("Y");
 
         var chart1 = new CanvasJS.Chart(`chart-container-0`, {
             animationEnabled: true,
+            exportEnabled: true,
             data: [{
                 type: "pie",
                 yValueFormatString: "#,##0.00\"%\"",
@@ -323,6 +326,7 @@ $currentYear = date("Y");
 
         var chart2 = new CanvasJS.Chart(`chart-container-1`, {
             animationEnabled: true,
+            exportEnabled: true,
             data: [{
                 type: "pie",
                 yValueFormatString: "#,##0.00\"%\"",
@@ -334,6 +338,7 @@ $currentYear = date("Y");
 
         var chart3 = new CanvasJS.Chart(`chart-container-2`, {
             animationEnabled: true,
+            exportEnabled: true,
             data: [{
                 type: "pie",
                 yValueFormatString: "#,##0.00\"%\"",
@@ -345,6 +350,7 @@ $currentYear = date("Y");
 
         var chart4 = new CanvasJS.Chart(`chart-container-3`, {
             animationEnabled: true,
+            exportEnabled: true,
             data: [{
                 type: "pie",
                 yValueFormatString: "#,##0.00\"%\"",
