@@ -1,4 +1,6 @@
 <?php
+$url = $_SERVER['REQUEST_URI'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_FILES["profile-photo"]["name"] != "") {
         if (isset($_SESSION["photo"])) {
@@ -50,28 +52,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div>
         <?php if ($_SESSION["type"] == "admin") { ?>
             <nav class="nav flex-column side-nav">
-                <a class="nav-link active side-nav-link text-white" aria-current="page" href="/thesis/home">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if ($url == "/thesis/home" ||  $url == "/thesis") {
+                                                                echo "active";
+                                                            } ?>" aria-current="page" href="/thesis/home">
                     <i class="fas fa-home me-2"></i> Dashboard
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/admin/registration">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/admin/registration")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/admin/registration">
                     <i class="fas fa-user-check me-2"></i> Registration Status
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/contents">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/contents")) {
+                                                                echo "active";
+                                                            } ?>" href="/thesis/contents">
                     <i class="fas fa-newspaper me-2"></i>Contents
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/alumni/index?page=1">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/alumni/index")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/alumni/index?page=1">
                     <i class="fas fa-folder-open me-2"></i> Records
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/admin/reports">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/admin/reports")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/admin/reports">
                     <i class="fas fa-chart-bar me-2"></i>Reports
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/admin/email">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/admin/email")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/admin/email">
                     <i class="fas fa-envelope me-2"></i> Send email
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/users">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/users")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/users">
                     <i class="fas fa-users me-2"></i>Users
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/user/index">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/user/index")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/user/index">
                     <i class="fas fa-cogs me-2"></i>Account settings
                 </a>
             </nav>

@@ -51,11 +51,10 @@
                         $account = $alumniAccounts[$j];
                     ?>
                         <?php if ($i == 1) {
-                            $userProfile = $alumni->getAlumniUserProfile($account[8]);
-                            $photo = $userProfile["photo"];
+                            $photo = $account[1];
                         ?>
                             <?php if (!empty($photo)) {
-                                echo "<td><img class='avatar' src='/thesis/public/images/profile/$photo' /></td>";
+                                echo "<td><img class='avatar' src='/thesis/public/images/alumni/$photo' /></td>";
                             } else { ?>
                                 <td>No photo</td>
                             <?php } ?>
@@ -92,7 +91,7 @@
 
             <?php if ($page < $numberOfPages) { ?>
                 <li class="page-item">
-                    <a class="page-link" href="/thesis/alumni/index?page=<?php echo $i + 1; ?>">Next</a>
+                    <a class="page-link" href="/thesis/alumni/index?page=<?php echo $page + 1; ?>">Next</a>
                 </li>
             <?php } else { ?>
                 <li class="page-item disabled">

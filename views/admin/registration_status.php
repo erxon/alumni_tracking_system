@@ -47,6 +47,7 @@ if ($result->num_rows > 0) {
     <div>
 
     </div>
+    
 <?php } else { ?>
     <div class="main-body-padding admin-views">
         <div class="rounded shadow bg-white p-3">
@@ -54,4 +55,5 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 <?php } ?>
+
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

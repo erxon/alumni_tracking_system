@@ -9,6 +9,9 @@ $max = 0;
 
 if (isset($_GET["page"])){
     $page = (int) $_GET["page"];
+    if ($page === 0){
+        header("Location: /thesis/error");
+    }
 }
 
 $alumni = new Alumni();
@@ -22,7 +25,7 @@ if ($page !== 0) {
     if ($max > $alumniAccountsCount){
         $max = $alumniAccountsCount;
     }
-} 
+}
 
 $result = array();
 

@@ -24,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <div class="col-4">
         <!--Photo-->
         <div class="mb-3 p-2 alumni-information text-center">
-            <?php if (isset($userProfile["photo"])) { ?>
-                <img src="/thesis/public/images/profile/<?php echo ($userProfile["photo"]) ?>" class="profile-photo" />
+            <?php if (isset($alumniDetails["photo"])) { ?>
+                <img src="/thesis/public/images/alumni/<?php echo ($alumniDetails["photo"]) ?>" class="profile-photo" />
             <?php } else { ?>
                 <div class="photo-container mb-2 m-auto"></div>
             <?php } ?>
@@ -48,9 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <p><i class="fas fa-envelope me-1"></i><?php echo $alumniDetails["email"]; ?></p>
     </div>
     <div class="col-8">
-        <?php if (($alumniDetails["userAccountID"] == $_SESSION["user_id"]) || ($_SESSION["type"] == "admin")) { ?>
+        <?php if (($alumniDetails["userAccountID"] == $_SESSION["user_id"])) { ?>
             <a role="button" href=<?php echo "/thesis/alumni/edit?id=" . $id; ?> class="btn btn-outline-dark btn-sm me-2"><i class="fas fa-pen"></i> Edit</a>
-
         <?php } ?>
         <!-- Gender, Age, Birthday -->
         <div class="d-flex">

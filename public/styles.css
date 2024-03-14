@@ -363,6 +363,10 @@ body {
   background-color: #363c428a;
 }
 
+.active {
+  background-color: #363c428a;
+}
+
 .unreg-alumni-details-popup {
   position: absolute;
   right: 130px;
