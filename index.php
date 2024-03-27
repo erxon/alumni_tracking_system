@@ -59,6 +59,12 @@ if (isset($parse_url["query"])) {
         case "/thesis/alumni/index?" . $parse_url["query"]:
             require __DIR__ . "/views/alumni/index.php";
             break;
+        case "/thesis/contents/server/survey?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/surveys/survey_server.php";
+            break;
+        case "/thesis/admin/survey?" . $parse_url["query"]:
+            require __DIR__ . "/views/admin/reports/survey_data.php";
+            break;
     }
     die();
 }
@@ -133,6 +139,9 @@ switch ($url) {
         break;
     case "/thesis/contents/surveys":
         require __DIR__ . "/views/contents/surveys/surveys_form.php";
+        break;
+    case "/thesis/contents/server/survey":
+        require __DIR__ . "/views/contents/surveys/survey_server.php";
         break;
     case "/thesis/contents/surveys/submit":
         require __DIR__ . "/views/contents/surveys/surveys_form_submit.php";

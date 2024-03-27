@@ -1,5 +1,5 @@
 <?php
-include("/xampp/htdocs/thesis/models/Database.php");
+include ("/xampp/htdocs/thesis/models/Database.php");
 
 class Contents
 {
@@ -76,7 +76,7 @@ class Contents
         $query = "SELECT title, body, author, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='$type' ORDER BY eventStart DESC";
         $events = $db->query($query);
 
-        if (!empty($events)) {
+        if (!empty ($events)) {
             return $events->fetch_all();
         } else {
             throw new Exception("There were no events yet.");
@@ -103,7 +103,7 @@ class Contents
         $query = "SELECT title, body, author, coverImage, id, dateCreated, description FROM content WHERE type='news' ORDER BY dateCreated DESC";
         $events = $db->query($query);
 
-        if (!empty($events)) {
+        if (!empty ($events)) {
             return $events->fetch_all();
         } else {
             throw new Exception("There were no events yet.");
@@ -174,40 +174,222 @@ class Contents
         return $result;
     }
 
-    public function addSurveyQuestion($values, $author)
+
+
+    public function createSurvey($values, $author)
     {
         $db = new Database();
 
-        $question = $values["question"];
-        $body = $values["body"];
+        $title = $values["title"];
+        $description = $values["description"];
         $coverImage = $values["coverImage"];
 
-        $query = "INSERT INTO survey_questions 
-        (question, body, coverImage, author) VALUES
-        ('$question', '$body', '$coverImage', '$author')";
+        $query = "INSERT INTO survey (title, description, author, coverImage) 
+        VALUES ('$title', '$description', '$author', '$coverImage')";
+
+        $db->query($query);
+
+        $id = $db->getId();
+
+        return $id;
+    }
+
+    public function getSurvey($id)
+    {
+        $db = new Database();
+
+        $query = "SELECT * FROM survey WHERE id=$id";
+        $result = $db->query($query);
+
+        return $result->fetch_assoc();
+    }
+
+    public function updateSurvey($values)
+    {
+        $db = new Database();
+
+        $id = $values["id"];
+        $title = $values["title"];
+        $description = $values["description"];
+        $coverImage = $values["coverImage"];
+
+        $query = "UPDATE survey 
+        SET title='$title', description='$description', coverImage='$coverImage' 
+        WHERE id='$id'";
 
         $result = $db->query($query);
 
-        if ($result) {
-            return $db->getId();
-        }
-
-        $db->close();
         return $result;
     }
 
-    public function addSurveyAnswers($questionId)
+
+    public function deleteSurvey($id)
+    {
+        $db = new Database();
+        $query = "DELETE FROM survey WHERE id=$id;";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result;
+    }
+
+    public function createQuestion($surveyId, $question)
+    {
+        $db = new Database();
+        $query = "INSERT INTO survey_question (survey, question) VALUES ('$surveyId', '$question');";
+
+        $db->query($query);
+        $questionId = $db->getId();
+
+        $db->close();
+
+        return $questionId;
+    }
+    protected function deleteAnswers($questionId, $db)
+    {
+        $deleteAnswers = "DELETE FROM survey_answers WHERE questionId=$questionId";
+        $result = $db->query($deleteAnswers);
+
+        if (!$result) {
+            throw new Exception("Something went wrong");
+        }
+    }
+
+    public function insertNewAnswers($numberOfAnswers, $db, $questionId)
+    {
+        //insert new answers
+        $insertAnswer = "";
+        for ($i = 0; $i < $numberOfAnswers; $i++) {
+            $answer = $_POST["answer_$i"];
+            $insertAnswer .= "INSERT INTO survey_answers (questionId, answer) 
+            VALUES ($questionId, '$answer');";
+        }
+        $result = $db->multi_query($insertAnswer);
+
+        if (!$result) {
+            throw new Exception("Something went wrong");
+        }
+    }
+    public function updateQuestion($questionId, $question, $numberOfAnswers)
+    {
+        $db = new Database();
+
+        try {
+            $updateQuestion = "UPDATE survey_question SET question='$question' WHERE id=$questionId";
+            $db->query($updateQuestion);
+            //delete the answers for the question
+            $this->deleteAnswers($questionId, $db);
+            //insert new answers for the question
+            $this->insertNewAnswers($numberOfAnswers, $db, $questionId);
+
+            return "success";
+        } catch (Exception $error) {
+            return "failed";
+        }
+    }
+
+    public function deleteQuestion($questionId)
+    {
+        $db = new Database();
+
+        $query = "DELETE FROM survey_question WHERE id=$questionId;";
+        $query .= "DELETE FROM survey_answers WHERE questionId=$questionId;";
+
+        $result = $db->multi_query($query);
+
+        return $result;
+    }
+
+    public function vote($questionId, $answerId, $userId, $surveyId)
+    {
+        $db = new Database();
+
+        $query = "INSERT INTO survey_results (surveyId, userId, questionId, answerId)
+        VALUES ($surveyId, $userId, $questionId, $answerId);";
+
+        $result = $db->query($query);
+
+        return $result;
+    }
+    public function hasVoted($userId, $questionId)
+    {
+        $db = new Database();
+
+        $query = "SELECT * FROM survey_results WHERE userId='$userId' AND questionId='$questionId'";
+
+        $result = $db->query($query);
+
+        if ($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getVotes($questionId)
+    {
+        $db = new Database();
+
+        $query = "SELECT * FROM survey_results WHERE questionId='$questionId'";
+
+        $result = $db->query($query);
+
+        if ($result->num_rows > 0) {
+            return $result->num_rows;
+        } else {
+            return 0;
+        }
+    }
+    public function getVotesByAnswer($answerId)
+    {
+        $db = new Database();
+
+        $query = "SELECT * FROM survey_results WHERE answerId='$answerId'";
+
+        $result = $db->query($query);
+
+        if ($result->num_rows > 0) {
+            return $result->num_rows;
+        } else {
+            return 0;
+        }
+    }
+    public function getSurveyQuestions($surveyId)
+    {
+        $db = new Database();
+
+        $query = "SELECT id, question FROM survey_question WHERE survey=$surveyId";
+        $result = $db->query($query);
+
+        return $result->fetch_all();
+    }
+
+    public function getSurveyAnswers($questionId)
+    {
+        $db = new Database();
+        $query = "SELECT survey_question.question, survey_answers.answer, survey_answers.id, survey_question.id FROM survey_question 
+        JOIN survey_answers ON survey_question.id=survey_answers.questionId WHERE survey_question.id = $questionId";
+
+        $result = $db->query($query);
+
+        return $result->fetch_all();
+    }
+
+    public function addAnswers($questionId, $numberOfAnswers)
     {
         $db = new Database();
         $query = "";
 
-        for ($i = 1; $i < $_POST["answers"] + 1; $i++) {
-            $answer = $_POST["answer" . $i];
+        for ($i = 0; $i < $numberOfAnswers; $i++) {
+            $answer = $_POST["answer_$i"];
+
             $query .= "INSERT INTO survey_answers (questionId, answer)
-            VALUES ('$questionId', '$answer');";
+                VALUES ($questionId, '$answer');";
         }
 
         $result = $db->multi_query($query);
+
         $db->close();
 
         return $result;
@@ -216,7 +398,7 @@ class Contents
     public function getSurveys()
     {
         $db = new Database();
-        $query = "SELECT * FROM survey_questions";
+        $query = "SELECT * FROM survey";
 
         $result = $db->query($query);
         $db->close();
@@ -234,27 +416,15 @@ class Contents
         return $result->fetch_assoc();
     }
 
-    public function getSurveyAnswers($questionId)
+    public function getSurveyVotes($surveyId)
     {
         $db = new Database();
-        $query = "SELECT * FROM survey_answers WHERE questionId=$questionId";
+        $query = "SELECT id, COUNT(*) FROM survey_results WHERE surveyId=$surveyId";
 
         $result = $db->query($query);
         $db->close();
 
         return $result->fetch_all();
-    }
-
-    public function deleteSurvey($id)
-    {
-        $db = new Database();
-        $query = "DELETE FROM survey_answers WHERE questionId=$id;";
-        $query .= "DELETE FROM survey_questions WHERE id=$id";
-
-        $result = $db->multi_query($query);
-        $db->close();
-
-        return $result;
     }
 
     public function updateSurveyQuestion($coverImageUpdated)
@@ -299,47 +469,8 @@ class Contents
         return $result;
     }
 
-    public function surveyVote($userId, $questionId, $answerId)
+    public function getSurveysWithRespondents()
     {
-        $db = new Database();
-
-        $query = "INSERT INTO survey_results (userId, questionId, answerId)
-        VALUES ('$userId', '$questionId', '$answerId')";
-
-        $result = $db->query($query);
-        $db->close();
-
-        return $result;
-    }
-
-    public function hasVoted($userId, $questionId)
-    {
-        $db = new Database();
-
-        $query = "SELECT * FROM survey_results WHERE userId='$userId' AND questionId='$questionId'";
-
-        $result = $db->query($query);
-
-        if ($result->num_rows > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function removeVote($userId, $questionId)
-    {
-        $db = new Database();
-
-        $query = "DELETE FROM survey_results WHERE userId='$userId' AND questionId='$questionId'";
-
-        $db->query($query);
-        $db->close();
-        
-        return true;
-    }
-
-    public function getSurveysWithRespondents(){
         $db = new Database();
 
         $query = "SELECT survey_results.questionId, 
@@ -349,17 +480,6 @@ class Contents
         $result = $db->query($query);
 
         return $result->fetch_all();
-    }
-    public function getSurveyVotes($questionId, $answerId)
-    {
-        $db = new Database();
-        $query = "SELECT * FROM survey_results WHERE answerId='$answerId' AND questionId='$questionId'";
-
-        $result = $db->query($query);
-
-        $count = $result->num_rows;
-
-        return $count;
     }
 
     public function homePage($surveyId)

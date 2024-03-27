@@ -375,3 +375,17 @@ body {
   height: auto;
   width: 200px;
 }
+
+.surveys {
+  width: 75%;
+  margin: auto;
+}
+
+.survey {
+  height: auto;
+}
+
+.question-card {
+  height: 200px;
+  width: 200px;
+}

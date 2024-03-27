@@ -4,7 +4,8 @@
 include("/xampp/htdocs/thesis/models/Contents.php");
 
 $contents = new Contents();
-$surveys = $contents->getSurveysWithRespondents();
+$surveys = $contents->getSurveys();
+
 
 ?>
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
@@ -29,13 +30,15 @@ $surveys = $contents->getSurveysWithRespondents();
             <th>Number of Respondents</th>
             <th>Actions</th>
         </thead>
-        <?php foreach ($surveys as $survey) { ?>
+        <?php foreach ($surveys as $survey) { 
+            $votes = $contents->getSurveyVotes($survey[0]);
+            ?>
             <tr>
                 <th><?php echo $survey[0]; ?></th>
                 <td><?php echo $survey[1]; ?></td>
-                <td><?php echo $survey[2]; ?></td>
+                <td><?php echo $votes[0][1]; ?></td>
                 <td>
-                    <a role="button" class="btn btn-sm btn-light" href="/thesis/contents/surveys?id=<?php echo $survey[0]; ?>">View</a>
+                    <a role="button" class="btn btn-sm btn-light" href="/thesis/admin/survey?id=<?php echo $survey[0]; ?>">View</a>
                     <a role="button" class="btn btn-sm btn-light">Delete</a>
                 </td>
             </tr>

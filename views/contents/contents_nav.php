@@ -2,7 +2,7 @@
 <p class="mt-0">News, events, and surveys</p>
 <div class="d-flex">
     <div class="dropdown me-3">
-        <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Select contents
         </a>
         <ul class="dropdown-menu">
