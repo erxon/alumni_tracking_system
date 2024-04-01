@@ -262,33 +262,53 @@ class Alumni extends AlumniUtility
         }
     }
 
-    public function getAllAlumniEmail(){
+    public function getAllAlumniEmail()
+    {
         $sql = "SELECT email, firstName, lastName FROM alumni";
         $result = $this->db->query($sql);
 
-        if(isset($result)){
+        if (isset($result)) {
             return $result->fetch_all();
         }
     }
 
-    public function getAlumniEmailByTrack($track){
+    public function getAlumniEmailByTrack($track)
+    {
         $sql = "SELECT email, firstName, lastName FROM alumni WHERE trackFinished='$track'";
         $result = $this->db->query($sql);
 
-        if (isset($result)){
+        if (isset($result)) {
             return $result->fetch_all();
         }
     }
 
-    public function getAlumniEmailByBatch($batch){
+    public function getAlumniEmailByBatch($batch)
+    {
         $sql = "SELECT email, firstName, lastName FROM alumni WHERE dateGraduated='$batch'";
         $result = $this->db->query($sql);
 
-        if (isset($result)){
+        if (isset($result)) {
             return $result->fetch_all();
         }
     }
 
+    public function curriculumExitQuestions($alumni)
+    {
+        $sql = "SELECT question, answer FROM curriculum_exit_questions WHERE alumni=$alumni";
+        $result = $this->db->query($sql);
+
+        if (isset($result)) {
+            return $result->fetch_all();
+        }
+    }
+
+    public function undergraduate($id)
+    {
+        $sql = "SELECT * FROM undergraduatestudent WHERE id=$id";
+        $result = $this->db->query($sql);
+
+        return $result->fetch_assoc();
+    }
     public function searchName($query)
     {
         $sql = "SELECT 
@@ -331,7 +351,6 @@ class Alumni extends AlumniUtility
 
     public function editAlumni()
     {
-
         $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_SPECIAL_CHARS);
         $firstName = filter_input(INPUT_POST, "first_name", FILTER_SANITIZE_SPECIAL_CHARS);
         $middleName = filter_input(INPUT_POST, "middle_name", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -346,8 +365,39 @@ class Alumni extends AlumniUtility
         $strandFinished = filter_input(INPUT_POST, "strand_finished", FILTER_SANITIZE_SPECIAL_CHARS);
         $yearGraduated = filter_input(INPUT_POST, "date_graduated", FILTER_SANITIZE_SPECIAL_CHARS);
         $presentStatus = filter_input(INPUT_POST, "present_status", FILTER_SANITIZE_SPECIAL_CHARS);
-        $curriculumExit =  filter_input(INPUT_POST, "curriculum_exit", FILTER_SANITIZE_SPECIAL_CHARS);
-        $status = filter_input(INPUT_POST, "status", FILTER_SANITIZE_SPECIAL_CHARS);
+        $undergraduateId = $_POST["undergraduateId"];
+
+        if (isset($undergraduateId)) {
+            $instName = $_POST["instName"];
+            $instAddress = $_POST["instAddress"];
+            $specialization = $_POST["specialization"];
+            $program = $_POST["program"];
+            $expGraduationDate = $_POST["expGraduationDate"];
+
+            $queryForUndergraduate = "UPDATE undergraduatestudent 
+            SET instName='$instName', 
+            instAddress='$instAddress', 
+            specialization='$specialization',
+            program='$program',
+            expGraduationDate='$expGraduationDate '
+            WHERE id=$undergraduateId";
+
+            $this->db->query($queryForUndergraduate);
+        } else {
+            $instName = $_POST["instName"];
+            $instAddress = $_POST["instAddress"];
+            $specialization = $_POST["specialization"];
+            $program = $_POST["program"];
+            $expGraduationDate = $_POST["expGraduationDate"];
+
+            $queryForUndergraduate = "INSERT INTO undergraduatestudent 
+            (instName, instAddress, specialization, program, expGraduationDate) 
+            VALUES ('$instName', '$instAddress', '$specialization', '$program', '$expGraduationDate')";
+
+            $this->db->query($queryForUndergraduate);
+
+            $undergraduateId = $this->db->getId();
+        }
 
         $sql = "UPDATE alumni SET 
         firstName='$firstName',
@@ -363,8 +413,7 @@ class Alumni extends AlumniUtility
         strandFinished='$strandFinished',
         dateGraduated='$yearGraduated',
         presentStatus='$presentStatus',
-        curriculumExit='$curriculumExit',
-        status='$status'
+        undergraduate='$undergraduateId'
         WHERE id=$id";
 
         $result = $this->db->query($sql);
@@ -374,7 +423,7 @@ class Alumni extends AlumniUtility
 
     public function deleteAlumni($id, $userAccountID)
     {
-        $sql  = "DELETE FROM alumni WHERE id=$id;";
+        $sql = "DELETE FROM alumni WHERE id=$id;";
         $sql .= "DELETE FROM user WHERE id=$userAccountID";
 
         $result = $this->db->multi_query($sql);
@@ -480,6 +529,24 @@ class Alumni extends AlumniUtility
     public function setStatus($status, $id)
     {
         $query = "UPDATE alumni SET status='$status' WHERE id='$id'";
+
+        $result = $this->db->query($query);
+
+        return $result;
+    }
+
+    public function searchByAlumniName($firstName, $middleName, $lastName){
+        $query = "SELECT * FROM alumni 
+        WHERE firstName='$firstName' OR middleName='$middleName' OR lastName='$lastName'"; 
+
+        $result = $this->db->query($query);
+
+        return $result;
+    }
+
+    public function searchByTrackStrandYearGrad($track, $strand, $yearGraduated){
+        $query = "SELECT * FROM alumni 
+        WHERE trackFinished='$track' OR strandFinished='$strand' OR dateGraduated='$yearGraduated'"; 
 
         $result = $this->db->query($query);
 

@@ -65,6 +65,9 @@ if (isset($parse_url["query"])) {
         case "/thesis/admin/survey?" . $parse_url["query"]:
             require __DIR__ . "/views/admin/reports/survey_data.php";
             break;
+        case "/thesis/admin/home/layout/server?" . $parse_url["query"]:
+            require __DIR__ . "/views/admin/home_layout/server.php";
+            break;
     }
     die();
 }
@@ -109,6 +112,12 @@ switch ($url) {
         break;
     case "/thesis/alumni/create":
         require __DIR__ . "/views/alumni/alumni_registration_server.php";
+        break;
+    case "/thesis/search/alumni":
+        require __DIR__ . "/views/alumni/search/index.php";
+        break;
+    case "/thesis/search/server/alumni":
+        require __DIR__ . "/views/alumni/search/server.php";
         break;
     case "/thesis/contents":
         require __DIR__ . "/views/contents/index.php";
@@ -199,6 +208,12 @@ switch ($url) {
         break;
     case "/thesis/admin/user/search":
         require __DIR__ . "/views/users/search_user.php";
+        break;
+    case "/thesis/admin/home/layout":
+        require __DIR__ . "/views/admin/home_layout/index.php";
+        break;
+    case "/thesis/admin/home/layout/server":
+        require __DIR__ . "/views/admin/home_layout/server.php";
         break;
     case "/thesis/records/print":
         require __DIR__ . "/views/admin/reports/reports_alumni_print.php";

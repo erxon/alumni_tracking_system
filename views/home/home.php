@@ -8,6 +8,8 @@ $auth = new Authentication();
 $home = new Home();
 $stringUtil = new StringUltilities();
 
+$eventHighlight = $home->getEventHighlight();
+$newsHighlight = $home->getNewsHighlight();
 ?>
 
 <?php
@@ -128,7 +130,5 @@ if (empty($_SESSION["username"])) { ?>
 <!-- Modal -->
 <?php include "alumni_registration_modal.php"; ?>
 
-
 <!-- Logout User -->
-
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

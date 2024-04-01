@@ -52,41 +52,49 @@ $stringUtil = new StringUltilities();
         <div>
             <?php echo $survey["description"]; ?>
         </div>
-        <table class="table">
-            <thead>
-                <th>Question</th>
-                <th></th>
-            </thead>
-            <tbody>
-                <?php
-                foreach ($questions as $question) {
-                    $answers = $contents->getSurveyAnswers($question[0]); ?>
-                    <tr>
-                        <td>
-                            <?php echo $question[1]; ?>
-                        </td>
-                        <td>
-                            <table class="table">
-                                <thead>
-                                    <th>Answer</th>
-                                    <th>Vote</th>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($answers as $answer) { 
-                                        $votes = $contents->getVotesByAnswer($answer[2]);
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $answer[1]; ?></td>
-                                            <td><?php echo $votes ?></td>
-                                        </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+
+        <!--TABLE-->
+        <div class="p-3 bg-white shadow">
+            <table class="table">
+                <thead>
+                    <th>Question</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($questions as $question) {
+                        $answers = $contents->getSurveyAnswers($question[0]); ?>
+                        <tr>
+                            <td>
+                                <?php echo $question[1]; ?>
+                            </td>
+                            <td>
+                                <table class="table">
+                                    <thead>
+                                        <th>Answer</th>
+                                        <th>Vote</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($answers as $answer) {
+                                            $votes = $contents->getVotesByAnswer($answer[2]);
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $answer[1]; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $votes ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

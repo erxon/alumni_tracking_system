@@ -38,10 +38,10 @@ include("/xampp/htdocs/thesis/views/template/admin.php");
 
 <div class="d-flex">
     <div class="users row g-3 m-0 admin-views">
-        <div style="border-right: 1px solid #1E1E1E;" class="col-lg-3 col-md-12  px-3">
+        <div style="border-right: 1px solid #1E1E1E;" class="col-lg-4 col-md-12  px-3">
             <?php include("add.php") ?>
         </div>
-        <div class="col-lg-9 col-md-12 px-3">
+        <div class="col-lg-8 col-md-12 px-3">
             <?php include("users.php") ?>
         </div>
     </div>

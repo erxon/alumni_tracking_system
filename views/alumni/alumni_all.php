@@ -11,22 +11,20 @@
                 <option selected>Track</option>
                 <option value="Academic">Academic</option>
                 <option value="TVL">Technical Vocational</option>
-                <option value="Sports and Arts">Sports and Recreation</option>
             </select>
             <select id="alumni-track" name="strand" class="form-select me-2">
                 <option selected>Strand</option>
-                <option value="GA">General Academic</option>
                 <option value="HUMSS">Humanities and Social Sciences</option>
                 <option value="STEM">Science, Technology, Engineering, and Mathematics</option>
                 <option value="ABM">Accountancy, Business and Management</option>
-                <option value="Agri-Fishery Arts">Agri-Fishery Arts</option>
                 <option value="Home Economics">Home Economics</option>
                 <option value="Industrial Arts">Industrial Arts</option>
                 <option value="ICT">Information Communications Technology</option>
                 <option value="others">Others</option>
             </select>
             <input id="alumni-batch" name="batch" class="form-control me-3" type="number" />
-            <button id="search-button" type="submit" class="flex-fill btn btn-sm btn-dark"><i class="fas fa-search"></i> Search</button>
+            <button id="search-button" type="submit" class="flex-fill btn btn-sm btn-dark"><i class="fas fa-search"></i>
+                Search</button>
         </div>
         <div id="search-result-container"></div>
     </form>
@@ -49,17 +47,19 @@
                 <tr class="row-hover">
                     <?php for ($i = 0; $i < count($alumniAccounts[$j]) - 1; $i++) {
                         $account = $alumniAccounts[$j];
-                    ?>
+                        ?>
                         <?php if ($i == 1) {
                             $photo = $account[1];
-                        ?>
-                            <?php if (!empty($photo)) {
+                            ?>
+                            <?php if (!empty ($photo)) {
                                 echo "<td><img class='avatar' src='/thesis/public/images/alumni/$photo' /></td>";
                             } else { ?>
                                 <td>No photo</td>
                             <?php } ?>
                         <?php } else { ?>
-                            <td><?php echo $account[$i]; ?></td>
+                            <td>
+                                <?php echo $account[$i]; ?>
+                            </td>
                         <?php } ?>
                     <?php } ?>
                     <td class="actions">
@@ -72,7 +72,9 @@
     <?php
     $numberOfPages = ceil(count($alumniAccounts) / 5);
     ?>
-    <p class="mb-1 text-secondary" style="font-size: 14px;">Page <?php echo "$page out of $numberOfPages"; ?></p>
+    <p class="mb-1 text-secondary" style="font-size: 14px;">Page
+        <?php echo "$page out of $numberOfPages"; ?>
+    </p>
     <nav aria-label="...">
         <ul class="pagination">
             <?php if ($page > 1) { ?>
@@ -86,7 +88,9 @@
             <?php } ?>
 
             <?php for ($i = 1; $i < $numberOfPages + 1 && $i < 3; $i++) { ?>
-                <li class="page-item"><a class="page-link" href="/thesis/alumni/index?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                <li class="page-item"><a class="page-link" href="/thesis/alumni/index?page=<?php echo $i; ?>">
+                        <?php echo $i; ?>
+                    </a></li>
             <?php } ?>
 
             <?php if ($page < $numberOfPages) { ?>

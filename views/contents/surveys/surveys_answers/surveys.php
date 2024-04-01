@@ -16,7 +16,7 @@ include ("/xampp/htdocs/thesis/views/template/header.php");
     <?php foreach ($surveys as $survey) {
         ?>
         <div class="bg-white shadow d-flex rounded flex-row survey mb-3">
-            <img style="height: 100%; width: 50%; object-fit: cover; margin-bottom: 0"
+            <img class="rounded-start" style="width: 50%; object-fit: cover; margin-bottom: 0"
                 src="/thesis/public/images/cover/<?php echo $survey[6]; ?>" class="card-img-top">
             <div class="p-4">
                 <h5 class="mb-1">

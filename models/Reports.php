@@ -90,7 +90,7 @@ class Reports
         return $result->fetch_all();
     }
 
-    public function getCurriculumExitsUnformatted($batch, $track, $strand)
+    public function getCurriculumExitsUnformatted($batch, $track)
     {
         $query = "";
 
@@ -111,12 +111,12 @@ class Reports
         if ($batch == 0) {
             $query = "SELECT curriculumExit, COUNT(*) 
             FROM alumni 
-            WHERE status='active' AND trackFinished='$track' AND strandFinished='$strand' 
+            WHERE status='active' AND trackFinished='$track'
             GROUP BY curriculumExit;";
         } else {
             $query = "SELECT curriculumExit, COUNT(*) 
             FROM alumni 
-            WHERE status='active' AND dateGraduated='$batch' AND trackFinished='$track' AND strandFinished='$strand' 
+            WHERE status='active' AND dateGraduated='$batch' AND trackFinished='$track'
             GROUP BY curriculumExit;";
         }
 

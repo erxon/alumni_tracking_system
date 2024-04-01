@@ -30,9 +30,6 @@
       <label for="password">Password</label>
     </div>
     <div class="user-type">
-      <div class="radio"><input class="form-check-input" type="radio" id="admin" name="type" value="admin" />
-        <label class="form-check-label" for="admin">Admin</label><br />
-      </div>
       <div class="radio">
         <input class="form-check-input" type="radio" id="teacher" name="type" value="teacher" />
         <label class="form-check-label" for="teacher">Teacher</label><br />

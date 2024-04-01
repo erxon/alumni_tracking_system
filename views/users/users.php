@@ -18,8 +18,8 @@ $rows = $result->fetch_all();
     <button id="search-user-submit" class="btn btn-sm btn-dark"><i class="fas fa-search me-1"></i>Search</button>
   </form>
 </div>
-<div style="display: none" id="search-user-result-container-error"></div>
-<div style="display: none" id="search-user-result-container" class="rounded shadow bg-white p-3 mb-3">
+<div style="display: none; position: absolute" id="search-user-result-container-error"></div>
+<div style="display: none;" id="search-user-result-container" class="rounded shadow bg-white p-3 mb-3">
 
 </div>
 <div class="table-responsive-lg users-table">

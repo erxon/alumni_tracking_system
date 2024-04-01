@@ -93,7 +93,6 @@ class Users extends UserUtility
         $sql = "DELETE FROM user WHERE id='$user_id'";
 
         $this->db->query($sql);
-        session_destroy();
     }
 
     public function getUsers()

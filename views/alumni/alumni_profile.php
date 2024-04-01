@@ -25,7 +25,7 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
 }
 ?>
 
-<div class="row main-body-padding w-75 m-auto alumni-profile">
+<div class="row main-body-padding w-75 mx-auto alumni-profile">
     <div class="col-4">
         <!--Photo-->
         <div class="mb-3 p-2 alumni-information text-center">
@@ -99,7 +99,57 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
         <!-- Present Status -->
         <div class="p-2 alumni-information me-1 mt-2">
             <label class="label" for="gender">Present Status</label>
-            <p class="mb-0"><?php echo $alumniDetails["presentStatus"];  ?></p>
+            <p class="mb-0">
+                <?php echo $alumniDetails["presentStatus"]; ?>
+            </p>
+            <?php if ($alumniDetails["presentStatus"] == "University Student" && isset($alumniDetails["undergraduate"])) {
+                $undergraduateStudentDetails = $alumni->undergraduate($alumniDetails["undergraduate"]);
+            ?>
+                <hr />
+                <div>
+                    <p class="m-0 fw-semibold alumni-info-header">Institution</p>
+                    <p>
+                        <?php echo $undergraduateStudentDetails["instName"]; ?>
+                    </p>
+                    <p class="m-0 fw-semibold alumni-info-header">Institution Address</p>
+                    <p>
+                        <?php echo $undergraduateStudentDetails["instAddress"]; ?>
+                    </p>
+                    <p class="m-0 fw-semibold alumni-info-header">Major</p>
+                    <p>
+                        <?php echo $undergraduateStudentDetails["specialization"]; ?>
+                    </p>
+                    <p class="m-0 fw-semibold alumni-info-header">Program</p>
+                    <p>
+                        <?php echo $undergraduateStudentDetails["program"]; ?>
+                    </p>
+                    <p class="m-0 fw-semibold alumni-info-header">Expected graduation date</p>
+                    <p>
+                        <?php echo $undergraduateStudentDetails["expGraduationDate"]; ?>
+                    </p>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="p-2 alumni-information me-1 mt-2">
+            <label class="label" for="gender">Curriculum Exit</label>
+            <p class="mb-0">
+                <?php echo $alumniDetails["curriculumExit"]; ?>
+            </p>
+            <?php $curriculumExitQuestions = $alumni->curriculumExitQuestions($alumniDetails["id"]); ?>
+            <?php if (count($curriculumExitQuestions) > 0) { ?>
+                <hr />
+                <div>
+                    <?php foreach ($curriculumExitQuestions as $curriculumExitQuestion) {
+                    ?>
+                        <p class="fw-semibold m-0 alumni-info-header">
+                            <?php echo $curriculumExitQuestion[0] ?>
+                        </p>
+                        <p>
+                            <?php echo $curriculumExitQuestion[1] ?>
+                        </p>
+                    <?php } ?>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>

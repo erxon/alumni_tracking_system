@@ -1,5 +1,5 @@
 <?php
-include ("/xampp/htdocs/thesis/models/Database.php");
+include("/xampp/htdocs/thesis/models/Database.php");
 
 class Contents
 {
@@ -76,7 +76,7 @@ class Contents
         $query = "SELECT title, body, author, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='$type' ORDER BY eventStart DESC";
         $events = $db->query($query);
 
-        if (!empty ($events)) {
+        if (!empty($events)) {
             return $events->fetch_all();
         } else {
             throw new Exception("There were no events yet.");
@@ -103,7 +103,7 @@ class Contents
         $query = "SELECT title, body, author, coverImage, id, dateCreated, description FROM content WHERE type='news' ORDER BY dateCreated DESC";
         $events = $db->query($query);
 
-        if (!empty ($events)) {
+        if (!empty($events)) {
             return $events->fetch_all();
         } else {
             throw new Exception("There were no events yet.");
@@ -491,5 +491,27 @@ class Contents
         $db->close();
 
         return $result;
+    }
+
+    public function setHomePageLayout($eventHighlight, $newsHighlight)
+    {
+        $db = new Database();
+        $query = "UPDATE home_page SET eventHighlight=$eventHighlight, newsHighlight=$newsHighlight WHERE id=1";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result;
+    }
+
+    public function getHomePageLayout()
+    {
+        $db = new Database();
+        $query = "SELECT eventHighlight, newsHighlight FROM home_page WHERE id=1";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_assoc();
     }
 }

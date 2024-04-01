@@ -50,7 +50,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
                 <?php foreach ($galleryImages as $image) { ?>
                     <div class="col-sm-6 col-md-4">
                         <div class="card mb-2">
-                            <img class="card-img-top" style="height: 300px; object-fit: contain;" src="/thesis/public/images/gallery/<?php echo $image[1]; ?>" />
+                            <img onclick="imageFull('<?php echo '/thesis/public/images/gallery/' . $image[1]; ?>')" style="cursor: pointer;" class="image card-img-top" style="height: 300px; object-fit: contain;" src="/thesis/public/images/gallery/<?php echo $image[1]; ?>" />
                             <div class="card-body">
                                 <p class="card-text"><?php echo $image[1] ?></p>
                                 <p class="card-text text-secondary">Uploaded on: <?php echo $stringUtil->dateAndTime($image[3]); ?></p>
@@ -73,6 +73,29 @@ include("/xampp/htdocs/thesis/views/template/header.php");
     </div>
 </div>
 
+<div class="modal modal-lg fade" id="image-full" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="image-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = new bootstrap.Modal("#image-full");
+
+    function imageFull(imageAddress) {
+        $("#image-container").empty();
+        $("#image-container").append(`
+            <img style="width: 100%; height: 100%" src="${imageAddress}" />
+        `);
+
+        modal.show();
+    }
+</script>
 <?php
 include("/xampp/htdocs/thesis/views/template/footer.php");
 ?>

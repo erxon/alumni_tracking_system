@@ -14,26 +14,6 @@ if (isset($result)) {
 }
 ?>
 <?php
-function basicInformation($user_id, $user)
-{
-    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
-    $first_name = filter_input(INPUT_POST, "first_name", FILTER_SANITIZE_SPECIAL_CHARS);
-    $last_name = filter_input(INPUT_POST, "last_name", FILTER_SANITIZE_SPECIAL_CHARS);
-    $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-
-    $changes = array(
-        "username" => $username,
-        "first_name" => $first_name,
-        "last_name" => $last_name,
-        "email" => $email
-    );
-
-    $result = $user->editUser($user_id, $changes);
-
-    if ($result == 1) {
-        echo "<p class='succes'>Profile updated</p>";
-    }
-}
 
 function changePassword($user_id, $user)
 {
@@ -54,14 +34,9 @@ function deleteUser($user_id, $user)
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $edit_profile = filter_input(INPUT_POST, "edit_profile");
     $change_password = filter_input(INPUT_POST, "change_password");
     $delete_profile = filter_input(INPUT_POST, "delete_profile");
 
-    if (isset($edit_profile)) {
-        //Edit Profile
-        basicInformation($id, $user);
-    }
     if (isset($change_password)) {
         //Change Password
         changePassword($id, $user);
@@ -69,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($delete_profile)) {
         //Delete profile
         deleteUser($id, $user);
+        header("Location: /thesis/users");
     }
 }
 ?>
@@ -87,11 +63,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </nav>
             <!--Basic information-->
             <?php include("/xampp/htdocs/thesis/views/users/edit_user/basic_information.php"); ?>
-            <!--Change password-->
-            <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_password.php"); ?>
             <form class="delete-user mb-3" method="post">
                 <p class="mb-1">Delete user</p>
-                <input class="btn btn-sm btn-danger" type="submit" name="delete_profile" value="Delete" />
+                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#confirm-delete-modal" type="button">Delete</button>
+                <div class="modal fade" id="confirm-delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm delete</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this user?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-danger" name="delete_profile" value="Delete" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -107,10 +98,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <!--Change password-->
         <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_password.php"); ?>
-        <form class="delete-user mb-3" method="post">
-            <p class="mb-1">Delete user</p>
-            <input class="btn btn-sm btn-danger" type="submit" name="delete_profile" value="Delete" />
-        </form>
     </div>
 <?php } ?>
+
+<script>
+    $("#change-password").on("submit", (event) => {
+        event.preventDefault();
+    })
+</script>
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

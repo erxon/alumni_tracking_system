@@ -78,10 +78,29 @@ class Home
         return $result;
     }
 
+    public function getEventHighlight(){
+        $db = new Database();
+
+        $query = "SELECT * FROM content JOIN home_page ON home_page.eventHighlight=content.id";
+
+        $result = $db->query($query);
+
+        return $result->fetch_assoc();
+    }
+    public function getNewsHighlight(){
+        $db = new Database();
+
+        $query = "SELECT * FROM content JOIN home_page ON home_page.newsHighlight=content.id";
+
+        $result = $db->query($query);
+
+        return $result->fetch_assoc();
+    }
+
     public function getEvents()
     {
         $db = new Database();
-        $query = "SELECT * FROM content WHERE type='event'  LIMIT 2";
+        $query = "SELECT * FROM content WHERE type='event' LIMIT 2";
 
         $result = $db->query($query);
 
