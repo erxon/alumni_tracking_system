@@ -6,7 +6,7 @@ class Dashboard
     {
         $db = new Database();
 
-        $query = "SELECT * FROM alumni";
+        $query = "SELECT * FROM alumni WHERE status='active'";
 
         $result = $db->query($query);
 
@@ -18,7 +18,7 @@ class Dashboard
     public function queryTrackFinished($track)
     {
         $db = new Database();
-        $result = $db->query("SELECT * FROM alumni WHERE trackFinished='$track'");
+        $result = $db->query("SELECT * FROM alumni WHERE trackFinished='$track' AND status='active'");
         $count = $result->num_rows;
 
         return $count;

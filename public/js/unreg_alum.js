@@ -1,6 +1,13 @@
 function update(result, id) {
   if (result) {
-    window.location = "/thesis/admin/registration";
+    const toast = new bootstrap.Toast("#response");
+    toast.show();
+    $("#toast-body").append(`<p>Alumni status was updated</p>`);
+    $("#response").addClass("text-bg-primary");
+
+    setInterval(() => {
+      window.location = "/thesis/admin/registration";
+    }, 3000);
   } else {
     $(`#unreg-alumni-details-${id}`)
       .append(`<div class="alert alert-danger mt-2" role="alert">
@@ -11,6 +18,10 @@ function update(result, id) {
 
 function approve(id) {
   // console.log(id);
+
+  $(".decision-btn").prop("disabled", true);
+  $("#loading").fadeIn();
+
   const data = new FormData();
   data.append("status", "active");
 
@@ -30,6 +41,10 @@ function approve(id) {
 }
 
 function decline(id, userAccountID) {
+  
+  $(".decision-btn").prop("disabled", true);
+  $("#loading").fadeIn();
+
   const data = new FormData();
   data.append("delete", true);
   data.append("userAccountID", userAccountID);

@@ -9,8 +9,6 @@ $first_name = $_POST["first_name"];
 $last_name = $_POST["last_name"];
 $email = $_POST["email"];
 
-
-
 $changes = array(
     "username" => $username,
     "first_name" => $first_name,
@@ -24,4 +22,3 @@ if ($result == 1) {
     $response = array("response" => "User profile updated");
     echo json_encode($response);
 }
-?>

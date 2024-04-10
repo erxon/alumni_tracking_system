@@ -1,33 +1,7 @@
 <div>
     <!--Move to admin dashboard-->
     <!-- <button data-bs-toggle="modal" data-bs-target="#sendEmail" class="btn btn-outline-dark btn-sm"><i class="fas fa-at"></i> Send email</button> -->
-    <form id="search" class="mb-3">
-        <div class="d-flex">
-            <input hidden id="name-search-firstName" value="" />
-            <input hidden id="name-search-middleName" value="" />
-            <input hidden id="name-search-lastName" value="" />
-            <input id="alumni-name-search" name="name" class="form-control me-2" placeholder="Name" />
-            <select id="alumni-track" name="track" class="form-select me-2">
-                <option selected>Track</option>
-                <option value="Academic">Academic</option>
-                <option value="TVL">Technical Vocational</option>
-            </select>
-            <select id="alumni-track" name="strand" class="form-select me-2">
-                <option selected>Strand</option>
-                <option value="HUMSS">Humanities and Social Sciences</option>
-                <option value="STEM">Science, Technology, Engineering, and Mathematics</option>
-                <option value="ABM">Accountancy, Business and Management</option>
-                <option value="Home Economics">Home Economics</option>
-                <option value="Industrial Arts">Industrial Arts</option>
-                <option value="ICT">Information Communications Technology</option>
-                <option value="others">Others</option>
-            </select>
-            <input id="alumni-batch" name="batch" class="form-control me-3" type="number" />
-            <button id="search-button" type="submit" class="flex-fill btn btn-sm btn-dark"><i class="fas fa-search"></i>
-                Search</button>
-        </div>
-        <div id="search-result-container"></div>
-    </form>
+    <?php include "/xampp/htdocs/thesis/views/alumni/admin_search/search.php" ?>
     <table class="table table-responsive-lg table-hover align-middle">
         <thead>
             <tr>
@@ -42,16 +16,16 @@
                 <th scope="col"></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="alumni-table-container">
             <?php for ($j = $min - 1; $j < $max; $j++) { ?>
                 <tr class="row-hover">
                     <?php for ($i = 0; $i < count($alumniAccounts[$j]) - 1; $i++) {
                         $account = $alumniAccounts[$j];
-                        ?>
+                    ?>
                         <?php if ($i == 1) {
                             $photo = $account[1];
-                            ?>
-                            <?php if (!empty ($photo)) {
+                        ?>
+                            <?php if (!empty($photo)) {
                                 echo "<td><img class='avatar' src='/thesis/public/images/alumni/$photo' /></td>";
                             } else { ?>
                                 <td>No photo</td>
@@ -63,7 +37,20 @@
                         <?php } ?>
                     <?php } ?>
                     <td class="actions">
-                        <a role="button" class="btn btn-sm btn-light" href=<?php echo "/thesis/alumni?id=" . $account[0] ?>>View</a>
+                        <a role="button" class="btn btn-sm btn-light alumni-record-action" href=<?php echo "/thesis/alumni?id=" . $account[0] ?>>View</a>
+                        <?php if ($_SESSION["type"] == "admin") { ?>
+                        <button 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#confirm-delete" 
+                            onclick="deleteAlumni('<?php echo $account[0]; ?>')" 
+                            role="button" 
+                            class="btn btn-sm btn-danger alumni-record-action">Delete</button>
+                        <?php } ?>
+                        <div style="display: none;" id="loading_<?php echo $account[0] ?>">
+                            <div class="spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             <?php } ?>
@@ -75,33 +62,23 @@
     <p class="mb-1 text-secondary" style="font-size: 14px;">Page
         <?php echo "$page out of $numberOfPages"; ?>
     </p>
-    <nav aria-label="...">
-        <ul class="pagination">
-            <?php if ($page > 1) { ?>
-                <li class="page-item">
-                    <a class="page-link" href="/thesis/alumni/index?page=<?php echo $page - 1 ?>">Previous</a>
-                </li>
-            <?php } else { ?>
-                <li class="page-item disabled">
-                    <span class="page-link">Previous</span>
-                </li>
-            <?php } ?>
+</div>
 
-            <?php for ($i = 1; $i < $numberOfPages + 1 && $i < 3; $i++) { ?>
-                <li class="page-item"><a class="page-link" href="/thesis/alumni/index?page=<?php echo $i; ?>">
-                        <?php echo $i; ?>
-                    </a></li>
-            <?php } ?>
-
-            <?php if ($page < $numberOfPages) { ?>
-                <li class="page-item">
-                    <a class="page-link" href="/thesis/alumni/index?page=<?php echo $page + 1; ?>">Next</a>
-                </li>
-            <?php } else { ?>
-                <li class="page-item disabled">
-                    <span class="page-link">Next</span>
-                </li>
-            <?php } ?>
-        </ul>
-    </nav>
+<?php include "pagination.php"; ?>
+<div class="modal fade" id="confirm-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete alumni</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this alumni?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button data-bs-dismiss="modal" id="confirm-delete-alumni" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
 </div>

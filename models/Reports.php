@@ -98,14 +98,16 @@ class Reports
             "Higher Education" => "higher_education",
             "Employment" => "employment",
             "Middle-level skills development" => "middle_level_skills_development",
-            "Entrepreneurship" => "entrepreneurship"
+            "Entrepreneurship" => "entrepreneurship",
+            "Did not continue to college" => "did_not_continue_to_college"
         );
 
         $curriculumExitsUnformatted = array(
             "higher_education" => 0,
             "employment" => 0,
             "middle_level_skills_development" => 0,
-            "entrepreneurship" => 0
+            "entrepreneurship" => 0,
+            "did_not_continue_to_college" => 0
         );
 
         if ($batch == 0) {
@@ -192,8 +194,8 @@ class Reports
     public function alumniAccordingToStrand()
     {
         $data = array("TVL" => array(), "Academic" => array());
-        $queryTVL = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='TVL' AND status='active'";
-        $queryAcademic = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='Academic' AND status='active'";
+        $queryTVL = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='TVL' AND status='active' GROUP BY strandFinished";
+        $queryAcademic = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='Academic' AND status='active' GROUP BY strandFinished";
 
         $resultTVL = $this->db->query($queryTVL);
         $resultAcademic = $this->db->query($queryAcademic);
@@ -201,7 +203,7 @@ class Reports
 
         if ($resultTVL->num_rows > 0) {
             foreach ($resultTVL->fetch_all() as $row) {
-                array_push($data["TVL"], array("label" => $row[0], "y" => (((int)$row[1] / $alumniAccordingToTrackNumeric["TVL"]) * 100)));
+                array_push($data["TVL"], array("label" => $row[0], "y" => (((int) $row[1] / $alumniAccordingToTrackNumeric["TVL"]) * 100)));
             }
         }
 
@@ -217,15 +219,15 @@ class Reports
     public function alumniAccordingToStrandNumeric()
     {
         $data = array("TVL" => array(), "Academic" => array());
-        $queryTVL = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='TVL' AND status='active'";
-        $queryAcademic = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='Academic' AND status='active'";
+        $queryTVL = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='TVL' AND status='active' GROUP BY strandFinished";
+        $queryAcademic = "SELECT strandFinished, COUNT(*) FROM `alumni` WHERE trackFinished='Academic' AND status='active' GROUP BY strandFinished";
 
         $resultTVL = $this->db->query($queryTVL);
         $resultAcademic = $this->db->query($queryAcademic);
 
         if ($resultTVL->num_rows > 0) {
             foreach ($resultTVL->fetch_all() as $row) {
-                array_push($data["TVL"], array("label" => $row[0], "y" => (int)$row[1]));
+                array_push($data["TVL"], array("label" => $row[0], "y" => (int) $row[1]));
             }
         }
 

@@ -15,10 +15,11 @@ class Users extends UserUtility
             $hash = $this->validatePassword($password);
             $sql = "INSERT INTO user (username, firstName, lastName, email, password, type) VALUES ('$username', '$first_name', '$last_name', '$email', '$hash', '$type')";
 
-            $this->db->query($sql);
+            $result = $this->db->query($sql);
+
+            return $result;
         } catch (Exception $e) {
-            $this->displayError($e);
-            die();
+            return $e->getMessage();
         }
     }
 
@@ -48,12 +49,12 @@ class Users extends UserUtility
 
             return $result;
         } catch (Exception $e) {
-            $error = array("response" => $e->getMessage());
-            echo json_encode($error);
+            return false;
         }
     }
 
-    public function changePhoto($id){
+    public function changePhoto($id)
+    {
         $tempname = $_FILES["profilePhoto"]["tmp_name"];
         $target_file = "./public/images/profile/" . basename($_FILES["profilePhoto"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -64,7 +65,6 @@ class Users extends UserUtility
         $this->db->query($sql);
 
         return move_uploaded_file($tempname, $folder);
-        
     }
 
     public function changePassword($current_password, $new_password, $user_id)
@@ -83,8 +83,7 @@ class Users extends UserUtility
 
             return $result;
         } catch (Exception $e) {
-            $error = array("response" => $e->getMessage());
-            echo json_encode($error);
+            return $e->getMessage();
         }
     }
 
@@ -92,13 +91,27 @@ class Users extends UserUtility
     {
         $sql = "DELETE FROM user WHERE id='$user_id'";
 
-        $this->db->query($sql);
+        $result = $this->db->query($sql);
+
+        return $result;
     }
 
-    public function getUsers()
+    public function deleteAlumniByUserId($user_id)
     {
-        $sql = "SELECT id, username, firstName, lastName, email, type FROM user";
+        $sql = "DELETE FROM alumni WHERE userAccountID=$user_id";
 
+        $result = $this->db->query($sql);
+
+        return $result;
+    }
+
+    public function getUsers($offset)
+    {
+        $sql = "SELECT user.id, user.username, user.firstName, user.lastName, user.email, user.type, alumni.status 
+        FROM user LEFT JOIN alumni ON user.id=alumni.userAccountID 
+        WHERE alumni.status IS NULL OR alumni.status = 'active' 
+        ORDER BY user.dateCreated DESC LIMIT 5 OFFSET $offset";
+        
         $result = $this->db->query($sql);
 
         try {
@@ -112,17 +125,42 @@ class Users extends UserUtility
 
     public function getUser($id)
     {
-        $sql = "SELECT id, photo, username, firstName, lastName, email, type FROM user WHERE id='$id'";
+        $sql = "SELECT * FROM user WHERE id='$id'";
 
         $result = $this->db->query($sql);
 
         try {
-            
+
             $this->checkResult($result);
             return $result;
-
         } catch (Exception $e) {
             $this->displayError($e);
         }
+    }
+
+    public function getNumberOfUsers()
+    {
+        $sql = "SELECT COUNT(*) FROM user";
+        $count = $this->db->query($sql);
+
+        return $count->fetch_all();
+    }
+
+    public function getAlumniProfile($userId)
+    {
+        $sql = "SELECT * FROM alumni WHERE userAccountID=$userId";
+
+        $result = $this->db->query($sql);
+
+        return $result->fetch_assoc();
+    }
+
+    public function getAlumniStatus($userId)
+    {
+        $sql = "SELECT status FROM alumni WHERE userAccountId=$userId";
+
+        $result = $this->db->query($sql);
+
+        return $result;
     }
 }

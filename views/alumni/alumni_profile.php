@@ -30,7 +30,7 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
         <!--Photo-->
         <div class="mb-3 p-2 alumni-information text-center">
             <?php if (isset($_SESSION["photo"])) { ?>
-                <img class="profile-photo" src="/thesis/public/images/profile/<?php echo $_SESSION["photo"] ?>" />
+                <img class="profile-photo" src="/thesis/public/images/alumni/<?php echo $alumniDetails["photo"] ?>" />
             <?php } else { ?>
                 <div class="photo-container mb-2 m-auto"></div>
             <?php } ?>

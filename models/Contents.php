@@ -176,7 +176,7 @@ class Contents
 
 
 
-    public function createSurvey($values, $author)
+    public function createSurvey($values)
     {
         $db = new Database();
 
@@ -184,8 +184,8 @@ class Contents
         $description = $values["description"];
         $coverImage = $values["coverImage"];
 
-        $query = "INSERT INTO survey (title, description, author, coverImage) 
-        VALUES ('$title', '$description', '$author', '$coverImage')";
+        $query = "INSERT INTO survey (title, description, coverImage) 
+        VALUES ('$title', '$description', '$coverImage')";
 
         $db->query($query);
 
@@ -237,12 +237,10 @@ class Contents
     public function createQuestion($surveyId, $question)
     {
         $db = new Database();
-        $query = "INSERT INTO survey_question (survey, question) VALUES ('$surveyId', '$question');";
+        $query = "INSERT INTO survey_question (survey, question) VALUES ($surveyId, '$question');";
 
         $db->query($query);
         $questionId = $db->getId();
-
-        $db->close();
 
         return $questionId;
     }
@@ -312,11 +310,11 @@ class Contents
 
         return $result;
     }
-    public function hasVoted($userId, $questionId)
+    public function hasVoted($userId, $surveyId)
     {
         $db = new Database();
 
-        $query = "SELECT * FROM survey_results WHERE userId='$userId' AND questionId='$questionId'";
+        $query = "SELECT * FROM survey_results WHERE userId='$userId' AND surveyId='$surveyId'";
 
         $result = $db->query($query);
 
@@ -327,11 +325,11 @@ class Contents
         }
     }
 
-    public function getVotes($questionId)
+    public function getVotes($surveyId)
     {
         $db = new Database();
 
-        $query = "SELECT * FROM survey_results WHERE questionId='$questionId'";
+        $query = "SELECT userId, COUNT(*) FROM `survey_results` WHERE surveyId=$surveyId GROUP BY userId;";
 
         $result = $db->query($query);
 
@@ -389,8 +387,6 @@ class Contents
         }
 
         $result = $db->multi_query($query);
-
-        $db->close();
 
         return $result;
     }
@@ -513,5 +509,37 @@ class Contents
         $db->close();
 
         return $result->fetch_assoc();
+    }
+
+    public function recentlyAddedContents($type)
+    {
+        $db = new Database();
+        $query = "SELECT id, title, dateCreated, coverImage, description FROM content WHERE type='$type' ORDER BY dateCreated DESC LIMIT 3";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
+
+    public function newGallery()
+    {
+        $db = new Database();
+        $query = "SELECT * FROM gallery ORDER BY dateCreated DESC LIMIT 1";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
+    public function newSurvey()
+    {
+        $db = new Database();
+        $query = "SELECT * FROM survey ORDER BY dateCreated DESC LIMIT 1";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
     }
 }

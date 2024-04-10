@@ -97,6 +97,26 @@ class Home
         return $result->fetch_assoc();
     }
 
+    public function getNewGallery(){
+        $db = new Database();
+
+        $query = "SELECT * FROM gallery ORDER BY dateCreated DESC LIMIT 1";
+
+        $result = $db->query($query);
+
+        return $result->fetch_all();
+    }
+
+    public function getNewSurvey(){
+        $db = new Database();
+
+        $query = "SELECT * FROM survey ORDER BY dateCreated DESC LIMIT 1";
+
+        $result = $db->query($query);
+
+        return $result->fetch_all();
+    }
+
     public function getEvents()
     {
         $db = new Database();

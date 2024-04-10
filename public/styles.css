@@ -1,6 +1,6 @@
 /**************************Utilities*************************/
 .link {
-  text-decoration: none;
+  text-decoration: underline;
   color: white;
   display: block;
 }
@@ -37,7 +37,7 @@ body {
   height: 100vh;
 }
 
-.carousel {
+.carousel-home {
   opacity: 25%;
 }
 
@@ -61,8 +61,8 @@ body {
   padding: 5% 10%;
 }
 
-.about-section-title {
-  width: 50%;
+.about {
+  height: 100vh;
 }
 
 /*************************************************************/
@@ -88,18 +88,17 @@ body {
 .reg-container {
   position: absolute;
   z-index: 2;
-  margin: 15% 10%;
+  margin: 15% 15%;
+  text-align: center;
 }
 
 .reg-start {
-  width: 50%;
   border: none;
-  border-radius: 10px;
   color: white;
 }
 
 .system-name {
-  color: #f4ce14;
+  color: #028fed;
 }
 
 .reg-start p {
@@ -110,9 +109,9 @@ body {
 }
 
 .register-now {
-  --bs-btn-bg: #f4ce14;
+  --bs-btn-bg: #028fed;
   --bs-btn-border-color: none;
-  --bs-btn-hover-bg: #d6b511;
+  --bs-btn-hover-bg: #0399fd;
 }
 
 .registration-form {
@@ -220,7 +219,6 @@ body {
 
 .user {
   margin: 2% 5%;
-  width: 25%;
   margin: auto;
 }
 
@@ -247,18 +245,12 @@ body {
 
 .edit-user {
   margin-top: 100px;
-  max-width: 450px;
 }
 
 .delete-user {
   border-radius: 10px;
   padding: 20px;
   background-color: #d6d6d6;
-}
-
-.users-table {
-  height: 450px;
-  overflow-y: scroll;
 }
 
 .label {
@@ -341,10 +333,9 @@ body {
 }
 
 .admin-views {
-  position: absolute;
-  right: 0;
-  padding-top: 100px;
-  width: calc(100% - 300px);
+  margin-top: 48px;
+  margin-left: 300px;
+  width: calc(100vw - 300px);
 }
 
 .admin-picture {
@@ -394,3 +385,27 @@ body {
   width: 200px;
 }
 
+.signup-form {
+  width: 50%;
+}
+
+.contents-side-nav-active {
+  background-color: #028fed;
+}
+.contents-side-nav .nav-item{
+  margin-right: 0;
+}
+.contents-side-nav .nav-item .nav-link {
+  margin-left: 24px;
+}
+
+.contents-side-nav .nav-item:hover {
+  background-color: #028fed;
+}
+.contents-side-nav .nav-item .nav-link:hover {
+  color: #fff;
+}
+
+.contents-alumni {
+  height: 100vh;
+}

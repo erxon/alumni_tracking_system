@@ -1,7 +1,5 @@
 <div class="add-user-form">
-  <h3 class="mb-3">Add a user</h3>
-
-  <form method="post">
+  <form id="create-user">
     <div class="row mb-3">
       <div class="col">
         <div class="form-floating">
@@ -39,6 +37,6 @@
         <label class="form-check-label" for="principal">Principal</label><br />
       </div>
     </div>
-    <button class="btn btn-primary my-3" type="submit">Add user</button>
+    <button class="btn btn-primary my-3" type="submit" data-bs-dismiss="modal">Add</button>
   </form>
 </div>

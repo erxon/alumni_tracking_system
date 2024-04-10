@@ -1,7 +1,6 @@
 <div>
     <p><i class="fas fa-user"></i> Change photo</p>
     <div>
-
         <div class="bg-white rounded p-4">
             <?php if (empty($_SESSION["photo"])) { ?>
                 <div class="d-flex flex-row align-items-center justify-content-center mb-3">
@@ -16,5 +15,5 @@
             <?php } ?>
         </div>
     </div>
-
+    
 </div>

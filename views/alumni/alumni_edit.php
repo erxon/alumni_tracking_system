@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if ($action == "image_upload") {
         if ($_FILES["profilePhoto"]["name"]) {
-            $alumni->uploadProfilePhoto($alumniDetails["userAccountID"], $id);
+            $alumni->changeProfilePhoto($alumniDetails["id"], $alumniDetails["photo"]);
             header("Location: /thesis/alumni?id=$id");
         } else {
             header("Location: /thesis/alumni?id=$id");
@@ -54,22 +54,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php if ($_SESSION["type"] == "admin") {
                     echo "<li class='breadcrumb-item'><a href='/thesis/alumni/index'>Index</a></li>";
                 } ?>
-                <li class="breadcrumb-item"><a href="/thesis/alumni?id=<?php echo $id; ?>">Profile</a></li>
+                <li class="breadcrumb-item"><a href="/thesis/alumni/profile">Profile</a></li>
                 <li class="breadcrumb-item" aria-current="page">Edit</li>
             </ol>
         </nav>
         <div class="col-4">
             <!--Photo-->
             <div class="mb-3 p-2 alumni-information text-center">
-                <?php if (isset($userProfile["photo"])) { ?>
-                    <img class="profile-photo" src="/thesis/public/images/profile/<?php echo $userProfile["photo"] ?>" />
+                <?php if ($alumniDetails["photo"]) { ?>
+                    <img class="profile-photo" src="/thesis/public/images/alumni/<?php echo $alumniDetails["photo"] ?>" />
                 <?php } else { ?>
                     <div class="photo-container mb-2 m-auto"></div>
                 <?php } ?>
                 <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#uploadPhotoModal">Add Photo</button>
             </div>
             <input hidden name="id" value="<?php echo $alumniDetails["id"]; ?>" />
-
             <!--Set status-->
             <div class="mb-3 badge text-bg-primary">
                 <?php echo $alumniDetails["status"]; ?>

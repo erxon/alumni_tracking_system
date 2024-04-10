@@ -78,150 +78,175 @@
             <input id="cert" type="text" class="mb-3 form-control" name="certifications" default placeholder="National Certification/s Acquired in High School" />
         </div>
         <div id="form-page-2" class="mb-3" style="display:none">
-            <div class="bg-white p-4 rounded mb-3">
-                <div class="mb-2">
-                    <h3>Tracer Study on the Kto12 Curriculum Exits of LYFJSHS
-                        Graduates</h3>
-                    <p>Please answer the items applicable to you</p>
+            <div class="mb-2">
+                <h3>Tracer Study on the Kto12 Curriculum Exits of LYFJSHS
+                    Graduates</h3>
+                <p>Please answer the items applicable to you</p>
 
-                    <p>This study aims to track the status of the SHS graduates with respect to curriculum exits
-                        such as higher education, (Kolehiyo) employment (trabaho), middle skills development
-                        (Middle Skills Training), and entrepreneurship (negosyo). Moreover, the findings of the
-                        study shall serve as an initial data for future research relative to SHS program
-                        implementation to ensure evidenced-based decision-making in program adjustments,
-                        interventions and initiatives.
-                        Please take time to answer to questions provided in this form. We ensure that the data
-                        gathered will be treated with utmost confidentiality and shall be used for the purpose of
-                        the study</p>
-                </div>
-                <div class="mb-3">
-                    <label class="mb-1" for="curriculum-exits">Pursued curriculum exits after graduation</label>
-                    <select name="curriculum_exit" id="curriculum-exits" class="me-2 form-select form-select-md" aria-label="Small select example" required>
-                        <option selected value="">Select</option>
-                        <option value="Higher Education">Higher Education</option>
-                        <option value="Employment">Employment</option>
-                        <option value="Entrepreneurship">Entrepreneurship</option>
-                        <option value="Middle-level skills development">Middle-level skills development</option>
-                    </select>
-                </div>
-                <div id="for-higher-education" class="curriculum-exits collapse">
-                    <div class="form-floating mb-1">
-                        <input hidden name="question1" value="Which college or university did you enrolled?" />
-                        <input id="inst-enrolled" class="form-control" type="text" name="answer1" placeholder="Which college or university did you enrolled?" />
-                        <label for="inst-enrolled">Which college or university did you enrolled?</label>
+                <p>This study aims to track the status of the SHS graduates with respect to curriculum exits
+                    such as higher education, (Kolehiyo) employment (trabaho), middle skills development
+                    (Middle Skills Training), and entrepreneurship (negosyo). Moreover, the findings of the
+                    study shall serve as an initial data for future research relative to SHS program
+                    implementation to ensure evidenced-based decision-making in program adjustments,
+                    interventions and initiatives.
+                    Please take time to answer to questions provided in this form. We ensure that the data
+                    gathered will be treated with utmost confidentiality and shall be used for the purpose of
+                    the study</p>
+            </div>
+            <div class="row">
+                <!--Tracer study-->
+                <div class="col-8">
+                    <div class="bg-white p-4 rounded mb-3">
+                        <h5>Relevance of the Skills Acquired in SHS on the Curriculum
+                            Exits </h5>
+                        <p>
+                            The items on the following section are the skills essential
+                            for the curriculum exits. Please rate the relevance of each
+                            skill using the 4 point likert scale below:
+                        </p>
+                        <ul>
+                            <li>4 Strongly Agree</li>
+                            <li>3 Agree</li>
+                            <li>2 Fairly Agree</li>
+                            <li>1 Disagree</li>
+                        </ul>
+
+                        <div class="container-fluid bg-white p-3 rounded">
+                            <div class="d-flex">
+                                <div style="width: 20%"></div>
+                                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                                    <p class="mb-1">4</p>
+                                    <p>Strongly Agree</p>
+                                </div>
+                                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                                    <p class="mb-1">3</p>
+                                    <p>Agree</p>
+                                </div>
+                                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                                    <p class="mb-1">2</p>
+                                    <p>Fairly Agree</p>
+                                </div>
+                                <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
+                                    <p class="mb-1">1</p>
+                                    <p>Disagree</p>
+                                </div>
+                            </div>
+                            <?php
+                            $sections = array(
+                                "Information, media and technology skills",
+                                "Learning and innovation skills",
+                                "Effective communication skills",
+                                "Life and career skills"
+                            );
+
+                            for ($i = 0; $i < count($sections); $i++) {
+                                $inputName = "tracer_survey_answer_" . ($i + 1);
+                            ?>
+                                <div class="d-flex bg-body-secondary align-items-center rounded mb-2">
+                                    <!--Question-->
+                                    <div class="p-2" style="width: 20%; font-size: 14px;">
+                                        <p><?php echo $sections[$i]; ?></p>
+                                    </div>
+                                    <!--Answers-->
+                                    <div class="flex-fill text-center" style="width: 20%;">
+                                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="4" required />
+                                    </div>
+                                    <div class="flex-fill text-center" style="width: 20%;">
+                                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="3" required />
+                                    </div>
+                                    <div class="flex-fill text-center" style="width: 20%;">
+                                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="2" required />
+                                    </div>
+                                    <div class="flex-fill text-center" style="width: 20%;">
+                                        <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="1" required />
+                                    </div>
+                                </div>
+
+                            <?php } ?>
+                        </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input hidden name="question2" value="What course or program are you currently pursuing?" />
-                        <input id="program" class="form-control" type="text" name="answer2" placeholder="What course or program are you currently pursuing?" />
-                        <label for="program">What course or program are you currently pursuing?</label>
-                    </div>
                 </div>
-                <div id="for-employment" class="curriculum-exits collapse">
-                    <div class="form-floating mb-3">
-                        <input hidden name="question3" value="Which company or industry did you applied for?" />
-                        <input id="company" class="form-control" type="text" name="answer3" placeholder="Which company or industry did you applied for?" />
-                        <label for="company">Which company or industry did you applied for?</label>
-                    </div>
-                </div>
-                <div id="for-entrepreneurship" class="curriculum-exits collapse">
-                    <div class="form-floating mb-3">
-                        <input hidden name="question4" value="Which business industry did you put up?" />
-                        <input class="form-control" id="business" type="text" name="answer4" placeholder="Which business industry did you put up?" />
-                        <label for="business">Which business industry did you put up?</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input hidden name="question5" value="Which specialization did you engaged in?" />
-                        <input id="business-specialization" class="form-control" type="text" name="answer5" placeholder="Which specialization did you engaged in?" />
-                        <label for="business-specialization">Which specialization did you engaged in?</label>
+                <div class="col-4">
+                    <div class="bg-white p-4 rounded mb-3">
+                        <div class="mb-3">
+                            <h5>Pursued curriculum exits after graduation</h5>
+                            <select name="curriculum_exit" id="curriculum-exits" class="me-2 form-select form-select-md" aria-label="Small select example" required>
+                                <option selected value="">Select</option>
+                                <option value="Higher Education">Higher Education</option>
+                                <option value="Employment">Employment</option>
+                                <option value="Entrepreneurship">Entrepreneurship</option>
+                                <option value="Middle-level skills development">Middle-level skills development</option>
+                                <option value="Did not continue to college">Did not continue to college</option>
+                            </select>
+                        </div>
+                        <div id="for-higher-education" class="curriculum-exits collapse">
+                            <div class="mb-3">
+                                <label class="fw-semibold" style="font-size: 14px;" for="inst-enrolled">Which college or university did you enrolled?</label>
+                                <input hidden name="question1" value="Which college or university did you enrolled?" />
+                                <input id="inst-enrolled" class="form-control" type="text" name="answer1" placeholder="Type your answer" />
+
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-semibold" style="font-size: 14px;" for="program">What course or program are you currently pursuing?</label>
+                                <input hidden name="question2" value="What course or program are you currently pursuing?" />
+                                <input id="program" class="form-control" type="text" name="answer2" placeholder="Type your answer" />
+
+                            </div>
+                        </div>
+                        <div id="for-employment" class="curriculum-exits collapse">
+                            <div class="mb-3">
+                                <label class="fw-semibold" style="font-size: 14px;" for="company">Which company or industry did you applied for?</label>
+                                <input hidden name="question3" value="Which company or industry did you applied for?" />
+                                <input id="company" class="form-control" type="text" name="answer3" placeholder="Type your answer" />
+                            </div>
+                        </div>
+                        <div id="for-entrepreneurship" class="curriculum-exits collapse">
+                            <div class="mb-3">
+                                <label class="fw-semibold" style="font-size: 14px;" for="business">Which business industry did you put up?</label>
+                                <input hidden name="question4" value="Which business industry did you put up?" />
+                                <input class="form-control" id="business" type="text" name="answer4" placeholder="Type your answer" />
+                            </div>
+                        </div>
+                        <div id="for-middle-level-skills-development" class="curriculum-exits collapse">
+                            <div class="mb-3">
+                                <label class="fw-semibold" style="font-size: 14px;" for="business-specialization">Which specialization did you engaged in?</label>
+                                <input hidden name="question5" value="Which specialization did you engaged in?" />
+                                <input id="business-specialization" class="form-control" type="text" name="answer5" placeholder="Type your answer" />
+                            </div>
+                        </div>
+                        <div id="for-did-not-continue-to-college" class="curriculum-exits collapse">
+                            <div class="mb-3">
+                                <label class="fw-semibold" style="font-size: 14px;" for="reason">Please state your reason</label>
+                                <input hidden name="question6" value="Please state your reason" />
+                                <input id="reason" class="form-control" type="text" name="answer6" placeholder="Type your answer" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!--Tracer study-->
-            <div class="bg-white p-4 rounded mb-3">
-                <h3>Relevance of the Skills Acquired in SHS on the Curriculum
-                    Exits </h3>
-                <p>
-                    The items on the following section are the skills essential
-                    for the curriculum exits. Please rate the relevance of each
-                    skill using the 4 point likert scale below:
-                </p>
-                <ul>
-                    <li>4 Strongly Agree</li>
-                    <li>3 Agree</li>
-                    <li>2 Fairly Agree</li>
-                    <li>1 Disagree</li>
-                </ul>
-
-                <div class="container-fluid bg-white p-3 rounded">
-                    <div class="d-flex">
-                        <div style="width: 20%"></div>
-                        <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
-                            <p class="mb-1">4</p>
-                            <p>Strongly Agree</p>
-                        </div>
-                        <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
-                            <p class="mb-1">3</p>
-                            <p>Agree</p>
-                        </div>
-                        <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
-                            <p class="mb-1">2</p>
-                            <p>Fairly Agree</p>
-                        </div>
-                        <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">
-                            <p class="mb-1">1</p>
-                            <p>Disagree</p>
-                        </div>
-                    </div>
-                    <?php
-                    $sections = array(
-                        "Information, media and technology skills",
-                        "Learning and innovation skills",
-                        "Effective communication skills",
-                        "Life and career skills"
-                    );
-
-                    for ($i = 0; $i < count($sections); $i++) {
-                        $inputName = "tracer_survey_answer_" . ($i + 1);
-                    ?>
-                        <div class="d-flex bg-body-secondary align-items-center rounded mb-2">
-                            <!--Question-->
-                            <div class="p-2" style="width: 20%; font-size: 14px;">
-                                <p><?php echo $sections[$i]; ?></p>
-                            </div>
-                            <!--Answers-->
-                            <div class="flex-fill text-center" style="width: 20%;">
-                                <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="4" required />
-                            </div>
-                            <div class="flex-fill text-center" style="width: 20%;">
-                                <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="3" required />
-                            </div>
-                            <div class="flex-fill text-center" style="width: 20%;">
-                                <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="2" required />
-                            </div>
-                            <div class="flex-fill text-center" style="width: 20%;">
-                                <input name="<?php echo $inputName; ?>" class="form-check-input" type="radio" value="1" required />
-                            </div>
-                        </div>
-
-                    <?php } ?>
-                </div>
-            </div>
-
         </div>
         <div id="form-page-3" class="mb-3" style="display:none">
-            <h3>Signup</h3>
-            <div class="form-floating mb-3">
-                <input id="username" class="form-control" type="text" name="username" placeholder="username" required />
-                <label for="username">Username</label>
-            </div>
-            <div class="form-floating">
-                <input id="password" class="form-control" type="password" name="password" placeholder="password" required />
-                <label for="password">Password</label>
+            <div class="signup-form rounded p-3 bg-white">
+                <h3>Signup</h3>
+                <div class="form-floating mb-1">
+                    <input id="username" class="form-control" type="text" name="username" placeholder="username" required />
+                    <label for="username">Username</label>
+                </div>
+                <div class="form-floating">
+                    <input id="password" class="form-control" type="password" name="password" placeholder="password" required />
+                    <label for="password">Password</label>
+                </div>
             </div>
         </div>
         <button id="alumni-form-previous-button" class="btn btn-outline-dark btn-sm" disabled><i class="fas fa-arrow-left"></i> Previous</button>
         <button id="alumni-form-next-button" type="submit" class="btn btn-outline-dark btn-sm"><span id="alumni-form-proceed-text">Next</span> <i class="fas fa-arrow-right"></i></button>
     </form>
+    <div style="display: none;" id="success-message" class="alert alert-success w-75 container-fluid shadow p-3 rounded">
+        <h2>You have successfully registered</h2>
+        <p>Registration has been submitted and is subject for
+            approval. A confirmation email will be sent to you
+            once approved. Thank you.</p>
+    </div>
 </div>
 
 
@@ -382,8 +407,15 @@
                     processData: false,
                     success: (response) => {
                         const parsedResponse = JSON.parse(response);
-                        if(parsedResponse.response === "success") {
-                            window.location = "/thesis/login";
+                        if (parsedResponse.response === "success") {
+                            $("#alumni-registration-form").empty();
+                            $(`#form-page-3`).hide();
+                            $("#success-message").fadeIn();
+                        } else {
+                            const toast = new bootstrap.Toast("#response");
+                            $("#toast-body").append("Something went wrong");
+
+                            toast.show();
                         }
                     }
                 });
@@ -428,6 +460,8 @@
         event.target.value === "Higher Education" ? collapseList[0].show() : collapseList[0].hide();
         event.target.value === "Employment" ? collapseList[1].show() : collapseList[1].hide();
         event.target.value === "Entrepreneurship" ? collapseList[2].show() : collapseList[2].hide();
+        event.target.value === "Middle-level skills development" ? collapseList[3].show() : collapseList[3].hide();
+        event.target.value === "Did not continue to college" ? collapseList[4].show() : collapseList[4].hide();
     });
 </script>
 

@@ -14,6 +14,9 @@ if (isset($parse_url["query"])) {
         case "/thesis/users/edit?" . $parse_url["query"]:
             require __DIR__ . "/views/users/edit_user.php";
             break;
+        case  "/thesis/users/server?" . $parse_url["query"]:
+            require __DIR__ . "/views/users/server.php";
+            break; 
         case "/thesis/alumni?" . $parse_url["query"]:
             require __DIR__ . "/views/alumni/alumni.php";
             break;
@@ -24,31 +27,35 @@ if (isset($parse_url["query"])) {
             require __DIR__ . "/views/photo/photo.php";
             break;
         case "/thesis/contents/events?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/events/event_details.php";
+            require __DIR__ . "/views/contents/events/view.php";
             break;
         case "/thesis/contents/news?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/news/news_details.php";
+            require __DIR__ . "/views/contents/news/view.php";
             break;
         case "/thesis/contents/events/edit?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/events/event_edit.php";
+            require __DIR__ . "/views/contents/events/edit.php";
             break;
         case "/thesis/contents/news/edit?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/news/news_edit.php";
+            require __DIR__ . "/views/contents/news/edit.php";
             break;
         case "/thesis/contents/surveys?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/surveys/surveys_details.php";
+            require __DIR__ . "/views/contents/surveys/view/view.php";
             break;
         case "/thesis/contents/surveys/edit?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/surveys/surveys_edit.php";
+            require __DIR__ . "/views/contents/surveys/edit.php";
+            break;
+        case "/thesis/contents/gallery/edit?" . $parse_url["query"]:
+            require __DIR__ . "/views/contents/gallery/edit/edit.php";
             break;
         case "/thesis/contents/home/edit/survey?" . $parse_url["query"]:
             require __DIR__ . "/views/home/contents_edit_survey.php";
             break;
         case "/thesis/contents/gallery?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/gallery/gallery_details.php";
+            require __DIR__ . "/views/contents/gallery/view/view.php";
             break;
+
         case "/thesis/contents/gallery/imageupload?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/gallery/gallery_form.php";
+            require __DIR__ . "/views/contents/gallery/image/upload.php";
             break;
         case "/thesis/surveys/answers?" . $parse_url["query"]:
             require __DIR__ . "/views/contents/surveys/surveys_answers/survey_answers.php";
@@ -56,17 +63,23 @@ if (isset($parse_url["query"])) {
         case "/thesis/admin/alumni?" . $parse_url["query"]:
             require __DIR__ . "/views/admin/alumni.php";
             break;
+        case "/thesis/admin/alumni/userid?" . $parse_url["query"]:
+            require __DIR__ . "/views/alumni/alumni_by_userid.php";
+            break;
         case "/thesis/alumni/index?" . $parse_url["query"]:
             require __DIR__ . "/views/alumni/index.php";
             break;
         case "/thesis/contents/server/survey?" . $parse_url["query"]:
-            require __DIR__ . "/views/contents/surveys/survey_server.php";
+            require __DIR__ . "/views/contents/surveys/server.php";
             break;
         case "/thesis/admin/survey?" . $parse_url["query"]:
-            require __DIR__ . "/views/admin/reports/survey_data.php";
+            require __DIR__ . "/views/admin/reports/survey/data.php";
             break;
         case "/thesis/admin/home/layout/server?" . $parse_url["query"]:
             require __DIR__ . "/views/admin/home_layout/server.php";
+            break;
+        case "/thesis/users/index?" . $parse_url["query"]:
+            require __DIR__ . "/views/users/index.php";
             break;
     }
     die();
@@ -79,9 +92,6 @@ switch ($url) {
         break;
     case "/thesis/login":
         require __DIR__ . "/views/login.php";
-        break;
-    case "/thesis/users":
-        require __DIR__ . "/views/users/index.php";
         break;
     case '/thesis/user/index':
         require __DIR__ . "/views/user/index.php";
@@ -98,11 +108,14 @@ switch ($url) {
     case '/thesis/user/edit/change-photo':
         require __DIR__ . "/views/users/edit_user/change_photo_server.php";
         break;
+    case '/thesis/users/server':
+        require __DIR__ . "/views/users/server.php";
+        break;
     case "/thesis/alumni":
         require __DIR__ . "/views/alumni/alumni_registration.php";
         break;
     case "/thesis/admin/email":
-        require __DIR__ . "/views/admin/send_email.php";
+        require __DIR__ . "/views/admin/send_email/form.php";
         break;
     case "/thesis/alumni/profile":
         require __DIR__ . "/views/alumni/alumni_profile.php";
@@ -113,6 +126,9 @@ switch ($url) {
     case "/thesis/alumni/create":
         require __DIR__ . "/views/alumni/alumni_registration_server.php";
         break;
+    case "/thesis/alumni/server":
+        require __DIR__ . "/views/alumni/server.php";
+        break;
     case "/thesis/search/alumni":
         require __DIR__ . "/views/alumni/search/index.php";
         break;
@@ -120,37 +136,31 @@ switch ($url) {
         require __DIR__ . "/views/alumni/search/server.php";
         break;
     case "/thesis/contents":
-        require __DIR__ . "/views/contents/index.php";
+        require __DIR__ . "/views/contents/index/index.php";
         break;
     case "/thesis/contents/events/all":
-        require __DIR__ . "/views/contents/events/event_list.php";
+        require __DIR__ . "/views/contents/events/events.php";
         break;
     case "/thesis/contents/news/all":
-        require __DIR__ . "/views/contents/news/news_list.php";
+        require __DIR__ . "/views/contents/news/news.php";
         break;
     case "/thesis/contents/news":
-        require __DIR__ . "/views/contents/news/news_form.php";
+        require __DIR__ . "/views/contents/news/create.php";
         break;
-    case "/thesis/contents/news/submit":
-        require __DIR__ . "/views/contents/news/news_form_submit.php";
+    case "/thesis/contents/news/server":
+        require __DIR__ . "/views/contents/news/server.php";
         break;
     case "/thesis/contents/events":
-        require __DIR__ . "/views/contents/events/event_form.php";
+        require __DIR__ . "/views/contents/events/create.php";
         break;
-    case "/thesis/contents/events/submit":
-        require __DIR__ . "/views/contents/events/event_form_submit.php";
-        break;
-    case "/thesis/contents/events/edit":
-        require __DIR__ . "/views/contents/events/event_edit_submit.php";
-        break;
-    case "/thesis/contents/news/edit":
-        require __DIR__ . "/views/contents/news/news_edit_submit.php";
+    case "/thesis/contents/events/server":
+        require __DIR__ . "/views/contents/events/server.php";
         break;
     case "/thesis/contents/surveys":
-        require __DIR__ . "/views/contents/surveys/surveys_form.php";
+        require __DIR__ . "/views/contents/surveys/create.php";
         break;
-    case "/thesis/contents/server/survey":
-        require __DIR__ . "/views/contents/surveys/survey_server.php";
+    case "/thesis/contents/survey/server":
+        require __DIR__ . "/views/contents/surveys/server.php";
         break;
     case "/thesis/contents/surveys/submit":
         require __DIR__ . "/views/contents/surveys/surveys_form_submit.php";
@@ -159,7 +169,7 @@ switch ($url) {
         require __DIR__ . "/views/contents/surveys/surveys_edit_submit.php";
         break;
     case "/thesis/contents/surveys/all":
-        require __DIR__ . "/views/contents/surveys/surveys_list.php";
+        require __DIR__ . "/views/contents/surveys/surveys.php";
         break;
     case "/thesis/surveys/answers":
         require __DIR__ . "/views/contents/surveys/surveys_answers/surveys.php";
@@ -171,10 +181,13 @@ switch ($url) {
         require __DIR__ . "/views/home/survey_answer.php";
         break;
     case "/thesis/contents/gallery":
-        require __DIR__ . "/views/contents/gallery/gallery_form.php";
+        require __DIR__ . "/views/contents/gallery/create/create.php";
+        break;
+    case "/thesis/contents/server/gallery":
+        require __DIR__ . "/views/contents/gallery/server.php";
         break;
     case "/thesis/contents/gallery/all":
-        require __DIR__ . "/views/contents/gallery/gallery_list.php";
+        require __DIR__ . "/views/contents/gallery/galleries.php";
         break;
     case "/thesis/contents/gallery/imageupload":
         require __DIR__ . "/views/contents/gallery/gallery_image_upload.php";
@@ -192,19 +205,19 @@ switch ($url) {
         require __DIR__ . "/views/admin/registration_status.php";
         break;
     case "/thesis/admin/reports":
-        require __DIR__ . "/views/admin/reports/reports_alumni.php";
+        require __DIR__ . "/views/admin/reports/alumni/alumni.php";
         break;
     case "/thesis/admin/reports/print":
         require __DIR__ . "/views/admin/reports/reports_print.php";
         break;
     case "/thesis/admin/reports/tracer":
-        require __DIR__ . "/views/admin/reports/reports_tracer.php";
+        require __DIR__ . "/views/admin/reports/tracer/tracer.php";
         break;
     case "/thesis/admin/reports/filter":
         require __DIR__ . "/views/admin/reports/reports_filter.php";
         break;
     case "/thesis/admin/reports/survey":
-        require __DIR__ . "/views/admin/reports/reports_survey.php";
+        require __DIR__ . "/views/admin/reports/survey/survey.php";
         break;
     case "/thesis/admin/user/search":
         require __DIR__ . "/views/users/search_user.php";
@@ -217,6 +230,9 @@ switch ($url) {
         break;
     case "/thesis/records/print":
         require __DIR__ . "/views/admin/reports/reports_alumni_print.php";
+        break;
+    case "/thesis/registration/success":
+        require __DIR__ . "/views/alumni/success.php";
         break;
     case "/thesis/error":
         require __DIR__ . "/views/error.php";

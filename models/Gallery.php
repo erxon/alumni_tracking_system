@@ -31,9 +31,10 @@ class Gallery
         $query = "INSERT INTO gallery_image (galleryId, image) VALUES ($galleryId, '$image')";
 
         $result = $db->query($query);
+        $id = $db->getId();
         $db->close();
 
-        return $result;
+        return $id;
     }
 
     public function galleryById($id)
@@ -55,7 +56,7 @@ class Gallery
         $result = $db->query($query);
 
         $db->close();
-        
+
         if ($result->num_rows > 0) {
             return $result->fetch_all();
         } else {
@@ -63,9 +64,67 @@ class Gallery
         }
     }
 
-    public function deleteImage($imageId){
+    protected function deleteImageFile($imageName)
+    {
+        $path = $_SERVER['DOCUMENT_ROOT'] . "/thesis/public/images/gallery/$imageName";
+        unlink($path);
+    }
+
+    public function deleteImage($imageId, $imageName)
+    {
         $db = new Database();
         $query = "DELETE FROM gallery_image WHERE id=$imageId";
+
+        $this->deleteImageFile($imageName);
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result;
+    }
+
+    protected function deleteImages($galleryId, $db)
+    {
+        $getImages = "SELECT image FROM gallery_image WHERE galleryId=$galleryId";
+        $images = $db->query($getImages);
+
+        if ($images->num_rows > 0) {
+            foreach ($images->fetch_all() as $image) {
+                $imageToRemove = $image[0];
+                unlink("/xampp/htdocs/thesis/public/images/gallery/$imageToRemove");
+            }
+        }
+
+        $deleteImages = "DELETE FROM gallery_image WHERE galleryId=$galleryId";
+        $result = $db->query($deleteImages);
+
+        if (!$result) {
+            throw new Exception(false);
+        }
+    }
+
+    public function deleteGallery($id)
+    {
+        $db = new Database();
+
+        try {
+            $this->deleteImages($id, $db);
+            $query = "DELETE FROM gallery WHERE id=$id;";
+
+            $result = $db->query($query);
+            $db->close();
+
+            return $result;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function updateGallery($id, $name, $description)
+    {
+        $db = new Database();
+
+        $query = "UPDATE gallery SET name='$name', description='$description' WHERE id=$id";
 
         $result = $db->query($query);
         $db->close();

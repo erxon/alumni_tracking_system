@@ -15,24 +15,6 @@ if ($contents->hasVoted($_SESSION["user_id"], $id)) {
     $surveyAnswered = true;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["answer"])) {
-        $answerId = $_POST["answer"];
-
-        $contents->surveyVote($userId, $id, $answerId);
-
-        $surveyAnswered = true;
-        header("Location: /thesis/surveys/answers?id=".$id);
-    }
-
-    if (isset($_POST["change_answer"])) {
-        $surveyAnswered = false;
-        //remove vote
-        $contents->removeVote($userId, $id);
-        header("Location: /thesis/surveys/answers?id=".$id);
-    }
-}
-
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 

@@ -1,44 +1,55 @@
-<div class="user">
-    <h2>Profile</h2>
+<div class="user bg-white p-3 shadow-sm rounded container-fluid w-50">
     <?php
     include("/xampp/htdocs/thesis/models/Users.php");
+    include "/xampp/htdocs/thesis/models/utilities/StringUtilities.php";
+
     $user = new Users();
+    $stringUtil = new StringUltilities();
+
     $result = $user->getUser($_SESSION["user_id"]);
     $userDetails = $result->fetch_assoc();
+    $alumniPhoto = "";
 
-    if (isset($userDetails["photo"])) {
-        $file = $userDetails["photo"];
-        echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
+    if ($_SESSION["type"] == "alumni") {
+        $alumniAccount = $user->getAlumniProfile($_SESSION["user_id"]);
+        if (isset($alumniAccount["photo"])) {
+            $alumniPhoto = $alumniAccount["photo"];
+            echo "<img class='profile-photo' src='/thesis/public/images/alumni/$alumniPhoto' />";
+        } else {
+            echo "<img src='/thesis/public/assets/user.png' class='profile-photo bg-secondary p-2' />";
+        }
     } else {
-        echo "<div class='photo-container mb-3'></div>";
+        if ($userDetails["photo"]) {
+            $file = $userDetails["photo"];
+            echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
+        } else {
+            echo "<img src='/thesis/public/assets/user.png' class='profile-photo bg-secondary p-2' />";
+        }
     }
+
+
+
     ?>
-    <div class="information">
-        <p class="m-0 label">Username</p>
-        <p class="value"><?php echo $_SESSION["username"]; ?></p>
+    <div class="text-center">
+        <h2 class="mb-0"><?php echo $_SESSION["first_name"]; ?> <?php echo $_SESSION["last_name"]; ?></h2>
+
+        <p class="text-primary m-0 mb-4 fs-4"><?php echo $_SESSION["type"]; ?></p>
+        <p class="value m-0"><?php echo $_SESSION["username"]; ?></p>
+        <p class="value"><i class="fas fa-envelope"></i> <?php echo $_SESSION["email"]; ?></p>
+
+        <p class="m-0 text-secondary">Added on <?php echo $stringUtil->dateAndTime($userDetails["dateCreated"]) ?></p>
+        <?php if (isset($userDetails["dateModified"])) { ?>
+            <p class="text-secondary">Last update <?php echo $stringUtil->dateAndTime($userDetails["dateModified"]) ?></p>
+        <?php } ?>
+        <?php if ($_SESSION["type"] == "admin" || $_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal") { ?>
+            <a role="button" href=<?php echo "/thesis/users/edit?id=" . $userDetails["id"]; ?> class="mt-3 btn btn-sm btn-outline-dark">
+                <i class="fas fa-pen"></i> Edit
+            </a>
+        <?php } ?>
+        <?php if ($userDetails["type"] == "alumni") { ?>
+            <a role="button" h href="/thesis/alumni/profile" class="mt-3 btn btn-sm btn-outline-dark">
+                <i class="fas fa-user-graduate"></i> Alumni profile
+            </a>
+        <?php } ?>
     </div>
-    <div class="information">
-        <p class="m-0 label">First Name</p>
-        <p class="value"><?php echo $_SESSION["first_name"]; ?></p>
-    </div>
-    <div class="information">
-        <p class="m-0 label">Last Name</p>
-        <p class="value"><?php echo $_SESSION["last_name"]; ?></p>
-    </div>
-    <div class="information">
-        <p class="m-0 label">Email</p>
-        <p class="value"><?php echo $_SESSION["email"]; ?></p>
-    </div>
-    <div class="information">
-        <p class="m-0 label">Type</p>
-        <p class="value"><?php echo $_SESSION["type"]; ?></p>
-    </div>
-    <?php if ($_SESSION["type"] == "alumni") { ?>
-        <a role="button" href="/thesis/alumni/profile" class="btn btn-sm btn-outline-dark">
-            <i class="fas fa-graduation-cap"></i> Almuni profile
-        </a>
-    <?php } ?>
-    <a role="button" href=<?php echo "/thesis/users/edit?id=" . $_SESSION["user_id"]; ?> class="btn btn-sm btn-outline-dark">
-        <i class="fas fa-pen"></i> Edit
-    </a>
 </div>

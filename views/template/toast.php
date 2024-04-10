@@ -1,10 +1,8 @@
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
+<div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="response" id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">Alumni tracker</strong>
-            <small>Just now</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div class="d-flex">
+            <div id="toast-body" class="toast-body"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div id="toast-body" class="toast-body"></div>
     </div>
 </div>

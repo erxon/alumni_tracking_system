@@ -64,7 +64,7 @@ class Alumni extends AlumniUtility
 
     public function insertCurriculumExitQuestions($values, $alumniId)
     {
-        for ($i = 1; $i < 6; $i++) {
+        for ($i = 1; $i < 7; $i++) {
             $question = $values["question$i"];
             $answer = $values["answer$i"];
 
@@ -209,13 +209,12 @@ class Alumni extends AlumniUtility
 
     public function getAlumniByUserId($userId)
     {
-        $sql = "SELECT * FROM alumni a WHERE userAccountID='$userId'";
+        $sql = "SELECT * FROM alumni WHERE userAccountID='$userId'";
         $result = $this->db->query($sql);
 
-        if (isset($result)) {
-            $rows = $result->fetch_assoc();
-            return $rows;
-        }
+
+        $rows = $result->fetch_assoc();
+        return $rows;
     }
 
     public function getAlumniById($id)
@@ -253,7 +252,7 @@ class Alumni extends AlumniUtility
 
     public function getAllAlumni()
     {
-        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status, userAccountID FROM alumni WHERE status='active' ORDER BY dateCreated ASC";
+        $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status, userAccountID FROM alumni WHERE status='active' ORDER BY dateCreated DESC";
         $result = $this->db->query($sql);
 
         if (isset($result)) {
@@ -446,49 +445,27 @@ class Alumni extends AlumniUtility
         return $result->fetch_assoc();
     }
 
-    protected function isProfilePictureNew($user_id)
+    protected function uploadFile($alumniID)
     {
-        $user = $this->getAlumniUserProfile($user_id);
+        $str = rand();
+        $uniqueFilename = md5($str);
 
-        if (empty($user["photo"])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    protected function uploadFile($user_id, $alumni_id)
-    {
         $tempname = $_FILES["profilePhoto"]["tmp_name"];
-        $target_file = "./public/images/profile/" . basename($_FILES["profilePhoto"]["name"]);
+        $target_file = "./public/images/alumni/" . basename($_FILES["profilePhoto"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $file = $user_id . '.' . $imageFileType;
-        $folder = "./public/images/profile/" . $user_id . '.' . $imageFileType;
+        $file = $uniqueFilename . '.' . $imageFileType;
+        $folder = "./public/images/alumni/" . $file;
 
-        $sql = "UPDATE alumni SET photo='$file' WHERE id=$alumni_id";
+        $sql = "UPDATE alumni SET photo='$file' WHERE id=$alumniID";
         $this->db->query($sql);
-        $this->addPhotoToUser($user_id, $file);
 
         return move_uploaded_file($tempname, $folder);
     }
 
-    protected function changeFile($user_id, $alumni_id)
+    public function changeProfilePhoto($alumniID, $alumniPhoto)
     {
-        $user = $this->getAlumniUserProfile($user_id);
-        $photo = $user["photo"];
-
-        unlink("/xampp/htdocs/thesis/public/images/profile/$photo");
-
-        $this->uploadFile($user_id, $alumni_id);
-    }
-
-    public function uploadProfilePhoto($user_id, $alumni_id)
-    {
-        if ($this->isProfilePictureNew($user_id)) {
-            $this->uploadFile($user_id, $alumni_id);
-        } else {
-            $this->changeFile($user_id, $alumni_id);
-        }
+        unlink("/xampp/htdocs/thesis/public/images/alumni/$alumniPhoto");
+        $this->uploadFile($alumniID);
     }
 
     public function sendDeleteEmail($emailAddress, $name)
@@ -535,18 +512,20 @@ class Alumni extends AlumniUtility
         return $result;
     }
 
-    public function searchByAlumniName($firstName, $middleName, $lastName){
+    public function searchByAlumniName($firstName, $middleName, $lastName)
+    {
         $query = "SELECT * FROM alumni 
-        WHERE firstName='$firstName' OR middleName='$middleName' OR lastName='$lastName'"; 
+        WHERE (firstName='$firstName' OR middleName='$middleName' OR lastName='$lastName') AND status='active'";
 
         $result = $this->db->query($query);
 
         return $result;
     }
 
-    public function searchByTrackStrandYearGrad($track, $strand, $yearGraduated){
+    public function searchByTrackStrandYearGrad($track, $strand, $yearGraduated)
+    {
         $query = "SELECT * FROM alumni 
-        WHERE trackFinished='$track' OR strandFinished='$strand' OR dateGraduated='$yearGraduated'"; 
+        WHERE (trackFinished='$track' OR strandFinished='$strand' OR dateGraduated='$yearGraduated') AND status='active'";
 
         $result = $this->db->query($query);
 

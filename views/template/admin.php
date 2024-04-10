@@ -32,21 +32,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
-<div class="side-nav-container bg-dark text-white">
+<div class="side-nav-container bg-secondary text-white">
     <div class="container m-auto side-nav-user d-flex flex-column align-items-center mb-3">
-        <div class="admin-picture-container mt-3 d-flex align-items-center">
-            <?php if (isset($_SESSION["photo"])) { ?>
-                <img style="object-fit: cover;" src="/thesis/public/images/profile/<?php echo $_SESSION["photo"] ?>" class="admin-picture" />
-            <?php } else { ?>
-                <div class="mx-auto" style="height: 56px; width: 56px">
-                    <img src="/thesis/public/assets/user.png" class="admin-picture bg-secondary" style="height: 56px; width: 56px" />
-                </div>
-            <?php } ?>
+        <div style="background-color: #028fed; width: 175px; height: 200px" class="mt-3 p-3 rounded shadow mb-3">
+            <div class="admin-picture-container mt-3 d-flex align-items-center">
+                <?php if ($_SESSION["photo"]) { ?>
+                    <img style="object-fit: cover;" src="/thesis/public/images/profile/<?php echo $_SESSION["photo"] ?>" class="admin-picture" />
+                <?php } else { ?>
+                    <img src="/thesis/public/assets/user.png" class="admin-picture bg-secondary p-2" />
+                <?php } ?>
+            </div>
+            <p class="text-center m-0"><?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?></p>
+            <p class="m-0 text-center fw-light" style="font-size: 14px"><?php echo $_SESSION["type"]; ?></p>
         </div>
-        <button role="button" data-bs-toggle="modal" data-bs-target="#upload-profile-picture" class="btn btn-sm btn-link text-white-50 mb-1">
+        <button role="button" data-bs-toggle="modal" data-bs-target="#upload-profile-picture" class="btn btn-sm btn-dark mb-1">
             Change Photo
         </button>
-        <p class="text-center m-0"><?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?></p>
+
     </div>
     <!--Navlinks-->
     <div>
@@ -96,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                             if (str_contains($url, "/thesis/users")) {
                                                                 echo "active";
                                                             }
-                                                            ?>" href="/thesis/users">
+                                                            ?>" href="/thesis/users/index?page=1">
                     <i class="fas fa-users me-2"></i>Users
                 </a>
                 <a class="nav-link side-nav-link text-white <?php
@@ -117,16 +119,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php } ?>
         <?php if ($_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal") { ?>
             <nav class="nav flex-column side-nav">
-                <a class="nav-link active side-nav-link text-white" aria-current="page" href="/thesis/home">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if ($url == "/thesis/home" ||  $url == "/thesis") {
+                                                                echo "active";
+                                                            } ?>" aria-current="page" href="/thesis/home">
                     <i class="fas fa-home me-2"></i> Dashboard
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/alumni/index">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/alumni/index")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/alumni/index?page=1">
                     <i class="fas fa-folder-open me-2"></i> Records
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/admin/reports">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/admin/reports")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/admin/reports">
                     <i class="fas fa-chart-bar me-2"></i>Reports
                 </a>
-                <a class="nav-link side-nav-link text-white" href="/thesis/user/index">
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/user/index")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/user/index">
                     <i class="fas fa-cogs me-2"></i>Account settings
                 </a>
             </nav>

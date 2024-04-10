@@ -6,4 +6,4 @@ $alumni = new Alumni();
 
 $result = $alumni->searchName($query);
 
-echo json_encode($result->fetch_assoc());
+echo json_encode($result->fetch_all());

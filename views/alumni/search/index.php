@@ -3,9 +3,9 @@ session_start();
 include "/xampp/htdocs/thesis/views/template/header.php"; ?>
 
 
-<div style="margin-top: 120px;" class="main-body-padding">
-    <div class="rounded p-3 bg-white shadow w-75 mx-auto">
-        <h5>Search alumni</h5>
+<div style="margin-top: 5%" class="main-body-padding surveys">
+    <h1>Search alumni</h1>
+    <div class="rounded p-3 bg-white shadow mx-auto">
         <div class="d-flex">
             <div class="rounded border p-2 me-2">
                 <form id="alumni-by-name">
@@ -27,14 +27,14 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
                             <option value="Academic">Academic</option>
                             <option value="TVL">Technical-Vocational-Livelihood</option>
                         </select>
-                        <select disabled id="strand" name="strand" class="me-2 form-select form-select-sm" aria-label="Small select example">
+                        <select id="strand" name="strand" class="me-2 form-select form-select-sm" aria-label="Small select example">
                             <option selected id="strand-select-placeholder" value="">Select a strand</option>
-                            <option style="display: none;" class="strands-for-academic" value="HUMSS">Humanities and Social Sciences</option>
-                            <option style="display: none;" class="strands-for-academic" value="STEM">Science, Technology, Engineering, and Mathematics</option>
-                            <option style="display: none;" class="strands-for-academic" value="ABM">Accountancy, Business and Management</option>
-                            <option style="display: none;" class="strands-for-tvl" value="Home Economics">Home Economics</option>
-                            <option style="display: none;" class="strands-for-tvl" value="Industrial Arts">Industrial Arts</option>
-                            <option style="display: none;" class="strands-for-tvl" value="ICT">Information, Communication and Technology</option>
+                            <option class="strands-for-academic" value="HUMSS">Humanities and Social Sciences</option>
+                            <option class="strands-for-academic" value="STEM">Science, Technology, Engineering, and Mathematics</option>
+                            <option class="strands-for-academic" value="ABM">Accountancy, Business and Management</option>
+                            <option class="strands-for-tvl" value="Home Economics">Home Economics</option>
+                            <option class="strands-for-tvl" value="Industrial Arts">Industrial Arts</option>
+                            <option class="strands-for-tvl" value="ICT">Information, Communication and Technology</option>
                         </select>
                         <input type="number" class="form-control" name="year_graduated" placeholder="Year graduated" />
                     </div>
@@ -43,7 +43,7 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
             </div>
         </div>
     </div>
-    <div style="display: none;" class="w-75 mx-auto mt-3 shadow" id="search-result-table" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div style="display: none;" class="mx-auto mt-3 shadow" id="search-result-table" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <table class="table">
             <thead>
                 <th>id</th>
@@ -53,7 +53,7 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
                 <th>Track</th>
                 <th>Strand</th>
                 <th>Batch</th>
-                <th></th>
+                <th>Email</th>
             </thead>
             <tbody id="search-result-content">
             </tbody>
@@ -61,23 +61,6 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
     </div>
 </div>
 <script>
-    $("#track").on("change", (event) => {
-        console.log(event.target)
-        if (event.target.value) {
-            $("#strand").prop("disabled", false);
-        } else {
-            $("#strand").prop("disabled", true);
-        }
-        if (event.target.value == "TVL") {
-            $(".strands-for-tvl").show();
-            $(".strands-for-academic").hide();
-        }
-        if (event.target.value == "Academic") {
-            $(".strands-for-tvl").hide();
-            $(".strands-for-academic").show();
-        }
-    });
-
     $("#alumni-by-name").on("submit", (event) => {
         event.preventDefault();
 
@@ -106,7 +89,7 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
                                 <td>${alumni[13]}</td>
                                 <td>${alumni[14]}</td>
                                 <td>${alumni[12]}</td>
-                                <td><a role="button" href="/thesis/alumni?id=${alumni[0]}" class="btn btn-sm btn-outline-dark">View</a></td>
+                                <td>${alumni[7]}</td>
                             </tr>
                         `);
                     });
@@ -149,7 +132,7 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
                                 <td>${alumni[13]}</td>
                                 <td>${alumni[14]}</td>
                                 <td>${alumni[12]}</td>
-                                <td><a role="button" href="/thesis/alumni?id=${alumni[0]}" class="btn btn-sm btn-outline-dark">View</a></td>
+                                <td>${alumni[7]}</td>
                             </tr>
                         `);
                     });
