@@ -17,7 +17,7 @@ class Gallery
     public function allGallery()
     {
         $db = new Database();
-        $query = "SELECT * FROM gallery";
+        $query = "SELECT * FROM gallery ORDER BY dateCreated DESC";
 
         $result = $db->query($query);
         $db->close();
@@ -25,6 +25,31 @@ class Gallery
         return $result->fetch_all();
     }
 
+    public function getSortedGallery($sort)
+    {
+        $db = new Database();
+        $query = "";
+
+        if ($sort == "DESC") {
+            $query = "SELECT * FROM gallery ORDER BY dateCreated DESC";
+        } else if ($sort == "ASC") {
+            $query = "SELECT * FROM gallery ORDER BY dateCreated ASC";
+        }
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
+    public function getGalleryByName($name)
+    {
+        $db = new Database();
+        $query = "SELECT * FROM gallery WHERE name='$name'";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
     public function addImageToGallery($galleryId, $image)
     {
         $db = new Database();

@@ -1,7 +1,9 @@
 <div class="mb-3">
   <div class="mb-3">
-    <button data-bs-target="#add-user-modal" data-bs-toggle="modal" class="btn btn-sm btn-dark"><i class="fas fa-plus"></i> Add</button>
-    <button disabled id="reload-table" class="btn btn-outline-secondary btn-sm"><i class="fas fa-redo"></i> Reload</button>
+    <button data-bs-target="#add-user-modal" data-bs-toggle="modal" class="btn btn-sm btn-dark"><i
+        class="fas fa-plus"></i> Add</button>
+    <button disabled id="reload-table" class="btn btn-outline-secondary btn-sm"><i class="fas fa-redo"></i>
+      Reload</button>
   </div>
   <form id="search-user-form" class="d-flex">
     <select id="user-search-filter" name="search-filter" class="form-select me-2" aria-label="Default select example">
@@ -37,11 +39,13 @@
     </thead>
     <tbody id="users-table"></tbody>
   </table>
-  <nav id="page-navigation" aria-label="Page navigation example">
-    <ul id="users-pagination" class="pagination">
+  <?php if ($users->numberOfUsers() > 5) { ?>
+    <nav id="page-navigation" aria-label="Page navigation example">
+      <ul id="users-pagination" class="pagination">
 
-    </ul>
-  </nav>
+      </ul>
+    </nav>
+  <?php } ?>
 </div>
 <div class="modal fade" id="delete-confirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">

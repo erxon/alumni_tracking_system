@@ -10,15 +10,10 @@ $url = $_SERVER["REQUEST_URI"];
         </div>
         <div class="px-5">
             <ul class="nav nav-tabs mb-3">
-                <li class="nav-item" href="/thesis/admin/reports">
+                <li class="nav-item ">
                     <a class="nav-link <?php if ($url == "/thesis/admin/reports") {
                                             echo "active";
-                                        } ?>" aria-current="page" href="/thesis/admin/reports">Alumni</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link <?php if ($url == "/thesis/admin/reports/tracer") {
-                                            echo "active";
-                                        } ?>" href="/thesis/admin/reports/tracer">Tracer study</a>
+                                        } ?>" href="/thesis/admin/reports">Tracer study</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?php if (

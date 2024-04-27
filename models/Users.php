@@ -1,19 +1,17 @@
 <?php
 
-require("Database.php");
-require("/xampp/htdocs/thesis/models/utilities/UserUtility.php");
+require ("Database.php");
+require ("/xampp/htdocs/thesis/models/utilities/UserUtility.php");
 
 class Users extends UserUtility
 {
-    public function createUser($username, $first_name, $last_name, $email, $type, $password)
+    public function createUser($email, $type)
     {
         //Signup code goes here
         try {
-            $this->checkIfEmpty($username, $first_name, $last_name, $email, $type, $password);
-            $this->usernameExists($username);
+            $this->checkIfEmpty($email, $type);
 
-            $hash = $this->validatePassword($password);
-            $sql = "INSERT INTO user (username, firstName, lastName, email, password, type) VALUES ('$username', '$first_name', '$last_name', '$email', '$hash', '$type')";
+            $sql = "INSERT INTO user (email, type) VALUES ('$email','$type')";
 
             $result = $this->db->query($sql);
 
@@ -27,23 +25,15 @@ class Users extends UserUtility
     {
         //changes is an associative array containing all the values to change
         $username = $changes["username"];
-        $first_name = $changes["first_name"];
-        $last_name = $changes["last_name"];
-        $email = $changes["email"];
-        $date_modified = date("Y-m-d");
 
         try {
-            $this->editUserCheckFields($username, $first_name, $last_name, $email);
+            $this->editUserCheckFields($username);
             $this->editUserCheckUsername($username, $user_id);
             //Update Session Variables
             $this->updateSession($changes);
 
             $sql = "UPDATE user SET 
-            username='$username', 
-            firstName='$first_name', 
-            lastName='$last_name', 
-            email='$email',
-            dateModified='$date_modified' WHERE id='$user_id'";
+            username='$username' WHERE id='$user_id'";
 
             $result = $this->db->query($sql);
 
@@ -111,7 +101,7 @@ class Users extends UserUtility
         FROM user LEFT JOIN alumni ON user.id=alumni.userAccountID 
         WHERE alumni.status IS NULL OR alumni.status = 'active' 
         ORDER BY user.dateCreated DESC LIMIT 5 OFFSET $offset";
-        
+
         $result = $this->db->query($sql);
 
         try {
@@ -123,9 +113,16 @@ class Users extends UserUtility
         }
     }
 
-    public function getUser($id)
+    public function numberOfUsers(){
+        $sql = "SELECT * FROM user";
+        $result = $this->db->query($sql);
+
+        return $result->num_rows;
+    }
+
+    public function getUser($email)
     {
-        $sql = "SELECT * FROM user WHERE id='$id'";
+        $sql = "SELECT * FROM user WHERE email='$email'";
 
         $result = $this->db->query($sql);
 
@@ -136,6 +133,21 @@ class Users extends UserUtility
         } catch (Exception $e) {
             $this->displayError($e);
         }
+    }
+
+    public function getUserById($id)
+    {
+        $sql = "SELECT * FROM user WHERE id='$id'";
+
+        $result = $this->db->query($sql);
+
+        try {
+            $this->checkResult($result);
+            return $result;
+        } catch (Exception $e) {
+            $this->displayError($e);
+        }
+
     }
 
     public function getNumberOfUsers()

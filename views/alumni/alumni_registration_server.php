@@ -40,8 +40,6 @@ $values = [
     "program" => $_POST["program"],
     "expGraduationDate" => $_POST["exp_graduation_date"],
     "curriculumExit" => $_POST["curriculum_exit"],
-    "username" => $_POST["username"],
-    "password" => $_POST["password"],
     "question1" => $_POST["question1"],
     "question2" => $_POST["question2"],
     "question3" => $_POST["question3"],
@@ -65,12 +63,8 @@ if ($values["presentStatus"] == "University Student") {
 }
 
 $userId = $alumni->signupUser(
-    $values["username"],
-    $values["firstName"],
-    $values["lastName"],
     $values["email"],
     "alumni",
-    $values["password"]
 );
 
 $result = $alumni->addAlumni($values, $userId, $isUndergrad);

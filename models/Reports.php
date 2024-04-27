@@ -203,7 +203,7 @@ class Reports
 
         if ($resultTVL->num_rows > 0) {
             foreach ($resultTVL->fetch_all() as $row) {
-                array_push($data["TVL"], array("label" => $row[0], "y" => (((int) $row[1] / $alumniAccordingToTrackNumeric["TVL"]) * 100)));
+                array_push($data["TVL"], array("label" => $row[0], "name" => $row[0], "y" => (((int) $row[1] / $alumniAccordingToTrackNumeric["TVL"]) * 100)));
             }
         }
 
@@ -240,32 +240,96 @@ class Reports
         return $data;
     }
 
-    public function alumniAccordingToPresentStatus(){
+    public function alumniAccordingToPresentStatus()
+    {
         $dataPoints = array();
 
         $query = "SELECT presentStatus, COUNT(*) FROM `alumni` WHERE status='active' GROUP BY presentStatus";
 
         $result = $this->db->query($query);
 
-        if($result->num_rows > 0) {
-            foreach($result->fetch_all() as $row){
-                array_push($dataPoints, array("label"=>$row[0], "y"=>$row[1]));
+        if ($result->num_rows > 0) {
+            foreach ($result->fetch_all() as $row) {
+                array_push($dataPoints, array("label" => $row[0], "y" => $row[1]));
             }
         }
 
         return $dataPoints;
     }
 
-    public function alumniAccordingToGender(){
+    public function alumniAccordingToGender()
+    {
         $dataPoints = array();
-        
+
         $query = "SELECT gender, COUNT(*) FROM `alumni` WHERE status='active' GROUP BY gender";
 
         $result = $this->db->query($query);
 
-        if($result->num_rows > 0) {
-            foreach($result->fetch_all() as $row){
-                array_push($dataPoints, array("label"=>$row[0], "y"=>$row[1]));
+        if ($result->num_rows > 0) {
+            foreach ($result->fetch_all() as $row) {
+                array_push($dataPoints, array("label" => $row[0], "y" => $row[1]));
+            }
+        }
+
+        return $dataPoints;
+    }
+
+    public function curriculumExit()
+    {
+        $dataPoints = array();
+
+        $query = "SELECT curriculumExit, COUNT(*) FROM `alumni` WHERE status='active' GROUP BY curriculumExit";
+
+        $result = $this->db->query($query);
+
+        if ($result->num_rows > 0) {
+            foreach ($result->fetch_all() as $row) {
+                array_push($dataPoints, array("label" => $row[0], "y" => $row[1]));
+            }
+        }
+
+        return $dataPoints;
+    }
+
+    public function getPendingAlumni()
+    {
+        $query = "SELECT * FROM `alumni` WHERE status='pending'";
+
+        $result = $this->db->query($query);
+
+        return $result->num_rows;
+    }
+
+    public function getRelevantSkills()
+    {
+        $dataPoints = [
+            "Strongly Agree" => [],
+            "Agree" => [],
+            "Fairly Agree" => [],
+            "Disagree" => []
+        ];
+
+        $answer = [
+            "Strongly Agree",
+            "Agree",
+            "Fairly Agree",
+            "Disagree"
+        ];
+
+        $label = [
+            "Information, media and technology skills",
+            "Learning and innovation skills",
+            "Effective communication skills",
+            "Life and career skills"
+        ];
+
+        for ($i = 1; $i < 5; $i++) {
+            for ($j = 1; $j < 5; $j++) {
+                $query = "SELECT COUNT(*) FROM tracer_survey_answers WHERE answer=$i AND question=$j;";
+                $result = $this->db->query($query);
+
+                $count = $result->fetch_all();
+                array_push($dataPoints[$answer[$i - 1]], ["label" => $label[$j - 1], "name"=>$answer[$i - 1], "y" => $count[0][0]]);
             }
         }
 

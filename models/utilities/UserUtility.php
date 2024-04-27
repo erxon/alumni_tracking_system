@@ -32,28 +32,21 @@ class UserUtility
         return;
     }
 
-    protected function checkIfEmpty($username, $first_name, $last_name, $email, $type, $password)
+    protected function checkIfEmpty($email, $type)
     {
         if (
-            $username == "" or
-            $first_name == "" or
-            $last_name == "" or
             $email == "" or
-            $type == "" or
-            $password == ""
+            $type == "" 
         ) {
             throw new Exception("Empty fields");
         }
         return;
     }
 
-    protected function editUserCheckFields($username, $first_name, $last_name, $email)
+    protected function editUserCheckFields($username)
     {
         if (
-            $username == "" ||
-            $first_name == "" ||
-            $last_name == "" ||
-            $email == ""
+            $username == ""
         ) {
             throw new Exception("Invalid fields");
         }
@@ -93,9 +86,6 @@ class UserUtility
     protected function updateSession($changes)
     {
         $_SESSION["username"] = $changes["username"];
-        $_SESSION["first_name"] = $changes["first_name"];
-        $_SESSION["last_name"] = $changes["last_name"];
-        $_SESSION["email"] = $changes["email"];
     }
 
     protected function displayError($e)

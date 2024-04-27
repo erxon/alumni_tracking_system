@@ -26,7 +26,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
         <?php if (isset($id)) { ?>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all">Galleries</a></li>
+                    <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all?page=1">Galleries</a></li>
                     <li class="breadcrumb-item"><a href="/thesis/contents/gallery?id=<?php echo $id; ?>">Details</a></li>
                     <li class="breadcrumb-item" aria-current="page">Add gallery or image</li>
                 </ol>
@@ -34,7 +34,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
         <?php } else { ?>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all">Galleries</a></li>
+                    <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all?page=1">Galleries</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Add gallery or image</li>
                 </ol>
             </nav>

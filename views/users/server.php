@@ -23,20 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($action == "create-user") {
-        $username = $_POST["username"];
-        $first_name = $_POST["first_name"];
-        $last_name = $_POST["last_name"];
         $email = $_POST["email"];
-        $password = $_POST["password"];
         $type = $_POST["type"];
 
         $result = $user->createUser(
-            $username,
-            $first_name,
-            $last_name,
             $email,
             $type,
-            $password
         );
 
         echo json_encode(["response" => $result]);
@@ -50,29 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($action == "edit-user-basic-information") {
         $id = $_POST["id"];
         $changes = [
-            "username" => $_POST["username"],
-            "first_name" => $_POST["first_name"],
-            "last_name" => $_POST["last_name"],
-            "email" => $_POST["email"]
+            "username" => $_POST["username"]
         ];
 
         $result = $user->editUser($id, $changes);
 
         $_SESSION["username"] = $_POST["username"];
-        $_SESSION["first_name"] = $_POST["first_name"];
-        $_SESSION["last_name"] = $_POST["last_name"];
-        $_SESSION["email"] = $_POST["email"];
-
-        echo json_encode(["response" => $result]);
-    }
-
-    if ($action == "edit-user-password") {
-        $id = $_POST["id"];
-
-        $currentPassword = $_POST["current_password"];
-        $newPassword = $_POST["new_password"];
-
-        $result = $user->changePassword($currentPassword, $newPassword, $id);
 
         echo json_encode(["response" => $result]);
     }

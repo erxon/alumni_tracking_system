@@ -7,7 +7,7 @@ $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_URL);
 
 $user = new Users();
 
-$result = $user->getUser($id);
+$result = $user->getUserById($id);
 
 if (isset($result)) {
     $rows = $result->fetch_assoc();
@@ -30,8 +30,6 @@ if (isset($result)) {
             <div class="mb-3">
                 <?php include("/xampp/htdocs/thesis/views/users/edit_user/basic_information.php"); ?>
             </div>
-            <!--Change password-->
-            <?php include("/xampp/htdocs/thesis/views/users/edit_user/change_password.php"); ?>
         </div>
     </div>
 </div>

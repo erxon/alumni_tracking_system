@@ -4,18 +4,16 @@ require("/xampp/htdocs/thesis/models/utilities/AlumniUtility.php");
 class Alumni extends AlumniUtility
 {
 
-    public function signupUser($username, $first_name, $last_name, $email, $type, $password)
+    public function signupUser($email, $type)
     {
         //Signup code goes here
         try {
-            $this->checkIfEmpty($username, $first_name, $last_name, $email, $type, $password);
-            $this->usernameExists($username);
-
-            $hash = $this->validatePassword($password);
-            $sql = "INSERT INTO user (username, firstName, lastName, email, password, type) VALUES ('$username', '$first_name', '$last_name', '$email', '$hash', '$type')";
+            $this->checkIfEmpty($email, $type);
+            $sql = "INSERT INTO user (email, type) VALUES ('$email', '$type')";
 
             $this->db->query($sql);
             $userId = $this->db->getId();
+
             return $userId;
         } catch (Exception $e) {
             $this->displayError($e);

@@ -16,10 +16,10 @@
                                     <div class="me-3">
                                         <p class="mb-0 label">Starts on</p>
                                         <p style="font-size: 14px;">
-                                            <?php echo $stringUtil->dateAndTime($event[7]); ?>
+                                            <?php echo $stringUtil->dateAndTime($event[6]); ?>
                                         </p>
                                     </div>
-                                    <?php if ($event[8] != "0000-00-00 00:00:00") { ?>
+                                    <?php if ($event[7] != "0000-00-00 00:00:00") { ?>
                                         <div>
                                             <p class="mb-0 label">Ends on</p>
                                             <p style="font-size: 14px;"><?php echo $stringUtil->dateAndTime($event[8]); ?></p>
@@ -42,18 +42,17 @@
                         <?php
                         $news = $home->getNews();
                         foreach ($news as $newsItem) {
-                            $author = $home->getAuthor($newsItem[4]);
                             if ($newsItem[0] != $newsHighlight["newsHighlight"]) {
-                        ?>
-                                <div class="col">
+                        ?> 
+                                <div class="col-4">
                                     <div class="card mb-3">
-                                        <img src="/thesis/public/images/cover/<?php echo $newsItem[9]; ?>" class="card-img-top" alt="...">
+                                        <img src="/thesis/public/images/cover/<?php echo $newsItem[8]; ?>" class="card-img-top" alt="...">
                                         <div class="card-body d-flex flex-column" style="height: 240px;">
                                             <div class="h-100">
                                                 <h5 class="card-title"><?php echo $newsItem[2] ?></h5>
                                                 <p style="font-size: 14px;"><?php echo $stringUtil->dateAndTime($newsItem[5]); ?></p>
                                                 <div class="card-text">
-                                                    <p class="fw-light" style="font-size: 14px"><?php echo $stringUtil->truncate($newsItem[10], 50); ?></p>
+                                                    <p class="fw-light" style="font-size: 14px"><?php echo $stringUtil->truncate($newsItem[9], 50); ?></p>
                                                 </div>
                                             </div>
                                             <a href="/thesis/contents/news?id=<?php echo $newsItem[0]; ?>" class="btn btn-sm btn-dark d-block">Read</a>

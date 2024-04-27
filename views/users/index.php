@@ -6,7 +6,7 @@ $page = $_GET["page"];
 include("/xampp/htdocs/thesis/models/Users.php");
 $users = new Users();
 
-if (empty($_SESSION["username"])) {
+if (empty($_SESSION["email"]) && isset($_SESSION["type"]) && $_SESSION["type"] == "admin") {
     header("Location: /thesis/home");
     return;
 }

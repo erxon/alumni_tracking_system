@@ -11,15 +11,11 @@ class AlumniUtility
         $this->db = new Database();
     }
 
-    protected function checkIfEmpty($username, $first_name, $last_name, $email, $type, $password)
+    protected function checkIfEmpty($email, $type)
     {
         if (
-            $username == "" or
-            $first_name == "" or
-            $last_name == "" or
             $email == "" or
-            $type == "" or
-            $password == ""
+            $type == ""
         ) {
             throw new Exception("Empty fields");
         }

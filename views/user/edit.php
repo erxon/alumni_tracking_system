@@ -5,17 +5,7 @@
 <!--Basic information-->
 <form method="post">
     <input type="text" name="username" placeholder="username" value=<?php echo $_SESSION["username"] ?> /><br>
-    <input type="text" name="first_name" placeholder="first name" value=<?php echo $_SESSION["first_name"] ?> /><br>
-    <input type="text" name="last_name" placeholder="last name" value=<?php echo $_SESSION["last_name"] ?> /><br>
-    <input type="email" name="email" placeholder="email" value=<?php echo $_SESSION["email"] ?> /><br>
     <input type="submit" name="edit_profile" value="Save" />
-</form>
-<!--Change password-->
-<form method="post">
-    <h2>Change password</h2>
-    <input type="password" name="current_password" placeholder="current password" /><br>
-    <input type="password" name="new_password" placeholder="New Password" /><br>
-    <input type="submit" name="change_password" value="Save" />
 </form>
 
 <form method="post">

@@ -12,6 +12,7 @@
 <script src="/thesis/public/js/unreg_alum.js"></script>
 <script src="/thesis/public/js/navbar.js"></script>
 <script src="/thesis/public/js/date.js"></script>
+<script src="/thesis/public/js/print.js"></script>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
         <div style="font-size: 14px;" class="mb-3 border-bottom">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/thesis/contents">Contents</a></li>
-                <li class="breadcrumb-item"><a href="/thesis/contents/surveys/all">Surveys</a></li>
+                <li class="breadcrumb-item"><a href="/thesis/contents/surveys/all?page=1">Surveys</a></li>
                 <li class="breadcrumb-item" aria-current="page">Create</li>
             </ol>
         </div>

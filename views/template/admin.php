@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div style="background-color: #028fed; width: 175px; height: 200px" class="mt-3 p-3 rounded shadow mb-3">
             <div class="admin-picture-container mt-3 d-flex align-items-center">
                 <?php if ($_SESSION["photo"]) { ?>
-                    <img style="object-fit: cover;" src="/thesis/public/images/profile/<?php echo $_SESSION["photo"] ?>" class="admin-picture" />
+                    <img style="object-fit: cover;" src="<?php echo $_SESSION["photo"] ?>" class="admin-picture" />
                 <?php } else { ?>
                     <img src="/thesis/public/assets/user.png" class="admin-picture bg-secondary p-2" />
                 <?php } ?>
@@ -45,9 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p class="text-center m-0"><?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"]; ?></p>
             <p class="m-0 text-center fw-light" style="font-size: 14px"><?php echo $_SESSION["type"]; ?></p>
         </div>
-        <button role="button" data-bs-toggle="modal" data-bs-target="#upload-profile-picture" class="btn btn-sm btn-dark mb-1">
-            Change Photo
-        </button>
 
     </div>
     <!--Navlinks-->
@@ -70,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a class="nav-link side-nav-link text-white <?php
                                                             if (str_contains($url, "/thesis/contents")) {
                                                                 echo "active";
-                                                            } ?>" href="/thesis/contents">
+                                                            } ?>" href="/thesis/contents/index">
                     <i class="fas fa-newspaper me-2"></i>Contents
                 </a>
                 <a class="nav-link side-nav-link text-white <?php

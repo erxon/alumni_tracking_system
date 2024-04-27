@@ -14,6 +14,21 @@ $gallery = new Gallery();
 $allGallery = $gallery->allGallery();
 $stringUtil = new StringUltilities();
 
+$page = "";
+$numberOfItemsPerPage = 4;
+
+if (isset($_GET["page"])){
+    $page = $_GET["page"];
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET["sort"])) {
+        $allGallery = $gallery->getSortedGallery($_GET["sort"]);
+    }
+    if (isset($_GET["name"])) {
+        $allGallery = $gallery->getGalleryByName($_GET["name"]);
+    }
+}
 ?>
 <?php
 include("/xampp/htdocs/thesis/views/template/header.php");
@@ -25,26 +40,93 @@ if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
         <a role="button" class="btn btn-sm btn-dark mb-2" href="/thesis/contents/gallery">
             <i class="far fa-images me-2"></i>Gallery
         </a>
-        <div id="galleries-container" class="row g-2">
-            <?php foreach ($allGallery as $galleryItem) { ?>
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-body" style="height: 200px">
-                            <h5 class="card-title"><i class="far fa-folder"></i> <?php echo $galleryItem[1] ?></h5>
-                            <p style="font-size: 14px" class="card-text"><i class="far fa-clock"></i> <?php echo $stringUtil->dateAndTime($galleryItem[3]) ?></p>
-                            <p class="fw-light" style="font-size: 14px; height: 50px;"><?php echo $stringUtil->truncate($galleryItem[2], 50); ?></p>
-                            <div class="d-flex">
-                                <div class="w-100">
-                                    <a role="button" href="/thesis/contents/gallery?id=<?php echo $galleryItem[0]; ?>" class="btn btn-sm btn-dark">See images</a>
-                                </div>
-                                <a role="button" href="/thesis/contents/gallery/edit?id=<?php echo $galleryItem[0]; ?>" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-edit"></i></a>
-                                <button onclick="deleteGallery('<?php echo $galleryItem[0]; ?>')" data-bs-toggle="modal" data-bs-target="#delete-gallery-confirmation" class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </div>
-                    </div>
+        <div class="d-flex mb-3">
+            <form method="get" class="me-2">
+                <div class="d-flex">
+                    <input hidden name="page" value="<?php echo $page ?>" />
+                    <select id="filter-table" name="sort" class="form-select me-2" aria-label="Default select example">
+                        <option selected value="">Open this select menu</option>
+                        <option <?php if (isset($_GET["sort"]) && $_GET["sort"] == "DESC") {
+                                    echo "selected";
+                                } ?> value="DESC">Newest</option>
+                        <option <?php if (isset($_GET["sort"]) && $_GET["sort"] == "ASC") {
+                                    echo "selected";
+                                } ?> value="ASC">Oldest</option>
+                    </select>
+                    <button disabled id="filter-table-button" class="btn btn-sm btn-dark" type="submit">Sort</button>
                 </div>
-            <?php } ?>
+            </form>
+            <form method="get" class="me-2">
+                <div class="d-flex">
+                    <input hidden name="page" value="<?php echo $page ?>" />
+                    <input id="title" placeholder="Gallery name" class="form-control me-2" name="name" value="" />
+                    <button disabled id="search-by-name" class="btn btn-sm btn-dark">Search</button>
+                </div>
+            </form>
+            <button id="reload-page" class="btn btn-sm btn-dark">Reset</button>
         </div>
+        <table style="font-size: 14px;" class="table table-striped">
+            <thead>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Date created</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </thead>
+            <tbody id="galleries-container">
+                <?php
+                $number = 1;
+                for ($i = ($page - 1) * $numberOfItemsPerPage; $i < ($page * $numberOfItemsPerPage) && $i < count($allGallery); $i++) { ?>
+                    <tr>
+                        <td><?php echo $i + 1; ?></td>
+                        <td><?php echo $allGallery[$i][1] ?></td>
+                        <td><?php echo $stringUtil->dateAndTime($allGallery[$i][3]) ?></td>
+                        <td><?php echo $stringUtil->truncate($allGallery[$i][2], 50); ?></td>
+                        <td>
+                            <a role="button" href="/thesis/contents/gallery?id=<?php echo $allGallery[$i][0]; ?>" class="btn btn-sm btn-dark action-link">See images</a>
+                            <a role="button" href="/thesis/contents/gallery/edit?id=<?php echo $allGallery[$i][0]; ?>" class="btn btn-sm btn-outline-secondary me-1 action-link"><i class="fas fa-edit"></i></a>
+                            <button onclick="deleteGallery('<?php echo $allGallery[$i][0]; ?>')" data-bs-toggle="modal" data-bs-target="#delete-gallery-confirmation" class="btn btn-sm btn-outline-secondary action"><i class="fas fa-trash"></i></button>
+                            <div style="display: none" id="spinner-<?php echo $allGallery[$i][0]; ?>" class="spinner-border text-dark spinner-border-sm" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </td>
+                    </tr>
+                <?php
+                    $number++;
+                } ?>
+            </tbody>
+        </table>
+        <?php if (count($allGallery) > $numberOfItemsPerPage) { ?>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <?php if ($page > 1) { ?>
+                        <li class="page-item"><a class="page-link" href=<?php if (isset($_GET["sort"])) {
+                                                                            echo "/thesis/contents/gallery/all?page=" . ($page - 1) . "&sort=" . $_GET["sort"];
+                                                                        } else {
+                                                                            echo "/thesis/contents/gallery/all?page=" . $page - 1;
+                                                                        } ?>>
+                                Previous</a></li>
+                    <?php } ?>
+                    <?php for ($i = 1; $i < ceil(count($allGallery) / $numberOfItemsPerPage) + 1 && $i < 4; $i++) { ?>
+                        <?php if (isset($_GET["sort"])) { ?>
+                            <li class="page-item"><a class="page-link" href="/thesis/contents/gallery/all?page=<?php echo $i; ?>&sort=<?php echo $_GET["sort"]; ?>">
+                                    <?php echo $i ?></a></li>
+                        <?php } else { ?>
+                            <li class="page-item"><a class="page-link" href="/thesis/contents/gallery/all?page=<?php echo $i; ?>">
+                                    <?php echo $i ?></a></li>
+                        <?php } ?>
+                    <?php } ?>
+                    <?php if ($page < ceil(count($allGallery) / $numberOfItemsPerPage)) { ?>
+                        <li class="page-item"><a class="page-link" href=<?php if (isset($_GET["sort"])) {
+                                                                            echo "/thesis/contents/gallery/all?page=" . ($page + 1) . "&sort=" . $_GET["sort"];
+                                                                        } else {
+                                                                            echo "/thesis/contents/gallery/all?page=" . $page + 1;
+                                                                        } ?>>
+                                Next</a></li>
+                    <?php } ?>
+                </ul>
+            </nav>
+        <?php } ?>
     </div>
 <?php } else { ?>
     <div class="main-body-padding surveys" style="margin-top: 5%">

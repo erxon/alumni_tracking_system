@@ -35,9 +35,9 @@ $newsHighlight = $contents->getContent($homePageLayout["newsHighlight"]);
                         <select id="event-selection" class="form-select" aria-label="Default select example">
                             <option selected value="">Select an event to highlight</option>
                             <?php foreach ($eventContents as $event) { ?>
-                                <option <?php if ($homePageLayout["eventHighlight"] == $event[6]) {
+                                <option <?php if ($homePageLayout["eventHighlight"] == $event[5]) {
                                             echo "selected";
-                                        } ?> value="<?php echo $event[6] ?>"><?php echo $event[0] ?></option>
+                                        } ?> value="<?php echo $event[5] ?>"><?php echo $event[0] ?></option>
                             <?php } ?>
                         </select>
 
@@ -60,9 +60,9 @@ $newsHighlight = $contents->getContent($homePageLayout["newsHighlight"]);
                         <select id="news-selection" class="form-select" aria-label="Default select example">
                             <option selected value="">Select a news to highlight</option>
                             <?php foreach ($newsContents as $news) { ?>
-                                <option <?php if ($homePageLayout["newsHighlight"] == $news[6]) {
+                                <option <?php if ($homePageLayout["newsHighlight"] == $news[5]) {
                                             echo "selected";
-                                        } ?> value="<?php echo $news[6] ?>"><?php echo $news[0] ?></option>
+                                        } ?> value="<?php echo $news[5] ?>"><?php echo $news[0] ?></option>
                             <?php } ?>
                         </select>
                         <div id="news-preview-container" class="mt-3">

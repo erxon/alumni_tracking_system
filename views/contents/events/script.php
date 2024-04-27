@@ -60,4 +60,26 @@
             },
         });
     });
+
+    $("#filter-table").on("change", (event) => {
+        console.log(event.target.value)
+        if (event.target.value !== "") {
+            $("#filter-table-button").prop("disabled", false)
+
+        } else {
+            $("#filter-table-button").prop("disabled", true)
+        }
+    });
+
+    $("#title").on("keyup", (event) => {
+        if (event.target.value !== ""){
+            $("#search-by-name").prop("disabled", false);
+        } else {
+            $("#search-by-name").prop("disabled", true);
+        }
+    });
+
+    $("#reload-page").on("click", (event) => {
+        window.location = "/thesis/contents/events/all?page=1";
+    });
 </script>

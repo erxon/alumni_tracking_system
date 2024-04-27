@@ -23,7 +23,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 <div style="margin-top: 3%;" class="main-body-padding">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all">Galleries</a></li>
+            <li class="breadcrumb-item"><a href="/thesis/contents/gallery/all?page=1">Galleries</a></li>
             <li class="breadcrumb-item" aria-current="page"><?php echo $galleryDetails["name"]; ?></li>
         </ol>
     </nav>

@@ -32,7 +32,7 @@
 
                     setInterval(() => {
                         window.location = "/thesis/alumni/index?page=1";
-                    }, 5000);
+                    }, 3000);
                     
                     toast.show();
                 } else {

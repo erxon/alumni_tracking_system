@@ -12,7 +12,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 <div style="margin-top: 5%" class="main-body-padding content-form">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/thesis/contents/news/all">News</a></li>
+            <li class="breadcrumb-item"><a href="/thesis/contents/news/all?page=1">News</a></li>
             <li class="breadcrumb-item" aria-current="page">Add News</li>
         </ol>
     </nav>

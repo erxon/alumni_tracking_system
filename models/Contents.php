@@ -73,7 +73,39 @@ class Contents
     public function getContents($type)
     {
         $db = new Database();
-        $query = "SELECT title, body, author, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='$type' ORDER BY eventStart DESC";
+        $query = "SELECT title, body, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='$type' ORDER BY eventStart DESC";
+        $events = $db->query($query);
+
+        if (!empty($events)) {
+            return $events->fetch_all();
+        } else {
+            throw new Exception("There were no events yet.");
+        }
+    }
+
+    public function getEventsByTitle($title)
+    {
+        $db = new Database();
+        $query = "SELECT title, body, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='event' AND title='$title' ORDER BY eventStart DESC";
+        $events = $db->query($query);
+
+        if (!empty($events)) {
+            return $events->fetch_all();
+        } else {
+            throw new Exception("Event not found");
+        }
+    }
+
+    public function getEvents($filter)
+    {
+        $db = new Database();
+        $query = "";
+        if ($filter == "DESC") {
+            $query = "SELECT title, body, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='event' ORDER BY eventStart DESC";
+        } else if ($filter == "ASC") {
+            $query = "SELECT title, body, eventStart, eventEnd, coverImage, id, description FROM content WHERE type='event' ORDER BY eventStart ASC";
+        }
+
         $events = $db->query($query);
 
         if (!empty($events)) {
@@ -100,11 +132,47 @@ class Contents
     public function getNews()
     {
         $db = new Database();
-        $query = "SELECT title, body, author, coverImage, id, dateCreated, description FROM content WHERE type='news' ORDER BY dateCreated DESC";
+        $query = "SELECT title, body, coverImage, id, dateCreated, description FROM content WHERE type='news' ORDER BY dateCreated DESC";
         $events = $db->query($query);
 
         if (!empty($events)) {
             return $events->fetch_all();
+        } else {
+            throw new Exception("There were no events yet.");
+        }
+    }
+
+    public function getNewsByTitle($title)
+    {
+        $db = new Database();
+        $query = "SELECT title, body, coverImage, id, dateCreated, description 
+        FROM content WHERE type='news' AND title='$title' 
+        ORDER BY dateCreated DESC";
+        
+        $events = $db->query($query);
+
+        if (!empty($events)) {
+            return $events->fetch_all();
+        } else {
+            throw new Exception("There were no events yet.");
+        }
+    }
+
+    public function getSortedNews($filter)
+    {
+        $db = new Database();
+        $query = "";
+
+        if ($filter == "ASC") {
+            $query = "SELECT title, body, coverImage, id, dateCreated, description FROM content WHERE type='news' ORDER BY dateCreated ASC";
+        } else if ($filter == "DESC"){
+            $query = "SELECT title, body, coverImage, id, dateCreated, description FROM content WHERE type='news' ORDER BY dateCreated DESC";
+        }
+        
+        $news = $db->query($query);
+
+        if (!empty($news)) {
+            return $news->fetch_all();
         } else {
             throw new Exception("There were no events yet.");
         }
@@ -395,6 +463,33 @@ class Contents
     {
         $db = new Database();
         $query = "SELECT * FROM survey";
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
+
+    public function getSortedSurveys($filter){
+        $db = new Database();
+        $query = "";
+
+        if ($filter == "ASC"){
+            $query = "SELECT * FROM survey ORDER BY dateCreated ASC";
+        } else if ($filter == "DESC") {
+            $query = "SELECT * FROM survey ORDER BY dateCreated DESC";
+        }
+
+        $result = $db->query($query);
+        $db->close();
+
+        return $result->fetch_all();
+    }
+
+    public function getSurveyByTitle($title)
+    {
+        $db = new Database();
+        $query = "SELECT * FROM survey WHERE title='$title'";
 
         $result = $db->query($query);
         $db->close();

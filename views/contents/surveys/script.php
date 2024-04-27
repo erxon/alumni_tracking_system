@@ -20,27 +20,20 @@
             processData: false,
             success: (response) => {
                 $("#surveys-container").empty();
-                response.surveys.map((survey) => {
+                response.surveys.map((survey, index) => {
                     const date = formatDateAndTime(survey[4]);
 
                     $("#surveys-container").append(`
-                    <div class="col-4">
-                        <div class="card">
-                            <img style="height: 7rem; width: auto; object-fit: cover;" src="/thesis/public/images/cover/${survey[5]}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title m-0">${survey[1]}</h5>
-                                <p style="font-size: 14px;" class="m-0">${date}</p>
-                            </div>
-                            <div class="card-footer d-flex">
-                                <div class="w-100"><a href="/thesis/contents/surveys?id=${survey[0]}" class="btn btn-sm btn-dark">Details</a></div>
-                                <a role="button" href="/thesis/contents/surveys/edit?id=${survey[0]}" class="btn btn-sm btn-outline-secondary me-2"><i class="far fa-edit"></i></a>
-                                <button onclick="deleteSurvey(${survey[0]})" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#delete-survey-confirm" 
-                                    class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${survey[1]}</td>
+                        <td>${date}</td>
+                        <td>
+                            <a href="/thesis/contents/surveys?id=${survey[0]}" class="btn btn-sm btn-dark">Details</a>
+                            <a role="button" href="/thesis/contents/surveys/edit?id=${survey[0]}" class="btn btn-sm btn-outline-secondary"><i class="far fa-edit"></i></a>
+                            <button onclick="deleteSurvey(${survey[0]})" data-bs-toggle="modal" data-bs-target="#delete-survey-confirm" class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
                     `);
                 })
             }
@@ -54,6 +47,10 @@
         data.append("id", surveyId);
         data.append("coverImage", $(`#cover-image-${surveyId}`).val());
 
+        $(".action").prop("disabled", true);
+        $(".action-link").addClass("disabled");
+        $(`#spinner-${surveyId}`).show();
+        
         $.ajax({
             type: "POST",
             url: "/thesis/contents/survey/server",
@@ -63,14 +60,17 @@
             cache: false,
             processData: false,
             success: (response) => {
-                console.log(response)
+                console.log(response);
                 if (response.response) {
                     const toast = new bootstrap.Toast("#response");
                     $("#toast-body").append("Survey successfully deleted");
-                    $("#response").addClass("text-bg-primary");
+                    $("#response").addClass("text-bg-success");
+
                     toast.show();
 
-                    getSurveys();
+                    setInterval(() => {
+                        window.location = "/thesis/contents/surveys/all?page=1";
+                    }, 3000);
                 }
             }
         })
@@ -136,4 +136,26 @@
             }
         })
     })
+
+    $("#filter-table").on("change", (event) => {
+        console.log(event.target.value)
+        if (event.target.value !== "") {
+            $("#filter-table-button").prop("disabled", false)
+
+        } else {
+            $("#filter-table-button").prop("disabled", true)
+        }
+    });
+
+    $("#title").on("keyup", (event) => {
+        if (event.target.value !== "") {
+            $("#search-by-name").prop("disabled", false);
+        } else {
+            $("#search-by-name").prop("disabled", true);
+        }
+    });
+
+    $("#reload-page").on("click", (event) => {
+        window.location = "/thesis/contents/surveys/all?page=1";
+    });
 </script>

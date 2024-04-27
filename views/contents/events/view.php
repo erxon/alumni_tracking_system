@@ -22,7 +22,7 @@ if (isset($_POST["delete-action"])) {
     <div class="container-fluid w-75 m-auto">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/thesis/contents/events/all">Events</a></li>
+                <li class="breadcrumb-item"><a href="/thesis/contents/events/all?page=1">Events</a></li>
                 <li class="breadcrumb-item"><?php echo $contentDetails["title"]; ?></li>
             </ol>
         </nav>

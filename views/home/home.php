@@ -15,10 +15,16 @@ $newSurvey = $home->getNewSurvey();
 ?>
 
 <?php
+ if(isset($_SESSION["status"]) && $_SESSION["status"] == "pending") {
+    header("Location: http://" . $_SERVER["HTTP_HOST"] . "/thesis/alumni/pending");
+ }
+?>
+
+<?php
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 <?php
-if (empty($_SESSION["username"])) { ?>
+if (empty($_SESSION["email"])) { ?> 
     <div class="reg-container">
         <div class="reg-start">
             <h1 style="font-weight: bold; font-size: 55px;" class="mb-3">Welcome to Luis Y. Ferrer Jr. Senior High School<br />
@@ -133,7 +139,7 @@ if (empty($_SESSION["username"])) { ?>
     </div>
 <?php
 } else if ($_SESSION["type"] == "admin" || $_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal") {
-    include("/xampp/htdocs/thesis/views/home/admin.php");
+    include("/xampp/htdocs/thesis/views/home/dashboard/dashboard.php");
 } else { ?>
     <div>
         <?php include("/xampp/htdocs/thesis/views/home/contents/index.php"); ?>
@@ -145,5 +151,6 @@ if (empty($_SESSION["username"])) { ?>
 <!-- Modal -->
 <?php include "alumni_registration_modal.php"; ?>
 
+<?php include "script.php"; ?>
 <!-- Logout User -->
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

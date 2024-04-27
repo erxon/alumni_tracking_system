@@ -12,12 +12,11 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 <div style="margin-top: 5%" class="main-body-padding content-form">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/thesis/contents/events/all">Events</a></li>
+            <li class="breadcrumb-item"><a href="/thesis/contents/events/all?page=1">Events</a></li>
             <li class="breadcrumb-item" aria-current="page">Add Event</li>
         </ol>
     </nav>
     <h3>Add Event</h3>
-
     <form style="border-radius: 10px;" id="events-form" class="mt-3 bg-white p-3" novalidate enctype="multipart/form-data">
         <div class="d-flex mb-3">
             <!----------------Start Time------------------>

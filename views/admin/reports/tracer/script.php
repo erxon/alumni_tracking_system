@@ -73,34 +73,21 @@
             processData: false,
             success: (response) => {
                 console.log(response);
-                if (response.result.length === 0) {
-                    $("#bar-graph").empty();
-                    $("#bar-graph").append(`<p class="text-secondary">No graph to show</p>`);
-                } else {
-                    var barGraph = new CanvasJS.Chart("bar-graph", {
-                        exportEnabled: true,
-                        data: [{
-                            type: "column",
-                            yValueFormatString: "#, alumni",
-                            dataPoints: response.result
-                        }]
-                    });
-                    barGraph.render();
 
-                    //table manipulation
-                    console.log(response.table);
+                //table manipulation
+                console.log(response.table);
 
-                    $(".batch-filter").empty();
-                    $(".batch-filter").append(`${Number(filter) - 1}-${Number(filter)}`);
-                    $(".number-of-alumni").empty();
+                $(".batch-filter").empty();
+                $(".batch-filter").append(`${Number(filter) - 1}-${Number(filter)}`);
+                $(".number-of-alumni").empty();
 
-                    $("#table-container-academic").empty();
-                    $("#table-container-tvl").empty();
+                $("#table-container-academic").empty();
+                $("#table-container-tvl").empty();
 
-                    $("#table-container-academic").append(`
-                        <div class="mt-3">
-                            <p>Total Number of SHS Graduates ${Number(filter) - 1}-${Number(filter)} Academic Track</p>
-                            <table class="table">
+                $("#table-container-academic").append(`
+                        <div>
+                            <h5 class="mb-4">Total Number of SHS Graduates ${Number(filter) - 1}-${Number(filter)} Academic Track</h5>
+                            <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -125,10 +112,10 @@
                         </div>
                         `);
 
-                    $("#table-container-academic").append(`
-                        <div class="mt-3">
-                            <p>Total Number of SHS Graduates ${Number(filter) - 1}-${Number(filter)} TVL Track </p>
-                            <table class="table">
+                $("#table-container-tvl").append(`
+                        <div>
+                            <h5 class="mb-4">Total Number of SHS Graduates ${Number(filter) - 1}-${Number(filter)} TVL Track </h5>
+                            <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -152,71 +139,18 @@
                             </table>
                         </div>
                         `);
-
-                }
-
             }
 
         });
     });
+    //print
+    $("#print-tracer-report").on("click", () => {
+        print("tracer-study-reports", "tracer-study-reports");
+        
+    });
 
-    window.onload = function () {
-        var barGraph = new CanvasJS.Chart("bar-graph", {
-            exportEnabled: true,
-            data: [{
-                type: "column",
-                yValueFormatString: "#, alumni",
-                dataPoints: <?php echo json_encode($curriculumExits, JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-        barGraph.render();
+    $("#skills-print").on("click", (event) => {
+        print("skills", "skills");
+    });
 
-        var chart1 = new CanvasJS.Chart(`chart-container-0`, {
-            animationEnabled: true,
-            exportEnabled: true,
-            data: [{
-                type: "pie",
-                yValueFormatString: "#,##0.00\"%\"",
-                indexLabel: "{label} ({y})",
-                dataPoints: <?php echo json_encode($dataPoints[0], JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-        chart1.render();
-
-        var chart2 = new CanvasJS.Chart(`chart-container-1`, {
-            animationEnabled: true,
-            exportEnabled: true,
-            data: [{
-                type: "pie",
-                yValueFormatString: "#,##0.00\"%\"",
-                indexLabel: "{label} ({y})",
-                dataPoints: <?php echo json_encode($dataPoints[1], JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-        chart2.render();
-
-        var chart3 = new CanvasJS.Chart(`chart-container-2`, {
-            animationEnabled: true,
-            exportEnabled: true,
-            data: [{
-                type: "pie",
-                yValueFormatString: "#,##0.00\"%\"",
-                indexLabel: "{label} ({y})",
-                dataPoints: <?php echo json_encode($dataPoints[2], JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-        chart3.render();
-
-        var chart4 = new CanvasJS.Chart(`chart-container-3`, {
-            animationEnabled: true,
-            exportEnabled: true,
-            data: [{
-                type: "pie",
-                yValueFormatString: "#,##0.00\"%\"",
-                indexLabel: "{label} ({y})",
-                dataPoints: <?php echo json_encode($dataPoints[3], JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-        chart4.render();
-    }
 </script>

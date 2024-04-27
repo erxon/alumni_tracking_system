@@ -11,148 +11,138 @@ $strandsInAcademicTrack = $reports->getAlumniByTrack(0, 'Academic');
 $strandsInTvlTrack = $reports->getAlumniByTrack(0, 'TVL',);
 $questions = $reports->getAlumniRatingsPerQuestion();
 $currentYear = date("Y");
+$skillsAcquired = $reports->getRelevantSkills();
 
 ?>
 <?php include "/xampp/htdocs/thesis/views/admin/reports/layout/header.php" ?>
 <div>
-    <div class="d-flex mb-2">
-        <form id="custom-filter" class="d-flex me-2 align-items-center">
-            <input id="custom-filter-year-1" name="custom-filter-year-1" type="number" class="form-control me-2" />
-            <p class="m-0 me-2">-</p>
-            <input id="custom-filter-year-2" name="custom-filter-year-2" type="number" class="form-control me-3" />
-            <button disabled id="filter-graph" type="submit" class="btn btn-sm btn-dark me-2">Filter</button>
-            <button id="refresh-graph" type="button" class="btn btn-sm btn-outline-dark w-50"><i class="fas fa-redo"></i> Clear</button>
-        </form>
-    </div>
-    <div class="bar-graph-container p-3 rounded shadow bg-white mb-3">
-        <div id="bar-graph" style="height: 300px; width: 100%;"></div>
-        <!--Iterate this table -->
-        <div id="table-container-academic">
-            <?php
-            $curriculumExitsUnformatted = $reports->getCurriculumExitsUnformatted(0, 'Academic');
-            ?>
-            <div class="mt-3">
-                <p>Total Number of SHS Graduates <span class="batch-filter"></span> Academic Track</p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Higher Education</th>
-                            <th scope="col">Employment</th>
-                            <th scope="col">Middle Level Skills Development</th>
-                            <th scope="col">Entrepreneurship</th>
-                            <th scope="col">Did not continue to college</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Number of graduates</th>
-                            <td class="number-of-alumni" id="higher-education"><!--Higher Education-->
-                                <?php echo $curriculumExitsUnformatted["higher_education"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="employment"><!--Employment-->
-                                <?php echo $curriculumExitsUnformatted["employment"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="middle-level"><!--Middle Level Skills Development-->
-                                <?php echo $curriculumExitsUnformatted["middle_level_skills_development"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
-                                <?php echo $curriculumExitsUnformatted["entrepreneurship"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
-                                <?php echo $curriculumExitsUnformatted["did_not_continue_to_college"] ?>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="p-4 bg-white shadow-sm rounded">
+        <h3>Batch or year graduated</h3>
+        <div class="d-flex mb-3 align-items-center">
+            <form id="custom-filter" class="d-flex me-2 align-items-center">
+                <input id="custom-filter-year-1" name="custom-filter-year-1" type="number" class="form-control me-2" />
+                <p class="m-0 me-2">-</p>
+                <input id="custom-filter-year-2" name="custom-filter-year-2" type="number" class="form-control me-3" />
+                <button disabled id="filter-graph" type="submit" class="btn btn-sm btn-dark me-2">Filter</button>
+                <button id="refresh-graph" type="button" class="btn btn-sm btn-outline-dark w-50"><i class="fas fa-redo"></i> Clear</button>
+            </form>
+            <div class="flex-fill"></div>
+            <div>
+                <button id="print-tracer-report" class="btn btn-sm btn-dark">Print</button>
             </div>
         </div>
-        <div id="table-container-tvl">
-            <?php
-            $curriculumExitsUnformatted = $reports->getCurriculumExitsUnformatted(0, 'TVL');
-            ?>
-            <div class="mt-3">
-                <p>Total Number of SHS Graduates <span class="batch-filter"></span> TVL Track </p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Higher Education</th>
-                            <th scope="col">Employment</th>
-                            <th scope="col">Middle Level Skills Development</th>
-                            <th scope="col">Entrepreneurship</th>
-                            <th scope="col">Did not continue to college</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Number of graduates</th>
-                            <td class="number-of-alumni" id="higher-education"><!--Higher Education-->
-                                <?php echo $curriculumExitsUnformatted["higher_education"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="employment"><!--Employment-->
-                                <?php echo $curriculumExitsUnformatted["employment"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="middle-level"><!--Middle Level Skills Development-->
-                                <?php echo $curriculumExitsUnformatted["middle_level_skills_development"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
-                                <?php echo $curriculumExitsUnformatted["entrepreneurship"] ?>
-                            </td>
-                            <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
-                                <?php echo $curriculumExitsUnformatted["did_not_continue_to_college"] ?>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div>
-        <?php
-        $answerCategories = array("Disagree", "Fairly Agree", "Agree", "Strongly Agree");
-        $dataPoints = array();
-
-        for ($i = 0; $i < 4; $i++) {
-            $temporaryArray = array();
-        ?>
-            <?php foreach ($questions[$i] as $answers) {
-                array_push($temporaryArray, array("label" => $answerCategories[$answers[0] - 1], "y" => ($answers[1] / $alumni) * 100));
-            ?>
-            <?php } ?>
-        <?php
-            array_push($dataPoints, $temporaryArray);
-        } ?>
-        <div class="row gap-0">
-            <?php
-            $titles = array(
-                "Information, media and technology skills",
-                "Learning and innovation skills",
-                "Effective communication skills",
-                "Life and career skills"
-            );
-            for ($i = 0; $i < 4; $i++) {
-            ?>
-                <div class="col-6 p-3 bg-white border">
-                    <div id="chart-container-<?php echo $i; ?>" style="height: 275px; width: 100%;"></div>
-                    <p class="text-center mt-3 fw-semibold">
-                        <?php echo $titles[$i]; ?>
-                    </p>
-                    <div>
-                        <table class="table">
-                            <?php foreach ($questions[$i] as $answers) { ?>
-                                <tr>
-                                    <th><?php echo $answerCategories[$answers[0] - 1] ?></th>
-                                    <td><?php echo $answers[1] ?></td>
-                                </tr>
-
-                            <?php } ?>
-                        </table>
-
-                    </div>
+        <div id="tracer-study-reports">
+            <!--Iterate this table -->
+            <div class="border p-3 rounded" id="table-container-academic">
+                <?php
+                $curriculumExitsUnformatted = $reports->getCurriculumExitsUnformatted(0, 'Academic');
+                ?>
+                <div>
+                    <h5 class="mb-4">Total Number of SHS Graduates <span class="batch-filter"></span> Academic Track</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Higher Education</th>
+                                <th scope="col">Employment</th>
+                                <th scope="col">Middle Level Skills Development</th>
+                                <th scope="col">Entrepreneurship</th>
+                                <th scope="col">Did not continue to college</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Number of graduates</th>
+                                <td class="number-of-alumni" id="higher-education"><!--Higher Education-->
+                                    <?php echo $curriculumExitsUnformatted["higher_education"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="employment"><!--Employment-->
+                                    <?php echo $curriculumExitsUnformatted["employment"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="middle-level"><!--Middle Level Skills Development-->
+                                    <?php echo $curriculumExitsUnformatted["middle_level_skills_development"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
+                                    <?php echo $curriculumExitsUnformatted["entrepreneurship"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
+                                    <?php echo $curriculumExitsUnformatted["did_not_continue_to_college"] ?>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-
-            <?php } ?>
+            </div>
+            <div class="border p-3 rounded mt-3" id="table-container-tvl">
+                <?php
+                $curriculumExitsUnformatted = $reports->getCurriculumExitsUnformatted(0, 'TVL');
+                ?>
+                <div>
+                    <h5 class="mb-4">Total Number of SHS Graduates <span class="batch-filter"></span> TVL Track </h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Higher Education</th>
+                                <th scope="col">Employment</th>
+                                <th scope="col">Middle Level Skills Development</th>
+                                <th scope="col">Entrepreneurship</th>
+                                <th scope="col">Did not continue to college</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Number of graduates</th>
+                                <td class="number-of-alumni" id="higher-education"><!--Higher Education-->
+                                    <?php echo $curriculumExitsUnformatted["higher_education"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="employment"><!--Employment-->
+                                    <?php echo $curriculumExitsUnformatted["employment"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="middle-level"><!--Middle Level Skills Development-->
+                                    <?php echo $curriculumExitsUnformatted["middle_level_skills_development"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
+                                    <?php echo $curriculumExitsUnformatted["entrepreneurship"] ?>
+                                </td>
+                                <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
+                                    <?php echo $curriculumExitsUnformatted["did_not_continue_to_college"] ?>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 mb-3 p-3 bg-white shadow-sm rounded">
+        <div class="d-flex align-items-center mb-3">
+            <h3 class="w-100">Relevant skills acquired</h3>
+            <button id="skills-print" class="btn btn-sm btn-dark">Print</button>
+        </div>
+        <div id="skills">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Information, media and technology skills</th>
+                        <th scope="col">Learning and innovation skills</th>
+                        <th scope="col">Effective communication skills</th>
+                        <th scope="col">Life and career skills</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($skillsAcquired as $answer => $skill) { ?>
+                        <tr>
+                            <th><?php echo $answer; ?></th>
+                            <td><?php echo $skill[0]["y"] ?></td>
+                            <td><?php echo $skill[1]["y"] ?></td>
+                            <td><?php echo $skill[2]["y"] ?></td>
+                            <td><?php echo $skill[3]["y"] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

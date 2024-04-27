@@ -31,7 +31,7 @@ $eventEnd = splitDateTime($contentDetails["eventEnd"]);
     <div class="container-fluid w-75 m-auto bg-white rounded shadow p-3 mt-5">
         <nav style="font-size: 14px;" class="mb-3 border-bottom" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/thesis/contents">Contents</a></li>
+                <li class="breadcrumb-item"><a href="/thesis/contents/events/all?page=1">Events</a></li>
                 <li class="breadcrumb-item"><a href="/thesis/contents/events?id=<?php echo $contentDetails["id"]; ?>"><?php echo $contentDetails["title"]; ?></a></li>
                 <li class="breadcrumb-item" aria-current="page">Edit Event</li>
             </ol>
