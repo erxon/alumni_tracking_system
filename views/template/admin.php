@@ -112,6 +112,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                             ?>" href="/thesis/admin/home/layout">
                     <i class="fas fa-home me-2"></i> Home Page Layout
                 </a>
+                <a class="nav-link side-nav-link text-white <?php
+                                                            if (str_contains($url, "/thesis/admin/alumni/regform")) {
+                                                                echo "active";
+                                                            }
+                                                            ?>" href="/thesis/admin/alumni/regform">
+                    <i class="fas fa-pen-square me-2"></i> Alumni Registration Form
+                </a>
             </nav>
         <?php } ?>
         <?php if ($_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal") { ?>
