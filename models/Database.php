@@ -29,6 +29,14 @@ class Database
         return $this->conn->insert_id;
     }
 
+    public function error(){
+        return $this->conn->error;
+    }
+
+    public function next_result(){
+        return $this->conn->next_result();
+    }
+
     public function close()
     {
         $this->conn->close();

@@ -13,6 +13,7 @@
 <script src="/thesis/public/js/navbar.js"></script>
 <script src="/thesis/public/js/date.js"></script>
 <script src="/thesis/public/js/print.js"></script>
+<script src="/thesis/public/js/validation.js"></script>
 </body>
 
 </html>

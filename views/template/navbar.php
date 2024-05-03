@@ -107,7 +107,7 @@ $url = $_SERVER['REQUEST_URI'];
                                     Profile
                                 </a>
                                 <ul style="font-size: 14px;" class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/thesis/user/index"><i class="fas fa-user-alt"></i>
+                                    <li><a class="dropdown-item" href="/thesis/alumni/profile"><i class="fas fa-user-alt"></i>
                                             Profile</a></li>
                                     <li><a class="dropdown-item" href="/thesis/users/edit?id=<?php echo $_SESSION["user_id"]; ?>"><i
                                                 class="fas fa-cog"></i> Account Setting</a></li>

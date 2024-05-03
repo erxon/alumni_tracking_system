@@ -7,14 +7,17 @@ class Alumni extends AlumniUtility
     public function signupUser($email, $type)
     {
         //Signup code goes here
+        $db = new Database();
+
         try {
             $this->checkIfEmpty($email, $type);
             $sql = "INSERT INTO user (email, type) VALUES ('$email', '$type')";
 
-            $this->db->query($sql);
-            $userId = $this->db->getId();
+            $result = $db->query($sql);
 
-            return $userId;
+            if ($result) {
+                return $db->getId();
+            }
         } catch (Exception $e) {
             $this->displayError($e);
             die();
@@ -33,6 +36,8 @@ class Alumni extends AlumniUtility
 
     public function insertUndergradAlumni($values)
     {
+        $db = new Database();
+
         $instName = $values["instName"];
         $instAddress = $values["instAddress"];
         $specialization = $values["specialization"];
@@ -54,161 +59,422 @@ class Alumni extends AlumniUtility
                 '$expGraduationDate'
             )";
 
-        $this->db->query($insertUndergrad);
-        $undergradId = $this->db->getId();
+        $db->query($insertUndergrad);
+
+        $undergradId = $db->getId();
 
         return $undergradId;
     }
 
     public function insertCurriculumExitQuestions($values, $alumniId)
     {
+        $db = new Database();
+
         for ($i = 1; $i < 7; $i++) {
             $question = $values["question$i"];
             $answer = $values["answer$i"];
 
             if ($answer != "") {
                 $sql = "INSERT INTO curriculum_exit_questions (question, answer, alumni) VALUES ('$question', '$answer', '$alumniId')";
-                $this->db->query($sql);
+                $db->query($sql);
             }
         }
     }
 
-    public function insertTracerStudy($values, $alumniId)
+    public function insertTracerStudy($alumniID)
     {
-        $tracerSurveyAnswer1 = $values["tracerSurveyAnswer1"];
-        $tracerSurveyAnswer2 = $values["tracerSurveyAnswer2"];
-        $tracerSurveyAnswer3 = $values["tracerSurveyAnswer3"];
-        $tracerSurveyAnswer4 = $values["tracerSurveyAnswer4"];
+        $db = new Database();
 
-        $query = "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 1, '$tracerSurveyAnswer1');";
-        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 2, '$tracerSurveyAnswer2');";
-        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 3, '$tracerSurveyAnswer3');";
-        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ('$alumniId', 4, '$tracerSurveyAnswer4')";
+        $tracerSurveyAnswer1 = $_POST["tracer_survey_answer_1"];
+        $tracerSurveyAnswer2 = $_POST["tracer_survey_answer_2"];
+        $tracerSurveyAnswer3 = $_POST["tracer_survey_answer_3"];
+        $tracerSurveyAnswer4 = $_POST["tracer_survey_answer_4"];
 
-        $this->db->multi_query($query);
+        $query = "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ($alumniID, 1, '$tracerSurveyAnswer1');";
+        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ($alumniID, 2, '$tracerSurveyAnswer2');";
+        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ($alumniID, 3, '$tracerSurveyAnswer3');";
+        $query .= "INSERT INTO tracer_survey_answers (alumni, question, answer) VALUES ($alumniID, 4, '$tracerSurveyAnswer4')";
+
+        $result = $db->multi_query($query);
+        $db->close();
+
+        return $result;
     }
 
-    public function addAlumni($values, $userId, $isUndergrad)
+    protected function insertAlumniPersonalInformation($db, $userId, $photo)
     {
-        $photo = $values["photo"];
-        $firstName = $values["firstName"];
-        $middleName = $values["middleName"];
-        $lastName = $values["lastName"];
-        $contactNumber = $values["contactNumber"];
-        $email = $values["email"];
-        $address = $values["address"];
-        $gender = $values["gender"];
-        $age = $values["age"];
-        $birthday = $values["birthday"];
-        $dateGraduated = $values["dateGraduated"];
-        $trackFinished = $values["trackFinished"];
-        $strandFinished = $values["strandFinished"];
-        $presentStatus = $values["presentStatus"];
-        $curriculumExit = $values["curriculumExit"];
+        $firstName = $_POST["first-name"];
+        $middleName = $_POST["middle-name"];
+        $lastName = $_POST["last-name"];
+        $contactNumber = $_POST["contact-number"];
+        $email = $_POST["email"];
+        $address = $_POST["address"];
+        $birthdate = $_POST["birthdate"];
+        $age = $_POST["age"];
+        $gender = $_POST["gender"];
 
-        if ($isUndergrad) {
-            //get values for undergraduate
-            $undergradId = $this->insertUndergradAlumni($values);
-            $sql = "INSERT INTO alumni (
-                userAccountID,
-                photo,
-                firstName, 
-                middleName,
-                lastName,
-                contactNumber,
-                email,
-                address,
-                gender,
-                age,
-                birthday,
-                dateGraduated,
-                trackFinished,
-                strandFinished,
-                presentStatus,
-                curriculumExit,
-                undergraduate
-                ) VALUES (
-                    $userId,
-                    '$photo',
-                    '$firstName',
-                    '$middleName',
-                    '$lastName',
-                    '$contactNumber',
-                    '$email',
-                    '$address',
-                    '$gender',
-                    '$age',
-                    '$birthday',
-                    '$dateGraduated',
-                    '$trackFinished',
-                    '$strandFinished',
-                    '$presentStatus',
-                    '$curriculumExit',
-                    $undergradId
-                )";
+        $query = "INSERT INTO alumni (
+            userAccountID,
+            photo,
+            firstName,
+            middleName,
+            lastName,
+            contactNumber,
+            email,
+            address,
+            birthday,
+            age,
+            gender
+            ) VALUES (
+                $userId,
+                '$photo',
+                '$firstName',
+                '$middleName',
+                '$lastName',
+                '$contactNumber',
+                '$email',
+                '$address',
+                '$birthdate',
+                $age,
+                '$gender'
+            )";
 
-            $result = $this->db->query($sql);
-            $alumniId = $this->db->getId();
+        $result = $db->query($query);
 
-            $this->insertCurriculumExitQuestions($values, $alumniId);
-            $this->insertTracerStudy($values, $alumniId);
-
-            $this->db->close();
-
-            return $result;
+        if ($result) {
+            return $db->getId();
         } else {
-            $insertAlumni = "INSERT INTO alumni (
-                userAccountID,
-                photo,
-                firstName, 
-                middleName,
-                lastName,
-                contactNumber,
-                email,
-                address,
-                gender,
-                age,
-                birthday,
-                dateGraduated,
-                trackFinished,
-                strandFinished,
-                presentStatus,
-                curriculumExit
-                ) VALUES (
-                    $userId,
-                    '$photo',
-                    '$firstName',
-                    '$middleName',
-                    '$lastName',
-                    '$contactNumber',
-                    '$email',
-                    '$address',
-                    '$gender',
-                    '$age',
-                    '$birthday',
-                    '$dateGraduated',
-                    '$trackFinished',
-                    '$strandFinished',
-                    '$presentStatus',
-                    '$curriculumExit'
-                )";
+            throw new Exception($db->error());
+        }
+    }
 
-            $result = $this->db->query($insertAlumni);
-            $alumniId = $this->db->getId();
+    protected function filterValue($fieldName)
+    {
+        if (isset($_POST[$fieldName])) {
+            return $_POST[$fieldName];
+        } else {
+            return "";
+        }
+    }
 
-            $this->insertCurriculumExitQuestions($values, $alumniId);
-            $this->insertTracerStudy($values, $alumniId);
+    protected function withOtherField($field)
+    {
+        $value = "";
 
-            $this->db->close();
+        if ($this->filterValue($field) === "") {
+            $value = $this->filterValue("$field-other");
+        } else {
+            $value = $this->filterValue($field);
+        }
 
-            return $result;
+        return $value;
+    }
+
+    protected function forParentFields(
+        $parent,
+        $expectedResults
+    ) {
+        $result = "";
+
+        //["Expected Value"=>"field"]
+
+        foreach ($expectedResults as $key => $value) {
+            if ($parent === $key) {
+                $result = $this->withOtherField($value);
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+
+    public function addAlumni($photo, $userId)
+    {
+        try {
+            $db = new Database();
+
+            //Personal information
+            $alumniID = $this->insertAlumniPersonalInformation($db, $userId, $photo);
+
+            //Information
+            $track = $_POST["track"];
+            $strand = $_POST["strand"];
+            $specialization = $this->filterValue("specialization");
+            $isCertified = $this->filterValue("isCertified");
+            $certifications = $this->filterValue("certifications");
+
+            //Alumni present status
+            $presentStatus = $_POST["present-status"];
+            $curriculumExit = $_POST["curriculum-exit"];
+            $yearGraduated = $_POST["year-graduated"];
+
+            $query = "INSERT INTO alumni_school_history (
+                alumniID,
+                track,
+                strand,
+                specialization,
+                isCertified,
+                certifications,
+                yearGraduated
+            ) VALUES (
+                $alumniID,
+                '$track',
+                '$strand',
+                '$specialization',
+                '$isCertified',
+                '$certifications',
+                '$yearGraduated'
+            );";
+
+            $query .= "INSERT INTO alumni_present_status (
+                alumniID,
+                presentStatus
+            ) VALUES (
+                $alumniID,
+                '$presentStatus'
+            );";
+
+            $query .= "INSERT INTO alumni_pursued_curriculum_exits (
+                alumniID,
+                pursuedCurriculumExit
+            ) VALUES (
+                $alumniID, 
+                '$curriculumExit'
+            ); ";
+
+            switch ($presentStatus) {
+                case "University Student":
+                    $schoolType = $_POST['school-type'];
+                    $schoolLocation = $this->filterValue("school-location");
+                    $schoolName = $this->forParentFields(
+                        $schoolLocation,
+                        [
+                            "Cavite" => "inst-name-cavite",
+                            "Outside Cavite" => "inst-name-outside-cavite"
+                        ]
+                    );
+                    $program = $this->filterValue("program");
+                    $college = $this->filterValue("college");
+                    $course = $this->forParentFields($program, [
+                        "Undergraduate" => "course",
+                        "Graduate" => "graduate-course"
+                    ]);
+                    $graduateDate = $_POST["graduation-date"];
+
+                    $query .= "INSERT INTO alumni_present_status_student (
+                            alumniID,
+                            schoolType,
+                            schoolLocation,
+                            schoolName,
+                            program,
+                            college,
+                            course,
+                            graduateDate
+                        ) VALUES (
+                            $alumniID,
+                            '$schoolType',
+                            '$schoolLocation',
+                            '$schoolName',
+                            '$program',
+                            '$college',
+                            '$course',
+                            '$graduateDate'
+                        );";
+                    break;
+                case "Employed":
+                    $workLocation = $this->filterValue("work-location");
+                    $region = $this->filterValue("region");
+                    $municipality = $this->filterValue("municipality");
+                    $city = $this->filterValue("city");
+                    $details = $this->filterValue("details");
+                    $country = $this->withOtherField("country");
+                    $jobIndustry = $this->filterValue("job-industry");
+                    $orgType = $this->filterValue("org-type");
+                    $employmentType = $this->filterValue("employment-type");
+                    $jobLevel = $this->filterValue("job-level");
+                    $companyName = $this->filterValue("company-name");
+                    $dateHired = $this->filterValue("date-hired");
+                    $workSetup = $this->filterValue("work-setup");
+                    $salaryRange = $this->filterValue("salary-range");
+
+                    $query .= "INSERT INTO alumni_present_status_employed (
+                        alumniID,
+                        workLocation,
+                        region,
+                        municipality,
+                        city,
+                        details,
+                        country,
+                        jobIndustry,
+                        orgType,
+                        employmentType,
+                        jobLevel,
+                        companyName,
+                        dateHired,
+                        workSetup,
+                        salaryRange
+                    ) VALUES (
+                        $alumniID,
+                        '$workLocation',
+                        '$region',
+                        '$municipality',
+                        '$city',
+                        '$details',
+                        '$country',
+                        '$jobIndustry',
+                        '$orgType',
+                        '$employmentType',
+                        '$jobLevel',
+                        '$companyName',
+                        '$dateHired',
+                        '$workSetup',
+                        '$salaryRange'
+                    ); ";
+
+                    break;
+            }
+
+            switch ($curriculumExit) {
+                case "Higher Education":
+                    $schoolType = $this->filterValue("curriculum-exit-school-type");
+                    $schoolLocation = $this->filterValue("curriculum-exit-school-location");
+                    $schoolName = $this->forParentFields(
+                        $schoolLocation,
+                        [
+                            "Cavite" => "curriculum-exit-inst-name-cavite",
+                            "Outside Cavite" => "curriculum-exit-inst-name-outside-cavite"
+                        ]
+                    );
+                    $college = $this->withOtherField("curriculum-exit-undergraduate-selection-college");
+                    $course = $this->withOtherField("curriculum-exit-undergraduate-selection-course");
+                    $graduateDate = $this->filterValue("curriculum-exit-graduation-date");
+
+                    $query .= "INSERT INTO alumni_pursued_curriculum_exits_higher_education (
+                        alumniID,  
+                        schoolType,
+                        schoolLocation,
+                        schoolName,
+                        college,
+                        course,
+                        graduateDate
+                    ) VALUES (
+                        $alumniID,
+                        '$schoolType',
+                        '$schoolLocation',
+                        '$schoolName',
+                        '$college',
+                        '$course',
+                        '$graduateDate'
+                    );";
+
+                    break;
+                case "Employment":
+                    $workLocation = $this->filterValue("curriculum-exit-work-location");
+                    $region = $this->filterValue("curriculum-exit-work-local-region");
+                    $municipality = $this->filterValue("curriculum-exit-work-local-municipality");
+                    $city = $this->filterValue("curriculum-exit-work-local-city");
+                    $details = $this->filterValue("curriculum-exit-work-local-details");
+                    $country = $this->withOtherField("curriculum-exit-work-international-country");
+                    $jobIndustry = $this->filterValue("curriculum-exit-job-industry");
+                    $orgType = $this->filterValue("curriculum-exit-org-type");
+                    $employmentType = $this->filterValue("curriculum-exit-employment-type");
+                    $jobLevel = $this->filterValue("curriculum-exit-job-level");
+                    $companyName = $this->filterValue("curriculum-exit-company-name");
+                    $dateHired = $this->filterValue("curriculum-exit-date-hired");
+                    $workSetup = $this->filterValue("curriculum-exit-work-setup");
+                    $salaryRange = $this->filterValue("curriculum-exit-salary-range");
+
+                    $query .= "INSERT INTO alumni_pursued_curriculum_exits_employment (
+                        alumniID,
+                        workLocation,
+                        region,
+                        municipality,
+                        city,
+                        details,
+                        country,
+                        jobIndustry,
+                        orgType,
+                        employmentType,
+                        jobLevel,
+                        companyName,
+                        dateHired,
+                        workSetup,
+                        salaryRange
+                    ) VALUES (
+                        $alumniID,
+                        '$workLocation',
+                        '$region',
+                        '$municipality',
+                        '$city',
+                        '$details',
+                        '$country',
+                        '$jobIndustry',
+                        '$orgType',
+                        '$employmentType',
+                        '$jobLevel',
+                        '$companyName',
+                        '$dateHired',
+                        '$workSetup',
+                        '$salaryRange'
+                    ); ";
+                    break;
+                case "Entrepreneurship":
+                    $value = $_POST["entrepreneurship"];
+
+                    $query .= "INSERT INTO alumni_pursued_curriculum_exits_entrepreneurship (
+                        alumniID,
+                        value
+                    ) VALUES (
+                        $alumniID,
+                        '$value'
+                    ); ";
+
+                    break;
+                case "Middle-level skills development":
+                    $value = $_POST["mid-level-skills"];
+
+                    $query .= "INSERT INTO alumni_pursued_curriculum_exits_mid_level_skills_development (
+                        alumniID,
+                        value
+                    ) VALUES (
+                        $alumniID,
+                        '$value'
+                    ); ";
+                    break;
+                case "None":
+                    $value = $_POST["curriculum-exit-none-reason"];
+
+                    $query .= "INSERT INTO alumni_pursued_curriculum_exits_none (
+                        alumniID,
+                        value
+                    ) VALUES (
+                        $alumniID,
+                        '$value'
+                    ); ";
+                    break;
+            }
+            $result = $db->multi_query($query);
+
+            if ($result) {
+                $db->close();
+                return $alumniID;
+            } else {
+                $db->close();
+                return false;
+            }
+        } catch (Exception $error) {
+            $db->close();
+            return $error;
         }
     }
 
     public function getAlumniByUserId($userId)
     {
+        $db = new Database();
+
         $sql = "SELECT * FROM alumni WHERE userAccountID='$userId'";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
 
         $rows = $result->fetch_assoc();
@@ -217,8 +483,9 @@ class Alumni extends AlumniUtility
 
     public function getAlumniById($id)
     {
+        $db = new Database();
         $sql = "SELECT * FROM alumni WHERE id='$id'";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             $rows = $result->fetch_assoc();
@@ -228,8 +495,9 @@ class Alumni extends AlumniUtility
 
     public function getCurriculumExitQuestions($alumni)
     {
+        $db = new Database();
         $sql = "SELECT question, answer FROM curriculum_exit_questions WHERE alumni='$alumni'";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             $rows = $result->fetch_assoc();
@@ -239,8 +507,10 @@ class Alumni extends AlumniUtility
 
     public function getUndergradDetails($undergraduate)
     {
+        $db = new Database();
+
         $sql = "SELECT * FROM undergraduatestudent WHERE id='$undergraduate'";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             $rows = $result->fetch_assoc();
@@ -250,8 +520,9 @@ class Alumni extends AlumniUtility
 
     public function getAllAlumni()
     {
+        $db = new Database();
         $sql = "SELECT id, photo, firstName, middleName, lastName, contactNumber, email, status, userAccountID FROM alumni WHERE status='active' ORDER BY dateCreated DESC";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             $rows = $result->fetch_all();
@@ -261,8 +532,9 @@ class Alumni extends AlumniUtility
 
     public function getAllAlumniEmail()
     {
+        $db = new Database();
         $sql = "SELECT email, firstName, lastName FROM alumni";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             return $result->fetch_all();
@@ -271,8 +543,9 @@ class Alumni extends AlumniUtility
 
     public function getAlumniEmailByTrack($track)
     {
+        $db = new Database();
         $sql = "SELECT email, firstName, lastName FROM alumni WHERE trackFinished='$track'";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             return $result->fetch_all();
@@ -281,8 +554,9 @@ class Alumni extends AlumniUtility
 
     public function getAlumniEmailByBatch($batch)
     {
+        $db = new Database();
         $sql = "SELECT email, firstName, lastName FROM alumni WHERE dateGraduated='$batch'";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             return $result->fetch_all();
@@ -291,8 +565,9 @@ class Alumni extends AlumniUtility
 
     public function curriculumExitQuestions($alumni)
     {
+        $db = new Database();
         $sql = "SELECT question, answer FROM curriculum_exit_questions WHERE alumni=$alumni";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if (isset($result)) {
             return $result->fetch_all();
@@ -301,13 +576,15 @@ class Alumni extends AlumniUtility
 
     public function undergraduate($id)
     {
+        $db = new Database();
         $sql = "SELECT * FROM undergraduatestudent WHERE id=$id";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         return $result->fetch_assoc();
     }
     public function searchName($query)
     {
+        $db = new Database();
         $sql = "SELECT 
             id,
             firstName, 
@@ -318,16 +595,17 @@ class Alumni extends AlumniUtility
             dateGraduated
             FROM alumni WHERE firstName='$query' OR middleName='$query' OR lastName='$query'";
 
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
         if (isset($result)) {
             return $result;
         }
 
-        $this->db->close();
+        $db->close();
     }
 
     public function searchAlumni($name, $track, $strand, $batch)
     {
+        $db = new Database();
         $sql = "SELECT * FROM alumni 
         WHERE (firstName='$name' OR 
         middleName='$name' OR 
@@ -336,8 +614,8 @@ class Alumni extends AlumniUtility
         strandFinished='$strand' OR
         dateGraduated='$batch') LIMIT 3";
 
-        $result = $this->db->query($sql);
-        $this->db->close();
+        $result = $db->query($sql);
+        $db->close();
 
         if ($result->num_rows > 0) {
             return array("response" => $result->fetch_all(), "success" => true);
@@ -346,8 +624,12 @@ class Alumni extends AlumniUtility
         }
     }
 
+
+
     public function editAlumni()
     {
+        $db = new Database();
+
         $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_SPECIAL_CHARS);
         $firstName = filter_input(INPUT_POST, "first_name", FILTER_SANITIZE_SPECIAL_CHARS);
         $middleName = filter_input(INPUT_POST, "middle_name", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -379,7 +661,7 @@ class Alumni extends AlumniUtility
             expGraduationDate='$expGraduationDate '
             WHERE id=$undergraduateId";
 
-            $this->db->query($queryForUndergraduate);
+            $db->query($queryForUndergraduate);
         } else {
             $instName = $_POST["instName"];
             $instAddress = $_POST["instAddress"];
@@ -391,9 +673,9 @@ class Alumni extends AlumniUtility
             (instName, instAddress, specialization, program, expGraduationDate) 
             VALUES ('$instName', '$instAddress', '$specialization', '$program', '$expGraduationDate')";
 
-            $this->db->query($queryForUndergraduate);
+            $db->query($queryForUndergraduate);
 
-            $undergraduateId = $this->db->getId();
+            $undergraduateId = $db->getId();
         }
 
         $sql = "UPDATE alumni SET 
@@ -413,38 +695,63 @@ class Alumni extends AlumniUtility
         undergraduate='$undergraduateId'
         WHERE id=$id";
 
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
+
+        if (isset($_POST["additional-field"]) && $_POST["additional-field"]) {
+            $getAdditionalFields = "SELECT * FROM field";
+            $additionalFields = $db->query($getAdditionalFields)->fetch_all();
+            $updateAdditionalFieldQuery = "";
+
+            foreach ($additionalFields as $field) {
+                $fieldID = $field[0];
+                $fieldValue = $_POST["field-" . $fieldID];
+
+                $updateAdditionalFieldQuery .= "UPDATE answer 
+                SET value='$fieldValue' 
+                WHERE alumniID=$id AND fieldID=$fieldID;";
+            }
+
+            $db->multi_query($updateAdditionalFieldQuery);
+        }
 
         return $result;
     }
 
     public function deleteAlumni($id, $userAccountID)
     {
+        $db = new Database();
+
         $sql = "DELETE FROM alumni WHERE id=$id;";
         $sql .= "DELETE FROM user WHERE id=$userAccountID";
+        $sql .= "DELETE FROM answer WHERE alumniID=$id";
 
-        $result = $this->db->multi_query($sql);
+        $result = $db->multi_query($sql);
 
         return $result;
     }
 
     public function addPhotoToUser($user_id, $file)
     {
+        $db = new Database();
         $sql = "UPDATE user SET photo='$file' WHERE id=$user_id";
-        $this->db->query($sql);
+        $db->query($sql);
     }
 
     public function getAlumniUserProfile($id)
     {
+        $db = new Database();
+
         $sql = "SELECT * FROM user WHERE id='$id'";
 
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         return $result->fetch_assoc();
     }
 
     protected function uploadFile($alumniID)
     {
+        $db = new Database();
+
         $str = rand();
         $uniqueFilename = md5($str);
 
@@ -455,7 +762,7 @@ class Alumni extends AlumniUtility
         $folder = "./public/images/alumni/" . $file;
 
         $sql = "UPDATE alumni SET photo='$file' WHERE id=$alumniID";
-        $this->db->query($sql);
+        $db->query($sql);
 
         return move_uploaded_file($tempname, $folder);
     }
@@ -493,40 +800,103 @@ class Alumni extends AlumniUtility
 
     public function unregisteredAlumni()
     {
+        $db = new Database();
         $query = "SELECT * FROM alumni WHERE status='pending'";
 
-        $result = $this->db->query($query);
-        $this->db->close();
+        $result = $db->query($query);
+        $db->close();
 
         return $result;
     }
 
     public function setStatus($status, $id)
     {
+        $db = new Database();
+
         $query = "UPDATE alumni SET status='$status' WHERE id='$id'";
 
-        $result = $this->db->query($query);
+        $result = $db->query($query);
 
         return $result;
     }
 
     public function searchByAlumniName($firstName, $middleName, $lastName)
     {
+        $db = new Database();
+
         $query = "SELECT * FROM alumni 
         WHERE (firstName='$firstName' OR middleName='$middleName' OR lastName='$lastName') AND status='active'";
 
-        $result = $this->db->query($query);
+        $result = $db->query($query);
 
         return $result;
     }
 
     public function searchByTrackStrandYearGrad($track, $strand, $yearGraduated)
     {
+        $db = new Database();
+
         $query = "SELECT * FROM alumni 
         WHERE (trackFinished='$track' OR strandFinished='$strand' OR dateGraduated='$yearGraduated') AND status='active'";
 
-        $result = $this->db->query($query);
+        $result = $db->query($query);
 
         return $result;
+    }
+
+    public function additionalFieldAnswer($alumniID)
+    {
+        $db = new Database();
+
+        $query = "";
+
+        for ($i = 0; $i < $_POST["additionalFields"]; $i++) {
+            $fieldID = (int) $_POST["field-id-$i"];
+            $answer = $_POST["field-$i"];
+
+            $query .= "INSERT INTO answer (alumniID, fieldID, value) 
+            VALUES ($alumniID, $fieldID, '$answer'); ";
+        }
+        $result = $db->multi_query($query);
+
+        $db->close();
+
+        return $result;
+    }
+
+    public function getAdditionalFieldAnswers($alumniID)
+    {
+        $db = new Database();
+
+        $query = "SELECT answer.id, answer.value, field.field, field.type, field.formType, field.id
+        FROM answer JOIN field ON field.id=answer.fieldID 
+        WHERE alumniID='$alumniID';";
+
+        $result = $db->query($query);
+
+        return $result;
+    }
+
+    public function getAdditionalFieldChoices($fieldID)
+    {
+        $db = new Database();
+
+        $query = "SELECT * FROM choice WHERE fieldID=$fieldID";
+
+        $result = $db->query($query);
+
+        return $result;
+    }
+
+    public function getChoiceName($id)
+    {
+        $db = new Database();
+
+        $query = "SELECT choiceName FROM choice WHERE id=$id";
+
+        $result = $db->query($query);
+        $choice = $result->fetch_assoc();
+
+        return $choice["choiceName"];
     }
 }

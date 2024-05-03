@@ -130,7 +130,7 @@ switch ($url) {
         require __DIR__ . "/views/users/server.php";
         break;
     case "/thesis/alumni":
-        require __DIR__ . "/views/alumni/alumni_registration.php";
+        require __DIR__ . "/views/alumni/registration/index.php";
         break;
     case "/thesis/admin/email":
         require __DIR__ . "/views/admin/send_email/form.php";
@@ -142,7 +142,7 @@ switch ($url) {
         require __DIR__ . "/views/alumni/index.php";
         break;
     case "/thesis/alumni/create":
-        require __DIR__ . "/views/alumni/alumni_registration_server.php";
+        require __DIR__ . "/views/alumni/registration/server.php";
         break;
     case "/thesis/alumni/server":
         require __DIR__ . "/views/alumni/server.php";

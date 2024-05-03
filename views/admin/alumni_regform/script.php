@@ -322,6 +322,9 @@
                 console.log(response);
 
                 if (response.response) {
+                    const collapseForm = new bootstrap.Collapse("#add-field-form");
+                    collapseForm.hide();
+
                     successToast("Field successfully added");
                     $("#added-field-container").empty();
                     getFields();

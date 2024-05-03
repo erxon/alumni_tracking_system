@@ -8,10 +8,15 @@ $alumni = new Alumni();
 $id = $_GET["id"];
 $alumniDetails = $alumni->getAlumniById($id);
 $userProfile = $alumni->getAlumniUserProfile($alumniDetails["userAccountID"]);
+$additionalFields = $alumni->getAdditionalFieldAnswers($id);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"];
     if ($action == "edit") {
+        if($additionalFields->num_rows > 0){
+            $_POST["additional-field"] = true;
+        }
+        
         $result = $alumni->editAlumni();
 
         if ($result) {
@@ -130,98 +135,156 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input name="address" type="text" id="address" class="form-control" value="<?php echo $alumniDetails["address"]; ?>" />
             </div>
             <!-- School History (Track finished, Strand finished, Year Graduated) -->
-            <p class="m-0 fw-semibold">History</p>
-            <div class="d-flex">
-                <div class="p-2 alumni-information me-1 mt-2 flex-fill">
-                    <label class="label" for="track_finished">Track Finished</label>
-                    <select id="track_finished" name="track_finished" class="me-2 form-select form-select-sm" aria-label="Small select example" required>
-                        <option <?php if ($alumniDetails["trackFinished"] == "Academic") {
-                                    echo "selected";
-                                } ?> value="Academic">Academic</option>
-                        <option <?php if ($alumniDetails["trackFinished"] == "TVL") {
-                                    echo "selected";
-                                } ?> value="TVL">Technical-Vocational-Livelihood</option>
-                    </select>
-                </div>
-                <div class="p-2 alumni-information me-1 mt-2 flex-fill">
-                    <label class="label" for="strand_finished">Strand Finished</label>
-                    <select id="strand" name="strand_finished" class="me-2 form-select form-select-sm" aria-label="Small select example" required>
-                        <option <?php if ($alumniDetails["strandFinished"] == "HUMSS") {
-                                    echo "selected";
-                                } ?> value="HUMSS">Humanities and Social Sciences</option>
-                        <option <?php if ($alumniDetails["strandFinished"] == "STEM") {
-                                    echo "selected";
-                                } ?> value="STEM">Science, Technology, Engineering, and Mathematics</option>
-                        <option <?php if ($alumniDetails["strandFinished"] == "ABM") {
-                                    echo "selected";
-                                } ?> value="ABM">Accountancy, Business and Management</option>
-                        <option <?php if ($alumniDetails["strandFinished"] == "Home Economics") {
-                                    echo "selected";
-                                } ?> value="Home Economics">Home Economics</option>
-                        <option <?php if ($alumniDetails["strandFinished"] == "Industrial Arts") {
-                                    echo "selected";
-                                } ?> value="Industrial Arts">Industrial Arts</option>
-                        <option <?php if ($alumniDetails["strandFinished"] == "ICT") {
-                                    echo "selected";
-                                } ?> value="ICT">Information, Communication and Technology</option>
-                    </select>
-                </div>
-                <div class="p-2 alumni-information mt-2 flex-fill">
-                    <label class="label" for="date_graduated">Year Graduated</label>
-                    <input name="date_graduated" id="date_graduated" type="number" class="form-control" value="<?php echo $alumniDetails["dateGraduated"]; ?>" />
-                </div>
+            <div class="d-flex align-items-center">
+                <h5 class="m-0 me-1">History</h5>
+                <button 
+                    class="btn btn-outline-dark btn-sm" 
+                    type="button"
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#history">View</button>
             </div>
+            <div class="collapse" id="history">
+                <div class="d-flex">
+                    <div class="p-2 alumni-information me-1 mt-2 flex-fill">
+                        <label class="label" for="track_finished">Track Finished</label>
+                        <select id="track_finished" name="track_finished" class="me-2 form-select form-select-sm" aria-label="Small select example" required>
+                            <option <?php if ($alumniDetails["trackFinished"] == "Academic") {
+                                        echo "selected";
+                                    } ?> value="Academic">Academic</option>
+                            <option <?php if ($alumniDetails["trackFinished"] == "TVL") {
+                                        echo "selected";
+                                    } ?> value="TVL">Technical-Vocational-Livelihood</option>
+                        </select>
+                    </div>
+                    <div class="p-2 alumni-information me-1 mt-2 flex-fill">
+                        <label class="label" for="strand_finished">Strand Finished</label>
+                        <select id="strand" name="strand_finished" class="me-2 form-select form-select-sm" aria-label="Small select example" required>
+                            <option <?php if ($alumniDetails["strandFinished"] == "HUMSS") {
+                                        echo "selected";
+                                    } ?> value="HUMSS">Humanities and Social Sciences</option>
+                            <option <?php if ($alumniDetails["strandFinished"] == "STEM") {
+                                        echo "selected";
+                                    } ?> value="STEM">Science, Technology, Engineering, and Mathematics</option>
+                            <option <?php if ($alumniDetails["strandFinished"] == "ABM") {
+                                        echo "selected";
+                                    } ?> value="ABM">Accountancy, Business and Management</option>
+                            <option <?php if ($alumniDetails["strandFinished"] == "Home Economics") {
+                                        echo "selected";
+                                    } ?> value="Home Economics">Home Economics</option>
+                            <option <?php if ($alumniDetails["strandFinished"] == "Industrial Arts") {
+                                        echo "selected";
+                                    } ?> value="Industrial Arts">Industrial Arts</option>
+                            <option <?php if ($alumniDetails["strandFinished"] == "ICT") {
+                                        echo "selected";
+                                    } ?> value="ICT">Information, Communication and Technology</option>
+                        </select>
+                    </div>
+                    <div class="p-2 alumni-information mt-2 flex-fill">
+                        <label class="label" for="date_graduated">Year Graduated</label>
+                        <input name="date_graduated" id="date_graduated" type="number" class="form-control" value="<?php echo $alumniDetails["dateGraduated"]; ?>" />
+                    </div>
+                </div>
             <!-- Present Status -->
-            <div class="p-2 alumni-information me-1 mt-2">
-                <label class="label" for="present_status">Present Status</label>
-                <select id="present_status" name="present_status" class="me-2 form-select form-select-md mb-3" aria-label="Small select example" required>
-                    <option <?php if ($alumniDetails["presentStatus"] == "University Student") {
-                                echo "selected";
-                            } ?> value="University Student">University Student</option>
-                    <option <?php if ($alumniDetails["presentStatus"] == "Employed") {
-                                echo "selected";
-                            } ?> value="Employed">Employed</option>
-                    <option <?php if ($alumniDetails["presentStatus"] == "Unemployed") {
-                                echo "selected";
-                            } ?> value="Unemployed">Unemployed</option>
-                    <option <?php if ($alumniDetails["presentStatus"] == "Did not continue to college") {
-                                echo "selected";
-                            } ?> value="Did not continue to college">Did not continue to college</option>
-                </select>
-                <div style="display: none;" id="undergraduate-form">
-                    <?php if (isset($alumniDetails["undergraduate"])) {
-                        $undergradDetails = $alumni->undergraduate($alumniDetails["undergraduate"]); ?>
-                        <input hidden name="undergraduateId" value="<?php echo $alumniDetails["undergraduate"]; ?>" />
-                        <label class="label" for="inst-name">Institution name</label>
-                        <input id="inst-name" class="form-control mb-1" name="instName" value="<?php echo $undergradDetails["instName"] ?>" />
-                        <label class="label" for="inst-add">Institution address</label>
-                        <input id="inst-add" class="form-control mb-1" name="instAddress" value="<?php echo $undergradDetails["instAddress"] ?>" />
-                        <label class="label" for="specialization">Major</label>
-                        <input id="specialization" class="form-control mb-1" name="specialization" value="<?php echo $undergradDetails["specialization"] ?>" />
-                        <label class="label" for="program">Course</label>
-                        <input id="program" class="form-control mb-1" name="program" value="<?php echo $undergradDetails["program"] ?>" />
-                        <label class="label" for="exp-grad-date">Expected graduation date</label>
-                        <input id="exp-grad-date" class="form-control mb-1" name="expGraduationDate" value="<?php echo $undergradDetails["expGraduationDate"] ?>" />
-                    <?php } else {  ?>
-                        <label class="label" for="inst-name">Institution name</label>
-                        <input id="inst-name" class="form-control mb-1" name="instName" value="" />
-                        <label class="label" for="inst-add">Institution address</label>
-                        <input id="inst-add" class="form-control mb-1" name="instAddress" value="" />
-                        <label class="label" for="specialization">Major</label>
-                        <input id="specialization" class="form-control mb-1" name="specialization" value="" />
-                        <label class="label" for="program">Course</label>
-                        <input id="program" class="form-control mb-1" name="program" value="" />
-                        <label class="label" for="exp-grad-date">Expected graduation date</label>
-                        <input id="exp-grad-date" class="form-control mb-1" name="expGraduationDate" value="" />
-                    <?php } ?>
+                <div class="p-2 alumni-information me-1 mt-2">
+                    <label class="label" for="present_status">Present Status</label>
+                    <select id="present_status" name="present_status" class="me-2 form-select form-select-md mb-3" aria-label="Small select example" required>
+                        <option <?php if ($alumniDetails["presentStatus"] == "University Student") {
+                                    echo "selected";
+                                } ?> value="University Student">University Student</option>
+                        <option <?php if ($alumniDetails["presentStatus"] == "Employed") {
+                                    echo "selected";
+                                } ?> value="Employed">Employed</option>
+                        <option <?php if ($alumniDetails["presentStatus"] == "Unemployed") {
+                                    echo "selected";
+                                } ?> value="Unemployed">Unemployed</option>
+                        <option <?php if ($alumniDetails["presentStatus"] == "Did not continue to college") {
+                                    echo "selected";
+                                } ?> value="Did not continue to college">Did not continue to college</option>
+                    </select>
+                    <div style="display: none;" id="undergraduate-form">
+                        <?php if (isset($alumniDetails["undergraduate"])) {
+                            $undergradDetails = $alumni->undergraduate($alumniDetails["undergraduate"]); ?>
+                            <input hidden name="undergraduateId" value="<?php echo $alumniDetails["undergraduate"]; ?>" />
+                            <label class="label" for="inst-name">Institution name</label>
+                            <input id="inst-name" class="form-control mb-1" name="instName" value="<?php echo $undergradDetails["instName"] ?>" />
+                            <label class="label" for="inst-add">Institution address</label>
+                            <input id="inst-add" class="form-control mb-1" name="instAddress" value="<?php echo $undergradDetails["instAddress"] ?>" />
+                            <label class="label" for="specialization">Major</label>
+                            <input id="specialization" class="form-control mb-1" name="specialization" value="<?php echo $undergradDetails["specialization"] ?>" />
+                            <label class="label" for="program">Course</label>
+                            <input id="program" class="form-control mb-1" name="program" value="<?php echo $undergradDetails["program"] ?>" />
+                            <label class="label" for="exp-grad-date">Expected graduation date</label>
+                            <input id="exp-grad-date" class="form-control mb-1" name="expGraduationDate" value="<?php echo $undergradDetails["expGraduationDate"] ?>" />
+                        <?php } else {  ?>
+                            <label class="label" for="inst-name">Institution name</label>
+                            <input id="inst-name" class="form-control mb-1" name="instName" value="" />
+                            <label class="label" for="inst-add">Institution address</label>
+                            <input id="inst-add" class="form-control mb-1" name="instAddress" value="" />
+                            <label class="label" for="specialization">Major</label>
+                            <input id="specialization" class="form-control mb-1" name="specialization" value="" />
+                            <label class="label" for="program">Course</label>
+                            <input id="program" class="form-control mb-1" name="program" value="" />
+                            <label class="label" for="exp-grad-date">Expected graduation date</label>
+                            <input id="exp-grad-date" class="form-control mb-1" name="expGraduationDate" value="" />
+                        <?php } ?>
+                    </div>
+                </div>
+
+                <div class="p-2 alumni-information me-1 my-2">
+                    <label class="label" for="curriculum_exit">Curriculum Exit</label>
+                    <p class="m-0">
+                        <?php echo $alumniDetails["curriculumExit"]; ?>
+                    </p>
                 </div>
             </div>
-
-            <div class="p-2 alumni-information me-1 my-2">
-                <label class="label" for="curriculum_exit">Curriculum Exit</label>
-                <p class="m-0">
-                    <?php echo $alumniDetails["curriculumExit"]; ?>
-                </p>
+            <?php if ($additionalFields->num_rows > 0) { ?>
+                <div class="d-flex align-items-center my-3">
+                    <h5 class="m-0 me-1">Additional fields</h5>
+                    <button 
+                        class="btn btn-sm btn-outline-dark" 
+                        type="button"
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#additional-fields">View</button>
+                </div>
+                <div class="collapse" id="additional-fields">
+                    <?php 
+                        $fields = $additionalFields->fetch_all(); 
+                        foreach ($fields as $field) {
+                    ?>
+                        <?php if($field[4] == "user_defined") { ?>
+                            <div class="p-2 alumni-information me-1 my-2">
+                                <label class="label" for="<?php echo $field[0] ?>"><?php echo $field[2] ?></label>
+                                <input 
+                                    id="<?php echo $field[0] ?>" 
+                                    class="form-control mb-2" 
+                                    type="<?php echo $field[3]; ?>" 
+                                    name="field-<?php echo $field[5] ?>"
+                                    value="<?php echo $field[1]; ?>" />
+                            </div>
+                        <?php } else if ($field[4] == "multiple_choice") { ?>
+                            <div class="p-2 alumni-information me-1 my-2">
+                                <label class="label" for="<?php echo $field[0] ?>"><?php echo $field[2] ?></label>
+                                <select name="field-<?php echo $field[5] ?>" id="<?php echo $field[0] ?>" class="form-control mb-1">
+                                    <?php 
+                                    //getchoices 
+                                    $choices = $alumni->getAdditionalFieldChoices($field[5]);
+                                    ?>
+                                    <?php if($choices->num_rows > 0){ ?>
+                                        <?php foreach ($choices->fetch_all() as $choice) { ?>
+                                            <option 
+                                                <?php if($choice[0] == $field[1]) {
+                                                    echo "selected";
+                                                } ?>
+                                                value="<?php echo $choice[0]; ?>">
+                                                <?php echo $choice[2] ?>
+                                            </option>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        <?php } ?>
+                    <?php } ?>
+                <?php } ?>
             </div>
 
             <button type="button" data-bs-toggle="modal" data-bs-target="#confirmationDialog" class="btn btn-outline-dark">Save</button>

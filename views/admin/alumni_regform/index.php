@@ -74,9 +74,9 @@ require "/xampp/htdocs/thesis/views/template/header.php";
                                     <label for="type" class="mb-2">Type</label>
                                     <select id="type" class="form-select" aria-label="Default select example" required>
                                         <option selected value="">Select type</option>
-                                        <option value="string">Text</option>
-                                        <option value="int">Number</option>
-                                        <option value="datetime">Date</option>
+                                        <option value="text">Text</option>
+                                        <option value="number">Number</option>
+                                        <option value="date">Date</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -117,9 +117,9 @@ require "/xampp/htdocs/thesis/views/template/header.php";
                         <label for="edit-type" class="mb-2">Type</label>
                         <select id="edit-type" class="form-select" aria-label="Default select example" required>
                             <option selected value="">Select type</option>
-                            <option value="string">Text</option>
-                            <option value="int">Number</option>
-                            <option value="datetime">Date</option>
+                            <option value="text">Text</option>
+                            <option value="number">Number</option>
+                            <option value="date">Date</option>
                         </select>
                     </div>
                     <div class="mb-3">

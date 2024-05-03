@@ -1,8 +1,10 @@
 <?php session_start() ?>
 
 <?php
-include("/xampp/htdocs/thesis/views/template/header.php");
-include("/xampp/htdocs/thesis/models/Alumni.php");
+
+include "/xampp/htdocs/thesis/views/template/header.php";
+include "/xampp/htdocs/thesis/models/Alumni.php";
+
 ?>
 
 <?php
@@ -37,7 +39,8 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
         </div>
         <!--Alumni status-->
         <div class="mb-3">
-            <p>Alumni status <span class="<?php echo $statusBadgeClass; ?>"><?php echo $alumniDetails["status"] ?></span></p>
+            <p>Alumni status <span
+                    class="<?php echo $statusBadgeClass; ?>"><?php echo $alumniDetails["status"] ?></span></p>
         </div>
         <!--Name-->
         <p class="mb-1">
@@ -54,7 +57,8 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
         <p><i class="fas fa-envelope me-1"></i><?php echo $alumniDetails["email"]; ?></p>
     </div>
     <div class="col-8">
-        <a role="button" href="/thesis/alumni/edit?id=<?php echo $alumniDetails["id"] ?>" class="btn btn-outline-dark btn-sm mb-2"><i class="fas fa-pen"></i> Edit</a>
+        <a role="button" href="/thesis/alumni/edit?id=<?php echo $alumniDetails["id"] ?>"
+            class="btn btn-outline-dark btn-sm mb-2"><i class="fas fa-pen"></i> Edit</a>
         <!-- Gender, Age, Birthday -->
         <div class="d-flex">
             <div class="p-2 alumni-information flex-fill me-1">
@@ -70,88 +74,127 @@ if (isset($alumniDetails) && isset($alumniDetails["undergraduate"])) {
             <div class="p-2 alumni-information flex-fill me-1">
                 <label class="label" for="gender">Birthday</label>
                 <p class="mb-0"><?php
-                                $birthday = strtotime($alumniDetails["birthday"]);
-                                echo date("M d, Y", $birthday);
-                                ?></p>
+                $birthday = strtotime($alumniDetails["birthday"]);
+                echo date("M d, Y", $birthday);
+                ?></p>
             </div>
         </div>
         <!-- Address -->
         <div class="p-2 alumni-information my-3">
             <label class="label" for="gender">Address</label>
-            <p class="mb-0"><?php echo $alumniDetails["address"];  ?></p>
+            <p class="mb-0"><?php echo $alumniDetails["address"]; ?></p>
         </div>
         <!-- School History (Track finished, Strand finished, Year Graduated) -->
-        <p>History</p>
-        <div class="d-flex">
-            <div class="p-2 alumni-information me-1 mt-2 flex-fill">
-                <label class="label" for="gender">Track Finished</label>
-                <p class="mb-0"><?php echo $alumniDetails["trackFinished"];  ?></p>
-            </div>
-            <div class="p-2 alumni-information me-1 mt-2 flex-fill">
-                <label class="label" for="gender">Strand Finished</label>
-                <p class="mb-0"><?php echo $alumniDetails["strandFinished"];  ?></p>
-            </div>
-            <div class="p-2 alumni-information mt-2 flex-fill">
-                <label class="label" for="gender">Year Graduated</label>
-                <p class="mb-0"><?php echo $alumniDetails["dateGraduated"];  ?></p>
-            </div>
+        <div class="d-flex align-items-center">
+            <h5 class="m-0 me-1">History</h5>
+            <button class="btn btn-sm btn-outline-dark" type="button" data-bs-toggle="collapse"
+                data-bs-target="#history" aria-expanded="false" aria-controls="collapseExample">
+                View
+            </button>
         </div>
-        <!-- Present Status -->
-        <div class="p-2 alumni-information me-1 mt-2">
-            <label class="label" for="gender">Present Status</label>
-            <p class="mb-0">
-                <?php echo $alumniDetails["presentStatus"]; ?>
-            </p>
-            <?php if ($alumniDetails["presentStatus"] == "University Student" && isset($alumniDetails["undergraduate"])) {
-                $undergraduateStudentDetails = $alumni->undergraduate($alumniDetails["undergraduate"]);
-            ?>
-                <hr />
-                <div>
-                    <p class="m-0 fw-semibold alumni-info-header">Institution</p>
-                    <p>
-                        <?php echo $undergraduateStudentDetails["instName"]; ?>
-                    </p>
-                    <p class="m-0 fw-semibold alumni-info-header">Institution Address</p>
-                    <p>
-                        <?php echo $undergraduateStudentDetails["instAddress"]; ?>
-                    </p>
-                    <p class="m-0 fw-semibold alumni-info-header">Major</p>
-                    <p>
-                        <?php echo $undergraduateStudentDetails["specialization"]; ?>
-                    </p>
-                    <p class="m-0 fw-semibold alumni-info-header">Program</p>
-                    <p>
-                        <?php echo $undergraduateStudentDetails["program"]; ?>
-                    </p>
-                    <p class="m-0 fw-semibold alumni-info-header">Expected graduation date</p>
-                    <p>
-                        <?php echo $undergraduateStudentDetails["expGraduationDate"]; ?>
-                    </p>
+        <div class="collapse" id="history">
+            <div class="d-flex">
+                <div class="p-2 alumni-information me-1 mt-2 flex-fill">
+                    <label class="label" for="gender">Track Finished</label>
+                    <p class="mb-0"><?php echo $alumniDetails["trackFinished"]; ?></p>
                 </div>
-            <?php } ?>
-        </div>
-        <div class="p-2 alumni-information me-1 mt-2">
-            <label class="label" for="gender">Curriculum Exit</label>
-            <p class="mb-0">
-                <?php echo $alumniDetails["curriculumExit"]; ?>
-            </p>
-            <?php $curriculumExitQuestions = $alumni->curriculumExitQuestions($alumniDetails["id"]); ?>
-            <?php if (count($curriculumExitQuestions) > 0) { ?>
-                <hr />
-                <div>
-                    <?php foreach ($curriculumExitQuestions as $curriculumExitQuestion) {
+                <div class="p-2 alumni-information me-1 mt-2 flex-fill">
+                    <label class="label" for="gender">Strand Finished</label>
+                    <p class="mb-0"><?php echo $alumniDetails["strandFinished"]; ?></p>
+                </div>
+                <div class="p-2 alumni-information mt-2 flex-fill">
+                    <label class="label" for="gender">Year Graduated</label>
+                    <p class="mb-0"><?php echo $alumniDetails["dateGraduated"]; ?></p>
+                </div>
+            </div>
+            <!-- Present Status -->
+            <div class="p-2 alumni-information me-1 mt-2">
+                <label class="label" for="gender">Present Status</label>
+                <p class="mb-0">
+                    <?php echo $alumniDetails["presentStatus"]; ?>
+                </p>
+                <?php if ($alumniDetails["presentStatus"] == "University Student" && isset($alumniDetails["undergraduate"])) {
+                    $undergraduateStudentDetails = $alumni->undergraduate($alumniDetails["undergraduate"]);
                     ?>
-                        <p class="fw-semibold m-0 alumni-info-header">
-                            <?php echo $curriculumExitQuestion[0] ?>
-                        </p>
+                    <hr />
+                    <div>
+                        <p class="m-0 fw-semibold alumni-info-header">Institution</p>
                         <p>
-                            <?php echo $curriculumExitQuestion[1] ?>
+                            <?php echo $undergraduateStudentDetails["instName"]; ?>
                         </p>
+                        <p class="m-0 fw-semibold alumni-info-header">Institution Address</p>
+                        <p>
+                            <?php echo $undergraduateStudentDetails["instAddress"]; ?>
+                        </p>
+                        <p class="m-0 fw-semibold alumni-info-header">Major</p>
+                        <p>
+                            <?php echo $undergraduateStudentDetails["specialization"]; ?>
+                        </p>
+                        <p class="m-0 fw-semibold alumni-info-header">Program</p>
+                        <p>
+                            <?php echo $undergraduateStudentDetails["program"]; ?>
+                        </p>
+                        <p class="m-0 fw-semibold alumni-info-header">Expected graduation date</p>
+                        <p>
+                            <?php echo $undergraduateStudentDetails["expGraduationDate"]; ?>
+                        </p>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="p-2 alumni-information me-1 mt-2">
+                <label class="label" for="gender">Curriculum Exit</label>
+                <p class="mb-0">
+                    <?php echo $alumniDetails["curriculumExit"]; ?>
+                </p>
+                <?php $curriculumExitQuestions = $alumni->curriculumExitQuestions($alumniDetails["id"]); ?>
+                <?php if (count($curriculumExitQuestions) > 0) { ?>
+                    <hr />
+                    <div>
+                        <?php foreach ($curriculumExitQuestions as $curriculumExitQuestion) {
+                            ?>
+                            <p class="fw-semibold m-0 alumni-info-header">
+                                <?php echo $curriculumExitQuestion[0] ?>
+                            </p>
+                            <p>
+                                <?php echo $curriculumExitQuestion[1] ?>
+                            </p>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+        <?php
+        $additionalFieldAnswers = $alumni->getAdditionalFieldAnswers($alumniDetails["id"]);
+
+        if ($additionalFieldAnswers->num_rows > 0) {
+            $fields = $additionalFieldAnswers->fetch_all();
+            ?>
+
+            <div>
+                <div class="d-flex align-items-center my-3">
+                    <h5 class="m-0 me-1">Additional information</h5>
+                    <button class="btn btn-outline-dark btn-sm" data-bs-toggle="collapse"
+                        data-bs-target="#additional-fields">View</button>
+                </div>
+                <div class="collapse" id="additional-fields">
+                    <?php foreach ($fields as $field) { ?>
+                        <?php if ($field[4] == "user_defined") { ?>
+                            <div class="p-2 alumni-information mt-2">
+                                <label class="label" for="gender"><?php echo $field[2]; ?></label>
+                                <p class="mb-0"><?php echo $field[1]; ?></p>
+                            </div>
+                        <?php } else { ?>
+                            <div class="p-2 alumni-information mt-2">
+                                <label class="label" for="gender"><?php echo $field[2]; ?></label>
+                                <p class="mb-0"><?php echo $alumni->getChoiceName($field[1]); ?></p>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
                 </div>
-            <?php } ?>
-        </div>
+            </div>
+        <?php } ?>
+
     </div>
 </div>
 
-<?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>
+<?php include ("/xampp/htdocs/thesis/views/template/footer.php"); ?>

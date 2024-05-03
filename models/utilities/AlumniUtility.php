@@ -1,16 +1,9 @@
 <?php
-require("/xampp/htdocs/thesis/models/Database.php");
+require ("/xampp/htdocs/thesis/models/Database.php");
 
 
 class AlumniUtility
 {
-    protected $db;
-
-    public function __construct()
-    {
-        $this->db = new Database();
-    }
-
     protected function checkIfEmpty($email, $type)
     {
         if (
@@ -37,8 +30,9 @@ class AlumniUtility
 
     protected function usernameExists($username)
     {
+        $db = new Database();
         $sql = "SELECT * FROM user WHERE username = '$username'";
-        $result = $this->db->query($sql);
+        $result = $db->query($sql);
 
         if ($result->num_rows > 0) {
             throw new Exception("Username already exists");
