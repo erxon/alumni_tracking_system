@@ -750,4 +750,48 @@ class Reports
 
         return $dataPoints;
     }
+
+    public function getBatchTotalAlumni(){
+        $query = "SELECT yearGraduated, COUNT(*) 
+        FROM alumni_school_history GROUP BY yearGraduated ORDER BY yearGraduated ASC";
+
+        $result = $this->db->query($query);
+
+        return $result->fetch_all();
+    }
+
+    public function getAlumniPerTrackPerBatch($batch, $track){
+        $query = "SELECT COUNT(*) 
+        FROM alumni_school_history 
+        WHERE yearGraduated='$batch' AND track='$track'
+        GROUP BY yearGraduated";
+
+        $result = $this->db->query($query);
+
+        return $result->fetch_all();
+    }
+
+    public function getAlumniPerGenderPerBatch($batch, $gender){
+        $query = "SELECT COUNT(*) 
+        FROM alumni_school_history
+        JOIN alumni ON alumni.id = alumni_school_history.alumniID 
+        WHERE alumni_school_history.yearGraduated='$batch' AND alumni.gender='$gender'
+        GROUP BY alumni_school_history.yearGraduated";
+
+        $result = $this->db->query($query);
+
+        return $result->fetch_all();
+    }
+
+    public function getAlumniPerPresentStatusPerBatch($batch, $presentStatus){
+        $query = "SELECT COUNT(*) 
+        FROM alumni_school_history
+        JOIN alumni_present_status ON alumni_present_status.alumniID = alumni_school_history.alumniID 
+        WHERE alumni_school_history.yearGraduated='$batch' AND alumni_present_status.presentStatus='$presentStatus'
+        GROUP BY alumni_school_history.yearGraduated";
+
+        $result = $this->db->query($query);
+
+        return $result->fetch_all();
+    }
 }

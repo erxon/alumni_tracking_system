@@ -23,5 +23,11 @@ $url = $_SERVER["REQUEST_URI"];
                                             echo "active";
                                         } ?>" href="/thesis/admin/reports/survey">Survey</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link <?php if (
+                                            str_contains($url, "/thesis/admin/reports/summary")
+                                        ) {
+                                            echo "active";
+                                        } ?>" href="/thesis/admin/reports/summary">Summary Report</a>
+                </li>
             </ul>

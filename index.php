@@ -266,6 +266,9 @@ switch ($url) {
     case "/thesis/admin/reports/survey":
         require __DIR__ . "/views/admin/reports/survey/survey.php";
         break;
+    case "/thesis/admin/reports/summary":
+        require __DIR__ . "/views/admin/reports/alumni_summary_report.php";
+        break;
     case "/thesis/admin/user/search":
         require __DIR__ . "/views/users/search_user.php";
         break;
