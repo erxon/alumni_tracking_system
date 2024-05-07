@@ -19,5 +19,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $result = $contents->setHomePageLayout($eventHighlight, $newsHighlight);
 
-    echo json_encode(["response"=>$result]);
+    echo json_encode(["response"=>$result, "result"=>[$eventHighlight, $newsHighlight]]);
 }

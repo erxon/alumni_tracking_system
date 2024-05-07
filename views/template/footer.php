@@ -14,6 +14,7 @@
 <script src="/thesis/public/js/date.js"></script>
 <script src="/thesis/public/js/print.js"></script>
 <script src="/thesis/public/js/validation.js"></script>
+<script src="/thesis/public/js/utilities.js"></script>
 </body>
 
 </html>

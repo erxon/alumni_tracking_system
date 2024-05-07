@@ -47,7 +47,7 @@ $skillsAcquired = $reports->getRelevantSkills();
                                 <th scope="col">Employment</th>
                                 <th scope="col">Middle Level Skills Development</th>
                                 <th scope="col">Entrepreneurship</th>
-                                <th scope="col">Did not continue to college</th>
+                                <th scope="col">None</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,7 +66,7 @@ $skillsAcquired = $reports->getRelevantSkills();
                                     <?php echo $curriculumExitsUnformatted["entrepreneurship"] ?>
                                 </td>
                                 <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
-                                    <?php echo $curriculumExitsUnformatted["did_not_continue_to_college"] ?>
+                                    <?php echo $curriculumExitsUnformatted["none"] ?>
                                 </td>
                             </tr>
                         </tbody>
@@ -75,7 +75,7 @@ $skillsAcquired = $reports->getRelevantSkills();
             </div>
             <div class="border p-3 rounded mt-3" id="table-container-tvl">
                 <?php
-                $curriculumExitsUnformatted = $reports->getCurriculumExitsUnformatted(0, 'TVL');
+                $curriculumExitsUnformatted = $reports->getCurriculumExitsUnformatted(0, 'Technical-Vocational and Livelihood');
                 ?>
                 <div>
                     <h5 class="mb-4">Total Number of SHS Graduates <span class="batch-filter"></span> TVL Track </h5>
@@ -87,7 +87,7 @@ $skillsAcquired = $reports->getRelevantSkills();
                                 <th scope="col">Employment</th>
                                 <th scope="col">Middle Level Skills Development</th>
                                 <th scope="col">Entrepreneurship</th>
-                                <th scope="col">Did not continue to college</th>
+                                <th scope="col">None</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,7 +106,7 @@ $skillsAcquired = $reports->getRelevantSkills();
                                     <?php echo $curriculumExitsUnformatted["entrepreneurship"] ?>
                                 </td>
                                 <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->
-                                    <?php echo $curriculumExitsUnformatted["did_not_continue_to_college"] ?>
+                                    <?php echo $curriculumExitsUnformatted["none"] ?>
                                 </td>
                             </tr>
                         </tbody>

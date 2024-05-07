@@ -80,7 +80,7 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                             echo "No end date specified";
                         } ?></td>
                         <td>
-                            <a href="/thesis/contents/events?id=<?php echo $events[$i][6]; ?>"
+                            <a href="/thesis/contents/events?id=<?php echo $events[$i][5]; ?>"
                                 class="btn btn-sm btn-dark">Details</a>
                         </td>
                     </tr>

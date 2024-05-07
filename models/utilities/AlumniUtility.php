@@ -1,5 +1,5 @@
 <?php
-require ("/xampp/htdocs/thesis/models/Database.php");
+require("/xampp/htdocs/thesis/models/Database.php");
 
 
 class AlumniUtility
@@ -50,5 +50,44 @@ class AlumniUtility
     {
         $error = $e->getMessage();
         echo $error;
+    }
+
+    protected function filterValue($fieldName)
+    {
+        if (isset($_POST[$fieldName])) {
+            return $_POST[$fieldName];
+        } else {
+            return "";
+        }
+    }
+
+    protected function withOtherField($field)
+    {
+        $value = "";
+
+        if ($this->filterValue($field) === "") {
+            $value = $this->filterValue("$field-other");
+        } else {
+            $value = $this->filterValue($field);
+        }
+
+        return $value;
+    }
+
+    protected function forParentFields(
+        $parent,
+        $expectedResults
+    ) {
+        $result = "";
+
+        //["Expected Value"=>"field"]
+        foreach ($expectedResults as $key => $value) {
+            if ($parent === $key) {
+                $result = $this->withOtherField($value);
+                break;
+            }
+        }
+
+        return $result;
     }
 }

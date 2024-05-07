@@ -59,7 +59,7 @@
                 </select>
                 <label for="country">Country</label>
             </div>
-            <input class="form-control" placeholder="Other" name="country-other" />
+            <input class="form-control mt-1" placeholder="Other" name="country-other" />
         </div>
 
         <!--Job industry-->

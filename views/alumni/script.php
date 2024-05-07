@@ -24,7 +24,7 @@
                 if (response.response){
                     $("#toast-body").empty();
                     $("#response").removeClass("text-bg-danger");
-                    $("#toast-body").append("Alumni deleted");
+                    $("#toast-body").append("Alumni archived");
                     $("#response").addClass("text-bg-primary");
 
                     $(`#loading_${alumniId}`).show();

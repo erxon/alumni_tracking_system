@@ -1,7 +1,6 @@
 <div class="d-flex flex-row mb-3">
     <div class="form-floating flex-fill me-2">
-        <input id="first-name" type="text" class="form-control me-1" name="first-name" placeholder="First Name"
-            required />
+        <input id="first-name" type="text" class="form-control me-1" name="first-name" placeholder="First Name" required />
         <label for="first-name">First name</label>
     </div>
     <div class="form-floating flex-fill me-2">
@@ -16,13 +15,15 @@
 <hr class="my-3" />
 <div class="d-flex mb-3">
     <div class="form-floating flex-fill me-2">
-        <input id="contact-number" type="text" class="form-control" name="contact-number" placeholder="Contact Number"
-            required />
+        <input id="contact-number" type="text" class="form-control" name="contact-number" placeholder="Contact Number" required />
         <label for="contact-number">Contact number <i>(+63)</i></label>
     </div>
     <div class="form-floating flex-fill">
         <input id="email" type="email" class="form-control" name="email" placeholder="Email" required />
         <label for="email">Email <i>(@gmail.com)</i></label>
+        <div style="display: none" id="email-already-exists" class="invalid-feedback">
+            Email already exists
+        </div>
     </div>
 </div>
 <div class="form-floating">

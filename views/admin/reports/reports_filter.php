@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $curriculumExits = $reports->getCurriculumExits($_POST["filter"]);
 
         $curriculumExitsUnformattedAcademic = $reports->getCurriculumExitsUnformatted($_POST["filter"], 'Academic');
-        $curriculumExitsUnformattedTVL = $reports->getCurriculumExitsUnformatted($_POST["filter"], 'TVL');
+        $curriculumExitsUnformattedTVL = $reports->getCurriculumExitsUnformatted($_POST["filter"], 'Technical-Vocational and Livelihood');
         
         $table = ["Academic" => $curriculumExitsUnformattedAcademic, "TVL" => $curriculumExitsUnformattedTVL];
 

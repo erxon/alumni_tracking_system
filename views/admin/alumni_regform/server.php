@@ -1,5 +1,6 @@
 <?php
 
+require "Database.php";
 require "/xampp/htdocs/thesis/models/Fields.php";
 
 $field = new Fields();

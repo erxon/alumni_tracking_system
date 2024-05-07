@@ -409,3 +409,7 @@ body {
 .contents-alumni {
   height: 100vh;
 }
+
+.invalid-input:focus {
+  border: red;
+}

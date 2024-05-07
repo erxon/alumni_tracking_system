@@ -306,11 +306,9 @@
 
     $(".datepicker").datepicker({});
 
-
-
-
     //Form Submission
     let page = 1;
+
 
     document.getElementById("alumni-registration-form").addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -321,6 +319,21 @@
 
 
         try {
+            const users = <?php echo json_encode($users); ?>;
+
+            const findEmail = users.find((user) => {
+                return user[0] === formData.get("email")
+            })
+
+            if (findEmail) {
+                $("#email").addClass("border border-danger")
+                $("#email-already-exists").show();
+                return;
+            }
+
+            $("#email").removeClass("border border-danger")
+            $("#email-already-exists").hide();
+
             const validate = await validation(formData, page);
 
             page += 1;

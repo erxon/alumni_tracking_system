@@ -17,9 +17,9 @@
             cache: false,
             processData: false,
             success: (response) => {
-                let toast = new bootstrap.Toast(document.getElementById("response"));
+                let toast = new bootstrap.Toast("#response");
+                $("#response").addClass("text-bg-success");
                 $("#toast-body").html(response.success);
-                $("#response").addClass("text-bg-successs");
 
                 toast.show();
 
@@ -50,6 +50,7 @@
             processData: false,
             success: (response) => {
                 let toast = new bootstrap.Toast(document.getElementById("response"));
+                $("#response").addClass("text-bg-success");
                 $("#toast-body").html(response.success);
                 toast.show();
 

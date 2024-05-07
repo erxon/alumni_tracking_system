@@ -1,4 +1,10 @@
-<?php session_start(); ?>
+<?php session_start(); 
+
+if($_SESSION["type"] != "admin"){
+    header("Location: /thesis/error");
+}
+
+?>
 
 <?php
 
@@ -6,6 +12,7 @@ include("/xampp/htdocs/thesis/models/Alumni.php");
 
 $alumni = new Alumni();
 $result = $alumni->unregisteredAlumni();
+
 ?>
 
 
@@ -37,13 +44,13 @@ if ($result->num_rows > 0) {
                         ?>
                             <tr>
                                 <td><?php echo $increment; ?></td>
-                                <td><?php echo $row[3] . " " . $row[4] . " " . $row[5]; ?></td>
-                                <td><?php echo $row[12]; ?></td>
-                                <td><?php echo $row[13]; ?></td>
-                                <td><?php echo $row[14]; ?></td>
+                                <td><?php echo $row[1] . " " . $row[2] . " " . $row[3]; ?></td>
+                                <td><?php echo $row[4]; ?></td>
+                                <td><?php echo $row[5]; ?></td>
+                                <td><?php echo $row[6]; ?></td>
                                 <td>
                                     <div class="d-flex">
-                                        <a role="button" class="btn btn-primary btn-sm me-1" href="/thesis/alumni?id=<?php echo $row[0]; ?>">Details</a>
+                                        <a role="button" class="btn btn-primary btn-sm me-1" href="/thesis/alumni/profile?id=<?php echo $row[0]; ?>">Details</a>
                                         <button onclick="approve(<?php echo $row[0]; ?>)" class="btn btn-sm btn-success decision-btn me-1"><i class="fas fa-check"></i> Approve</button>
                                         <button onclick="decline(<?php echo $row[0]; ?>)" class="btn btn-sm btn-danger decision-btn me-1"><i class="fas fa-times"></i> Decline</button>
                                         <div style="display: none;" id="loading">

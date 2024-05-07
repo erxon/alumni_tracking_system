@@ -11,7 +11,7 @@ $stringUtil = new StringUltilities();
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_URL);
 
-    $result = $users->getUser($id);
+    $result = $users->getUserById($id);
 
     if (isset($result)) {
         $rows = $result->fetch_assoc(); ?>
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 } else {
                     if (isset($rows["photo"])) {
                         $file = $rows["photo"];
-                        echo "<img class='profile-photo' src='/thesis/public/images/profile/$file' />";
+                        echo "<img class='profile-photo' src='$file' />";
                     } else {
                         echo "<div class='photo-container mb-3'></div>";
                     }
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <button class="mt-3 btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete</button>
                     <?php } ?>
                     <?php if ($rows["type"] == "alumni") { ?>
-                        <a role="button" href=<?php echo "/thesis/admin/alumni/userid?userId=" . $rows["id"]; ?> class="mt-3 btn btn-sm btn-outline-dark">
+                        <a role="button" href=<?php echo "/thesis/alumni/profile?id=" . $alumniProfile["id"]; ?> class="mt-3 btn btn-sm btn-outline-dark">
                             <i class="fas fa-user-graduate"></i> Alumni profile
                         </a>
                     <?php } ?>

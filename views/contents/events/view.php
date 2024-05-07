@@ -12,7 +12,7 @@ $stringUtil = new StringUltilities();
 if (isset($_POST["delete-action"])) {
     //delete post
     $content->deleteContent($id);
-    header("Location: /thesis/contents/events/all");
+    header("Location: /thesis/contents/events/all?page=1");
 }
 ?>
 
@@ -30,9 +30,7 @@ if (isset($_POST["delete-action"])) {
             <h1 class="me-3 mb-0"><?php echo $contentDetails["title"]; ?></h1>
             <?php if (
                 isset($_SESSION["type"]) &&
-                $_SESSION["type"] == "admin" &&
-                $_SESSION["user_id"] ==
-                $contentDetails["author"]
+                $_SESSION["type"] == "admin"
             ) { ?>
                 <a role="button" href="/thesis/contents/events/edit?id=<?php echo $contentDetails["id"]; ?>" class="btn btn-sm btn-light me-1"><i class="fas fa-pen"></i></a>
                 <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#on-delete-confirm"><i class="fas fa-trash"></i></button>

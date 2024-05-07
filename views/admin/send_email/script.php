@@ -4,9 +4,53 @@
     let recipient = "";
     let isBatchInputValid = false;
 
+    function addRecipient(email) {
+        $("#individual-recipient").val(email);
+        $("#search-result").empty();
+        $("#search-result").hide();
+    }
+
+    $("#individual-recipient").on("keyup", (event) => {
+        const value = event.target.value;
+
+        $("#search-result").empty();
+        $("#search-result").hide();
+
+        if (value === "") {
+            return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: `/thesis/email?recipient=${value}`,
+            success: (response) => {
+                const parseResponse = JSON.parse(response);
+                console.log(parseResponse.result)
+                if (parseResponse.result.length > 0) {
+                    $("#search-result").show();
+                    parseResponse.result.map((alumni) => {
+                        $("#search-result").append(`
+                        <div class='d-flex align-items-center'>
+                        <img class='rounded-circle me-2' style='width: 56px; height: 56px; object-fit: cover;' 
+                        src='/thesis/public/images/alumni/${alumni[1]}' />
+                        <div>
+                            <p class='m-0'>${alumni[3]} ${alumni[4]}</p>
+                            <p class='m-0'>${alumni[2]}</p>
+                            <button type="button" onclick="addRecipient('${alumni[2]}')" class="btn btn-sm btn-dark">Select</button>
+                        </div>
+                        </div>
+                    `)
+                    })
+                }
+
+            }
+        })
+    })
+
     $("#email-recipient").on("change", (event) => {
         $("#per-track-recipient").prop("hidden", true);
         $("#per-batch-recipient").prop("hidden", true);
+        $("#individual-recipient-container").prop("hidden", true);
 
         recipient = event.target.value;
 
@@ -17,7 +61,12 @@
         if (event.target.value === "batch") {
             $("#per-batch-recipient").prop("hidden", false);
         }
+
+        if(event.target.value === "individual"){
+            $("#individual-recipient-container").prop("hidden", false);
+        }
     });
+
 
     $("#per-batch-recipient").keyup(() => {
         if ($("#per-batch-recipient").val() < 2000 || Number($("#per-batch-recipient").val()) > currentYear) {

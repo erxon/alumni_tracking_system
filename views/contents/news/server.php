@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $uniqueFilename = md5($str);
 
         $coverImage = "";
-        $userId = $_SESSION["user_id"];
 
         if (isset($_FILES) && count($_FILES) > 0) {
             $tempname = $_FILES["coverImage"]["tmp_name"];
@@ -39,10 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "body" => $body,
                 "description" => $description,
                 "coverImage" => $coverImage
-
             );
 
-            $result = $contents->createNews($data, $userId);
+            $result = $contents->createNews($data);
 
             if ($result) {
                 echo json_encode(array("success" => "news successfully added"));
@@ -83,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result = $contents->updateNews($_POST["id"], $data);
 
             if ($result) {
-                echo json_encode(array("success" => "event successfully edited"));
+                echo json_encode(array("success" => "News successfully edited"));
             }
         }
     }

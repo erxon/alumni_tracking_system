@@ -13,7 +13,7 @@ class Email
     public function sendEmail($emailAddress, $name, $content)
     {
         $email = new \SendGrid\Mail\Mail();
-        $email->setFrom("ericson.es@outlook.com", "ATS - Administrator");
+        $email->setFrom("ats.es@outlook.ph", "ATS - Administrator");
         $email->setSubject("Your account has been deleted");
         $email->addTo($emailAddress, $name);
         $email->addContent("text/plain", "and easy to do anywhere, even with PHP");
@@ -48,7 +48,7 @@ class Email
         $mail->SMTPSecure = "ssl";
         $mail->Port = 465;
 
-        $mail->setFrom("ericson.es@outlook.com");
+        $mail->setFrom("ats.es@outlook.ph");
         $mail->addCC($recipientEmail, $recipientName);
         $mail->isHTML(true);
 

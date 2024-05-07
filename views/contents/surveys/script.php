@@ -129,7 +129,7 @@
                 if (response.response) {
                     const toast = new bootstrap.Toast("#response");
                     $("#toast-body").append("Survey updated");
-                    $("#response").addClass("text-bg-primary");
+                    $("#response").addClass("text-bg-success");
                     toast.show();
                 }
 

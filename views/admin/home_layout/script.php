@@ -67,8 +67,8 @@
 
     $("#save-home-page-layout").on("click", () => {
         console.log(contentsToHighlight);
-
         const toast = new bootstrap.Toast("#response");
+
         const data = new FormData();
 
         data.append("eventHighlight", contentsToHighlight.event);
@@ -83,13 +83,20 @@
             cache: false,
             processData: false,
             success: (response) => {
-                $("#toast-body").empty();
+                console.log(response);
+
+                $(".toast-body").empty();
                 if (response.response) {
+
                     toast.show();
-                    $("#toast-body").append(`New home page layout successfully saved`);
+                    $(".toast-body").append(`New home page layout successfully saved`);
+                    $("#response").addClass("text-bg-success");
                 } else {
                     toast.show();
-                    $("#toast-body").append(`Something went wrong`);
+                    const toast = new bootstrap.Toast("#error-response");
+
+                    $(".toast-body").append(`Something went wrong`);
+                    
                 }
             }
         });

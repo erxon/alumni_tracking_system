@@ -148,47 +148,6 @@ class Alumni extends AlumniUtility
         }
     }
 
-    protected function filterValue($fieldName)
-    {
-        if (isset($_POST[$fieldName])) {
-            return $_POST[$fieldName];
-        } else {
-            return "";
-        }
-    }
-
-    protected function withOtherField($field)
-    {
-        $value = "";
-
-        if ($this->filterValue($field) === "") {
-            $value = $this->filterValue("$field-other");
-        } else {
-            $value = $this->filterValue($field);
-        }
-
-        return $value;
-    }
-
-    protected function forParentFields(
-        $parent,
-        $expectedResults
-    ) {
-        $result = "";
-
-        //["Expected Value"=>"field"]
-
-        foreach ($expectedResults as $key => $value) {
-            if ($parent === $key) {
-                $result = $this->withOtherField($value);
-                break;
-            }
-        }
-
-        return $result;
-    }
-
-
     public function addAlumni($photo, $userId)
     {
         try {
@@ -481,6 +440,138 @@ class Alumni extends AlumniUtility
         return $rows;
     }
 
+    public function getAlumniSchoolHistory($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_school_history WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getPresentStatus($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_present_status WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getCurriculumExit($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_pursued_curriculum_exits WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getPresentStatusUniversityStudent($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_present_status_student WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getPresentStatusStudent($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_present_status_student WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getPresentStatusEmployed($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_present_status_employed WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getCurriculumExitHigherEducation($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_pursued_curriculum_exits_higher_education WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getCurriculumExitEmployment($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_pursued_curriculum_exits_employment WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getCurriculumExitEntrepreneurship($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_pursued_curriculum_exits_entrepreneurship WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getCurriculumExitMidLevelSkills($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_pursued_curriculum_exits_mid_level_skills_development WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
+    public function getCurriculumExitNone($alumniID)
+    {
+        $db = new Database();
+
+        $sql = "SELECT * FROM alumni_pursued_curriculum_exits_none WHERE alumniID = $alumniID";
+        $result = $db->query($sql);
+
+        $rows = $result->fetch_assoc();
+        $db->close();
+        return $rows;
+    }
+
     public function getAlumniById($id)
     {
         $db = new Database();
@@ -544,7 +635,9 @@ class Alumni extends AlumniUtility
     public function getAlumniEmailByTrack($track)
     {
         $db = new Database();
-        $sql = "SELECT email, firstName, lastName FROM alumni WHERE trackFinished='$track'";
+        $sql = "SELECT alumni.email, alumni.firstName, alumni.lastName 
+        FROM alumni 
+        JOIN alumni_school_history ON alumni_school_history.alumniID = alumni.id WHERE alumni_school_history.track='$track'";
         $result = $db->query($sql);
 
         if (isset($result)) {
@@ -555,7 +648,9 @@ class Alumni extends AlumniUtility
     public function getAlumniEmailByBatch($batch)
     {
         $db = new Database();
-        $sql = "SELECT email, firstName, lastName FROM alumni WHERE dateGraduated='$batch'";
+        $sql = "SELECT alumni.email, alumni.firstName, alumni.lastName 
+        FROM alumni 
+        JOIN alumni_school_history ON alumni_school_history.alumniID = alumni.id WHERE alumni_school_history.yearGraduated='$batch'";
         $result = $db->query($sql);
 
         if (isset($result)) {
@@ -721,13 +816,16 @@ class Alumni extends AlumniUtility
     {
         $db = new Database();
 
-        $sql = "DELETE FROM alumni WHERE id=$id;";
-        $sql .= "DELETE FROM user WHERE id=$userAccountID";
-        $sql .= "DELETE FROM answer WHERE alumniID=$id";
+        $archiveAlumni = "UPDATE alumni SET status='archive' WHERE id=$id";
+        $archiveAlumniResult = $db->query($archiveAlumni);
 
-        $result = $db->multi_query($sql);
+        if ($archiveAlumniResult) {
+            $delete = "DELETE FROM user WHERE id=$userAccountID;";
+            $delete .= "DELETE FROM answer WHERE alumniID=$id";
+            $result = $db->multi_query($delete);
 
-        return $result;
+            return $result;
+        }
     }
 
     public function addPhotoToUser($user_id, $file)
@@ -801,7 +899,15 @@ class Alumni extends AlumniUtility
     public function unregisteredAlumni()
     {
         $db = new Database();
-        $query = "SELECT * FROM alumni WHERE status='pending'";
+        $query = "SELECT alumni.id, 
+        alumni.firstName, 
+        alumni.middleName, 
+        alumni.lastName, 
+        alumni_school_history.yearGraduated, 
+        alumni_school_history.track,
+        alumni_school_history.strand
+        FROM alumni JOIN alumni_school_history ON 
+        alumni.id = alumni_school_history.alumniID WHERE status='pending';";
 
         $result = $db->query($query);
         $db->close();
@@ -824,8 +930,15 @@ class Alumni extends AlumniUtility
     {
         $db = new Database();
 
-        $query = "SELECT * FROM alumni 
-        WHERE (firstName='$firstName' OR middleName='$middleName' OR lastName='$lastName') AND status='active'";
+        $query = "SELECT 
+        alumni.id, alumni.userAccountID, alumni.photo, alumni.firstName, alumni.middleName, alumni.lastName,
+        alumni.contactNumber, alumni.email, alumni.address, alumni.gender, alumni.age, alumni.birthday,
+        alumni.dateCreated, alumni.dateModified, alumni.status, alumni_school_history.track, alumni_school_history.strand, 
+        alumni_school_history.yearGraduated
+        FROM alumni 
+        JOIN alumni_school_history ON alumni.id = alumni_school_history.alumniID
+        WHERE (alumni.firstName = '$firstName' OR alumni.middleName = '$middleName' OR alumni.lastName = '$lastName')
+        AND alumni.status='active'";
 
         $result = $db->query($query);
 
@@ -836,8 +949,16 @@ class Alumni extends AlumniUtility
     {
         $db = new Database();
 
-        $query = "SELECT * FROM alumni 
-        WHERE (trackFinished='$track' OR strandFinished='$strand' OR dateGraduated='$yearGraduated') AND status='active'";
+        $query = "SELECT 
+        alumni.id, alumni.userAccountID, alumni.photo, alumni.firstName, alumni.middleName, alumni.lastName,
+        alumni.contactNumber, alumni.email, alumni.address, alumni.gender, alumni.age, alumni.birthday,
+        alumni.dateCreated, alumni.dateModified, alumni.status, alumni_school_history.track, alumni_school_history.strand, 
+        alumni_school_history.yearGraduated
+        FROM alumni 
+        JOIN alumni_school_history ON alumni.id = alumni_school_history.alumniID
+        WHERE (alumni_school_history.track='$track' 
+        OR alumni_school_history.strand='$strand' OR alumni_school_history.yearGraduated='$yearGraduated')
+        AND alumni.status='active'";
 
         $result = $db->query($query);
 

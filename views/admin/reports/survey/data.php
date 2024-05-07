@@ -14,7 +14,7 @@ $stringUtil = new StringUltilities();
 
 <?php include "/xampp/htdocs/thesis/views/admin/reports/layout/header.php" ?>
 <div>
-    <button id="print-survey-data" class="btn btn-sm btn-dark"><i class="fas fa-print"></i> Print</button>
+    <a href="/thesis/admin/survey/print?id=<?php echo $id ?>" id="print-survey-data" class="btn btn-sm btn-dark"><i class="fas fa-print"></i> Print</a>
     <hr class="my-3" />
     <div id="survey-data">
         <div class="row">

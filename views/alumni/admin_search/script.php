@@ -1,4 +1,10 @@
 <script>
+    $("#year-graduated").datepicker({
+        format: "yyyy",
+        minViewMode: 2,
+        maxViewMode: 2,
+        startDate: "2020"
+    })
     $("#alumni-by-name").on("submit", (event) => {
         event.preventDefault();
 
@@ -26,9 +32,9 @@
                             <td>${alumni[5]}</td>
                             <td>${alumni[6]}</td>
                             <td>${alumni[7]}</td>
-                            <td>${alumni[20]}</td>
+                            <td>${alumni[14]}</td>
                             <td class="actions">
-                                <a role="button" class="btn btn-sm btn-light alumni-record-action" href="/thesis/alumni?id=${alumni[0]}">View</a>
+                                <a role="button" class="btn btn-sm btn-light alumni-record-action" href="/thesis/alumni/profile?id=${alumni[0]}">View</a>
                                 <button 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#confirm-delete" 
@@ -74,9 +80,9 @@
                             <td>${alumni[5]}</td>
                             <td>${alumni[6]}</td>
                             <td>${alumni[7]}</td>
-                            <td>${alumni[20]}</td>
+                            <td>${alumni[14]}</td>
                             <td class="actions">
-                                <a role="button" class="btn btn-sm btn-light alumni-record-action" href="/thesis/alumni?id=${alumni[0]}">View</a>
+                                <a role="button" class="btn btn-sm btn-light alumni-record-action" href="/thesis/alumni/profile?id=${alumni[0]}">View</a>
                                 <button 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#confirm-delete" 

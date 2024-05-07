@@ -41,7 +41,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
                 ?>
                     <div id="image_<?php echo $imageId ?>" class="col-sm-6 col-md-4">
                         <div class="card mb-2">
-                            <img onclick="imageFull('<?php echo '/thesis/public/images/gallery/' . $image[1]; ?>')" style="cursor: pointer;" class="image card-img-top" style="height: 300px; object-fit: contain;" src="/thesis/public/images/gallery/<?php echo $image[1]; ?>" />
+                            <img onclick="imageFull('<?php echo '/thesis/public/images/gallery/' . $image[1]; ?>')" class="image card-img-top" style="height: 300px; object-fit: cover; cursor: pointer;" src="/thesis/public/images/gallery/<?php echo $image[1]; ?>" />
                             <div class="card-body">
                                 <p class="card-text"><?php echo $image[1] ?></p>
                                 <p class="card-text text-secondary">Uploaded on: <?php echo $stringUtil->dateAndTime($image[3]); ?></p>
@@ -101,7 +101,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
             <form id="upload-image-gallery" enctype="multipart/form-data">
                 <div class="modal-body">
                     <input hidden id="gallery-id" name="gallery_id" value="<?php echo $id; ?>" />
-                    <input name="gallery_image" type="file" class="form-control me-2" />
+                    <input id="gallery-image" name="gallery_image" type="file" accept="image/jpeg, image/png, image/jpg" class="form-control me-2" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

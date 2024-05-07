@@ -1,6 +1,7 @@
 <script>
     const modal = new bootstrap.Modal("#image-full");
 
+
     let imageToDelete = "";
     let imageName = "";
 
@@ -19,6 +20,21 @@
 
         console.log(imageToDelete)
     }
+
+    $("#gallery-image").on("change", (event) => {
+
+        const inputImage = event.target.files[0];
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        if (!allowedExtensions.exec(event.target.value)) {
+            const toast = new bootstrap.Toast("#error-response");
+            $(".toast-body").empty("");
+            $(".toast-body").append("Invalid file type");
+            toast.show();
+
+            $("#gallery-image").val("");
+        }
+    })
 
     $("#delete-image").on("click", () => {
         console.log(imageToDelete)
@@ -77,7 +93,7 @@
                 if (response.image) {
                     $("#image-gallery").append(`<div id="image_${response.id}" class="col-sm-6 col-md-4">
                         <div class="card mb-2">
-                            <img onclick="imageFull('/thesis/public/images/gallery/${response.image}')" style="cursor: pointer;" class="image card-img-top" style="height: 300px; object-fit: contain;" src="/thesis/public/images/gallery/${response.image}" />
+                            <img onclick="imageFull('/thesis/public/images/gallery/${response.image}')" class="image card-img-top" style="height: 300px; object-fit: cover; cursor: pointer;" src="/thesis/public/images/gallery/${response.image}" />
                             <div class="card-body">
                                 <p class="card-text">${response.image}</p>
                                 <p class="card-text text-secondary">New</p>

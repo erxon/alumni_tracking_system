@@ -4,6 +4,7 @@ require("/xampp/htdocs/thesis/models/Authentication.php");
 require("/xampp/htdocs/thesis/models/utilities/StringUtilities.php");
 include("/xampp/htdocs/thesis/models/Home.php");
 
+
 $auth = new Authentication();
 $home = new Home();
 $stringUtil = new StringUltilities();
@@ -15,16 +16,16 @@ $newSurvey = $home->getNewSurvey();
 ?>
 
 <?php
- if(isset($_SESSION["status"]) && $_SESSION["status"] == "pending") {
+if (isset($_SESSION["status"]) && $_SESSION["status"] == "pending") {
     header("Location: http://" . $_SERVER["HTTP_HOST"] . "/thesis/alumni/pending");
- }
+}
 ?>
 
 <?php
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 <?php
-if (empty($_SESSION["email"])) { ?> 
+if (empty($_SESSION["email"])) { ?>
     <div class="reg-container">
         <div class="reg-start">
             <h1 style="font-weight: bold; font-size: 55px;" class="mb-3">Welcome to Luis Y. Ferrer Jr. Senior High School<br />
@@ -67,9 +68,10 @@ if (empty($_SESSION["email"])) { ?>
                 </div>
                 <div>
                     <p class="fw-light w-75">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at dapibus nibh. In felis nulla,
-                        mattis vestibulum accumsan ac, dictum sed est. Duis scelerisque, libero eget porta viverra, nisi
-                        elit venenatis nunc, vitae sodales enim sapien at nibh.
+                        The LYFJSHS Alumni Tracking System is developed to
+                        foster engagement between Luis Y. Ferrer Jr. Senior
+                        High School and all of its alumni by providing alumni
+                        dedicated alumni contents.
                     </p>
                 </div>
             </div>
@@ -83,11 +85,13 @@ if (empty($_SESSION["email"])) { ?>
                             <h4>Contents of LYFJSHS</h4>
                         </div>
                         <div>
-                            <p class="fw-light w-75">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at dapibus nibh. In felis nulla,
-                                mattis vestibulum accumsan ac, dictum sed est. Duis scelerisque, libero eget porta viverra, nisi
-                                elit venenatis nunc, vitae sodales enim sapien at nibh.
-                            </p>
+                            <ul class="fw-light w-75">
+
+                                <li> Access dedicated alumni contents such as News,
+                                    Announcements, and Events.</li>
+                                <li>Browse for photos through the Alumni Gallery</li>
+                                <li>Participate through surveys conducted by the school</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -98,11 +102,13 @@ if (empty($_SESSION["email"])) { ?>
                             <h4>Benefits</h4>
                         </div>
                         <div>
-                            <p class="fw-light w-75">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at dapibus nibh. In felis nulla,
-                                mattis vestibulum accumsan ac, dictum sed est. Duis scelerisque, libero eget porta viverra, nisi
-                                elit venenatis nunc, vitae sodales enim sapien at nibh.
-                            </p>
+                            <ul class="fw-light w-75">
+                                <li>Accessible Anytime</li>
+                                <li>Keeps alumni updated about the latest trends or
+                                    happenings involving them</li>
+                                <li>Serves as a medium of communication between
+                                    LYFJSHS and their alumni</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -118,8 +124,8 @@ if (empty($_SESSION["email"])) { ?>
                         <i class="me-1 fas fa-phone"></i> Phone or Telephone numbers
                     </p>
                     <div style="font-size: 12px;">
-                        <p style="margin-bottom: 0.5px;" class="letter-spacing fw-light">+639999999999</p>
-                        <p class="fw-light">+639999999999</p>
+                        <p style="margin-bottom: 0.5px;" class="letter-spacing fw-light">0930 318 7920 </p>
+                        <p class="fw-light">0965 033 7899</p>
                     </div>
                 </div>
                 <div>
@@ -129,8 +135,8 @@ if (empty($_SESSION["email"])) { ?>
             </div>
             <div class="flex-fill fw-light">
                 <a class="link mb-1" href="https://web.facebook.com/DepedTayoLYFJSHS342285/"><i class="me-1 fab fa-facebook"></i> Deped Tayo Luis Y. Ferrer Jr SHS - General Trias City</a>
-                <a class="link mb-1" href="#"><i class="me-1 fas fa-globe-asia"></i> LYFJSHS Official Website </a>
-                <p><i class="fas fa-map-marker-alt me-1"></i> South Square Village, Pasong Kawayan 2, General Trias City 4107, Cavite</p>
+                <a class="link mb-1" href="http://lyfjshs.com/?fbclid=IwZXh0bgNhZW0CMTAAAR3zxMQON1WxGv4HvztgkTN8DoKFzvngrRFAw8id02yO5TY4Ebl5_h2-w60_aem_AYZ9wCBQBQER3enYH1SqIvZV2ocqwDPCsMJnutwPwHgdHTJQ7rhDdOcDlVLDshdxdjoakCj7ONB-oU5q_kjTRIUO"><i class="me-1 fas fa-globe-asia"></i> LYFJSHS Official Website </a>
+                <a class="link mb-1" href="https://www.google.com/maps/place/Luis+Y.+Ferrer+Jr.+Senior+High+School/@14.3384707,120.8820266,17z/data=!3m1!4b1!4m6!3m5!1s0x33962b264537f51d:0x569558fa0bb77d!8m2!3d14.3384707!4d120.8820266!16s%2Fg%2F11cspbfhzb?entry=ttu"><i class="fas fa-map-marker-alt me-1"></i> South Square Village, Pasong Kawayan 2, General Trias City 4107, Cavite</a>
             </div>
         </div>
     </div>

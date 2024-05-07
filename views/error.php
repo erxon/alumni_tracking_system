@@ -4,7 +4,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 ?>
 
 <div class="main-body-padding mt-5">
-    <h1>Page not found</h1>
+    <h1>Forbidden</h1>
     <a href="/thesis/home">Home</a>
 </div>
 

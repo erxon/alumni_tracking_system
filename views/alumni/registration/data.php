@@ -1,5 +1,55 @@
 <?php
 
+$curriculumExitOptions = [
+    "Higher Education",
+    "Employment",
+    "Entrepreneurship",
+    "Middle-level skills development",
+    "None"
+];
+
+$countryOptions = [
+    "USA",
+    "Canada",
+    "Japan",
+    "Australia",
+    "Italy",
+    "New Zealand",
+    "United Kingdom",
+    "Germany",
+    "South Korea",
+    "Spain",
+    "Other"
+];
+
+$jobIndustryOptions = [
+    "Business Processing Outsourcing",
+    "Information Technology",
+    "Manufacturing",
+    "Retail",
+    "Hospitality and Tourism",
+    "Healthcare",
+    "Real Estate",
+    "Education",
+    "Agriculture and Agribusiness",
+    "Energy",
+    "Telecommunications",
+    "Government"
+];
+
+$countryOptions = [
+    "USA",
+    "Canada",
+    "Japan",
+    "Australia",
+    "Italy",
+    "New Zealand",
+    "United Kingdom",
+    "Germany",
+    "South Korea",
+    "Spain"
+];
+
 $institutionsInCavite = [
     "De La Salle University - Dasmariñas (DLSU-D)",
     "Cavite State University (CavSU)",

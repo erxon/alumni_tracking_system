@@ -95,7 +95,7 @@
                                     <th scope="col">Employment</th>
                                     <th scope="col">Middle Level Skills Development</th>
                                     <th scope="col">Entrepreneurship</th>
-                                    <th scope="col">Did not continue to college</th>
+                                    <th scope="col">None</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -105,7 +105,7 @@
                                     <td class="number-of-alumni" id="employment"><!--Employment-->${response.table.Academic.employment}</td>
                                     <td class="number-of-alumni" id="middle-level"><!--Middle Level Skills Development-->${response.table.Academic.middle_level_skills_development}</td>
                                     <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->${response.table.Academic.entrepreneurship}</td>
-                                    <td class="number-of-alumni" id="did_not_continue_to_college"><!--Did not continue to college-->${response.table.Academic.did_not_continue_to_college}</td>
+                                    <td class="number-of-alumni" id="none"><!--Did not continue to college-->${response.table.Academic.none}</td>
                                 </tr>
                             </tbody>
                             </table>
@@ -123,7 +123,7 @@
                                     <th scope="col">Employment</th>
                                     <th scope="col">Middle Level Skills Development</th>
                                     <th scope="col">Entrepreneurship</th>
-                                    <th scope="col">Did not continue to college</th>
+                                    <th scope="col">None</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -133,7 +133,7 @@
                                     <td class="number-of-alumni" id="employment"><!--Employment-->${response.table.TVL.employment}</td>
                                     <td class="number-of-alumni" id="middle-level"><!--Middle Level Skills Development-->${response.table.TVL.middle_level_skills_development}</td>
                                     <td class="number-of-alumni" id="entrepreneurship"><!--Entrepreneurship-->${response.table.TVL.entrepreneurship}</td>
-                                    <td class="number-of-alumni" id="did_not_continue_to_college"><!--Did not continue to college-->${response.table.Academic.did_not_continue_to_college}</td>
+                                    <td class="number-of-alumni" id="did_not_continue_to_college"><!--Did not continue to college-->${response.table.TVL.none}</td>
                                 </tr>
                             </tbody>
                             </table>

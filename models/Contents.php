@@ -3,7 +3,7 @@ include("/xampp/htdocs/thesis/models/Database.php");
 
 class Contents
 {
-    public function createEvent($content, $userId)
+    public function createEvent($content)
     {
         $db = new Database();
 
@@ -18,8 +18,7 @@ class Contents
         (
         type, 
         title, 
-        body, 
-        author, 
+        body,
         eventStart, 
         eventEnd, 
         coverImage,
@@ -28,7 +27,6 @@ class Contents
         'event',
         '$title',
         '$body',
-        $userId,
         '$eventStart',
         '$eventEnd',
         '$coverImage',
@@ -40,7 +38,7 @@ class Contents
         return $result;
     }
 
-    public function createNews($content, $userId)
+    public function createNews($content)
     {
         $db = new Database();
 
@@ -52,15 +50,13 @@ class Contents
         $query = "INSERT INTO content 
         (type, 
         title, 
-        body, 
-        author, 
+        body,
         coverImage,
         description) 
         VALUES (
         'news',
         '$title',
         '$body',
-        $userId,
         '$coverImage',
         '$description')";
 
@@ -590,6 +586,7 @@ class Contents
         $query = "UPDATE home_page SET eventHighlight=$eventHighlight, newsHighlight=$newsHighlight WHERE id=1";
 
         $result = $db->query($query);
+
         $db->close();
 
         return $result;

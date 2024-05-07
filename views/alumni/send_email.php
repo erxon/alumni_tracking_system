@@ -14,53 +14,79 @@ require("/xampp/htdocs/thesis/models/Alumni.php");
 
 $alumni = new Alumni();
 $alumniAccounts = $alumni->getAllAlumniEmail();
-$recipient = $_POST["recipient"];
-$perTrackRecipient = $_POST["per-track-recipient"];
-$perBatchRecipient = $_POST["per-batch-recipient"];
-$title = $_POST["title"];
-$body = $_POST["alumni_email_content"];
-$subject = $_POST["subject"];
+$alumniAccount = "";
 
-$message = "<div><h1>$title</h1><p>$body</p></div>";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $recipient = $_POST["recipient"];
+    $perTrackRecipient = $_POST["per-track-recipient"];
+    $perBatchRecipient = $_POST["per-batch-recipient"];
+    $title = $_POST["title"];
+    $body = $_POST["alumni_email_content"];
+    $subject = $_POST["subject"];
 
-$mail = new PHPMailer(true);
+    $message = "<div><h1>$title</h1><p>$body</p></div>";
 
-$mail->isSMTP();
-$mail->Host = "smtp.sendgrid.net";
-$mail->SMTPAuth = true;
-$mail->Username = "apikey";
-$mail->Password = "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";
-$mail->SMTPSecure = "ssl";
-$mail->Port = 465;
+    $mail = new PHPMailer(true);
 
-$mail->setFrom("ericson.es@outlook.com");
+    $mail->isSMTP();
+    $mail->Host = "smtp.sendgrid.net";
+    $mail->SMTPAuth = true;
+    $mail->Username = "apikey";
+    $mail->Password = "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";
+    $mail->SMTPSecure = "ssl";
+    $mail->Port = 465;
 
-if($recipient == "track"){
-    $alumniAccounts = $alumni->getAlumniEmailByTrack($perTrackRecipient);
+    $mail->setFrom("ats.es@outlook.ph");
+
+    if ($recipient == "track") {
+        $alumniAccounts = $alumni->getAlumniEmailByTrack($perTrackRecipient);
+    }
+
+    if ($recipient == "batch") {
+        $alumniAccounts = $alumni->getAlumniEmailByBatch($perBatchRecipient);
+    }
+
+    if ($recipient == "individual") {
+        $alumniAccount = $_POST["alumni_email"];
+    }
+
+    if ($alumniAccount !== "") {
+        $mail->addCC($alumniAccount);
+    } else {
+        foreach ($alumniAccounts as $account) {
+            $firstName = $account[1];
+            $lastName = $account[2];
+            $name = "$firstName $lastName";
+            $email = $account[0];
+
+            $mail->addCC($email, $name);
+        }
+    }
+   
+    $mail->isHTML(true);
+
+    $mail->Subject = $subject;
+    $mail->Body = $message;
+
+    try {
+        $mail->send();
+        echo json_encode(["response" => "Email sent!", "sent" => true]);
+    } catch (Exception $e) {
+        echo json_encode(["response" => $e->getMessage(), "sent" => false]);
+    }
 }
 
-if($recipient == "batch"){
-    $alumniAccounts = $alumni->getAlumniEmailByBatch($perBatchRecipient);
-}
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $recipient = $_GET["recipient"];
 
+    $db = new Database();
 
-foreach ($alumniAccounts as $account) {
-    $firstName = $account[1];
-    $lastName = $account[2];
-    $name = "$firstName $lastName";
-    $email = $account[0];
+    $query = "SELECT id, photo, email, firstName, lastName 
+    FROM alumni WHERE email LIKE '%$recipient%';";
 
-    $mail->addCC($email, $name);
-}
+    $result = $db->query($query);
+    $alumniInformation = $result->fetch_all();
+    $db->close();
 
-$mail->isHTML(true);
-
-$mail->Subject = $subject;
-$mail->Body = $message;
-
-try {
-    $mail->send();
-    echo json_encode(array("response" => "Email sent!", "sent"=> true));
-} catch (Exception $e) {
-    echo json_encode(array("response" => $e->getMessage(), "sent"=> false));
+    echo json_encode(["result" => $alumniInformation]);
 }

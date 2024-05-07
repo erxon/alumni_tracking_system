@@ -1,15 +1,19 @@
 <?php
-
+require "/xampp/htdocs/thesis/models/Users.php";
 require "/xampp/htdocs/thesis/models/Fields.php";
 require "/xampp/htdocs/thesis/models/SchoolInformation.php";
 
+
 $field = new Fields();
+$user = new Users();
+
 $additionalInformation = array_reverse($field->getFields()->fetch_all());
 
 $schoolInformation = new SchoolInformation();
 $tracks = $schoolInformation->getTracks();
 $strands = $schoolInformation->getStrands();
 $specializations = $schoolInformation->getSpecializations();
+$users = $user->getAllUsers();
 
 include("/xampp/htdocs/thesis/views/template/header.php");
 ?>

@@ -86,9 +86,9 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
                                 <td>${alumni[3]}</td>
                                 <td>${alumni[4]}</td>
                                 <td>${alumni[5]}</td>
-                                <td>${alumni[13]}</td>
-                                <td>${alumni[14]}</td>
-                                <td>${alumni[12]}</td>
+                                <td>${alumni[15]}</td>
+                                <td>${alumni[16]}</td>
+                                <td>${alumni[17]}</td>
                                 <td>${alumni[7]}</td>
                             </tr>
                         `);
@@ -129,9 +129,9 @@ include "/xampp/htdocs/thesis/views/template/header.php"; ?>
                                 <td>${alumni[3]}</td>
                                 <td>${alumni[4]}</td>
                                 <td>${alumni[5]}</td>
-                                <td>${alumni[13]}</td>
-                                <td>${alumni[14]}</td>
-                                <td>${alumni[12]}</td>
+                                <td>${alumni[15]}</td>
+                                <td>${alumni[16]}</td>
+                                <td>${alumni[17]}</td>
                                 <td>${alumni[7]}</td>
                             </tr>
                         `);

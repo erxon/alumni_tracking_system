@@ -76,7 +76,7 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                             echo $dateCreated;
                             ?></td>
                         <td>
-                            <a href="/thesis/contents/news?id=<?php echo $news[$i][4]; ?>" class="btn btn-sm btn-dark">Details</a>
+                            <a href="/thesis/contents/news?id=<?php echo $news[$i][3]; ?>" class="btn btn-sm btn-dark">Details</a>
                         </td>
                     </tr>
                 <?php

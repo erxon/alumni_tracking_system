@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $coverImage = "";
         $eventStart = "";
         $eventEnd = "";
-        $userId = $_SESSION["user_id"];
 
         if (isset($_FILES) && count($_FILES) > 0) {
             $tempname = $_FILES["coverImage"]["tmp_name"];
@@ -59,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "coverImage" => $coverImage
             );
 
-            $result = $contents->createEvent($data, $userId);
+            $result = $contents->createEvent($data);
 
 
             if ($result) {

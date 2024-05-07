@@ -23,6 +23,11 @@ if (!isset($_GET['code'])) {
   if ($result->num_rows > 0) {
     $existing_user = $result->fetch_assoc();
 
+    $userId = $existing_user["id"];
+
+    $updateUser = "UPDATE user SET photo='$photo' WHERE id=$userId";
+    $db->query($updateUser);
+
     $_SESSION["user_id"] = $existing_user["id"];
     $_SESSION['access_token'] = $client->getAccessToken();
     $_SESSION["first_name"] = $data["givenName"];
@@ -33,8 +38,8 @@ if (!isset($_GET['code'])) {
 
     if ($existing_user["type"] == "alumni") {
       $user_id = $existing_user["id"];
-      $getAlumniQuery = "SELECT * FROM alumni WHERE userAccountID='$user_id'";
-
+      $getAlumniQuery = "SELECT * FROM alumni WHERE userAccountID='$user_id'; ";
+      
       $alumni = $db->query($getAlumniQuery)->fetch_assoc();
 
       $_SESSION["status"] = $alumni["status"];
@@ -42,6 +47,8 @@ if (!isset($_GET['code'])) {
 
     $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/thesis/home';
     header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+  } else {
+    header("Location: /thesis/loginerror");
   }
 
 

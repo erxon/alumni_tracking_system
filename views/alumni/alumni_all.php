@@ -37,14 +37,14 @@
                         <?php } ?>
                     <?php } ?>
                     <td class="actions">
-                        <a role="button" class="btn btn-sm btn-light alumni-record-action" href=<?php echo "/thesis/alumni?id=" . $account[0] ?>>View</a>
+                        <a role="button" class="btn btn-sm btn-light alumni-record-action" href=<?php echo "/thesis/alumni/profile?id=" . $account[0] ?>>View</a>
                         <?php if ($_SESSION["type"] == "admin") { ?>
                         <button 
                             data-bs-toggle="modal" 
                             data-bs-target="#confirm-delete" 
                             onclick="deleteAlumni('<?php echo $account[0]; ?>')" 
                             role="button" 
-                            class="btn btn-sm btn-danger alumni-record-action">Delete</button>
+                            class="btn btn-sm btn-danger alumni-record-action"><i class="fas fa-archive"></i> Archive</button>
                         <?php } ?>
                         <div style="display: none;" id="loading_<?php echo $account[0] ?>">
                             <div class="spinner-border spinner-border-sm" role="status">
@@ -73,11 +73,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this alumni?
+                Are you sure you want to archive this alumni?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button data-bs-dismiss="modal" id="confirm-delete-alumni" type="button" class="btn btn-danger">Delete</button>
+                <button data-bs-dismiss="modal" id="confirm-delete-alumni" type="button" class="btn btn-danger"><i class="fas fa-archive"></i> Archive</button>
             </div>
         </div>
     </div>

@@ -1,17 +1,24 @@
 <script>
-    window.onload = () => {
-        const axisOptions = {
-            titleFontFamily: "Poppins",
-            titleFontWeight: "bold",
-            labelFontFamily: "Poppins",
-        };
+    // $("#filter-graph").on("submit", (event) => {
+    //     const formData = new FormData(event.target);
 
-        const title = {
-            fontFamily: "Poppins",
-            fontWeight: "bolder",
-            fontSize: 18,
-            margin: 16
-        }
+
+    // });
+
+    const axisOptions = {
+        titleFontFamily: "Poppins",
+        titleFontWeight: "bold",
+        labelFontFamily: "Poppins",
+    };
+
+    const title = {
+        fontFamily: "Poppins",
+        fontWeight: "bolder",
+        fontSize: 18,
+        margin: 16
+    }
+    window.onload = () => {
+
         CanvasJS.addColorSet("matUIColors",
             [ //colorSet Array
                 "#f44336",
@@ -23,70 +30,25 @@
                 "#009688"
             ]);
 
-        var batch = new CanvasJS.Chart("batch", {
-            colorSet: "matUIColors",
+        var graduatesPerStrand = new CanvasJS.Chart("batch", {
             animationEnabled: true,
-            exportEnabled: true,
-            theme: "light1",
+            colorSet: "matUIColors",
             title: {
-                text: "Batch or Year Graduated",
+                text: "Graduates Per Strand",
                 ...title
             },
             axisY: {
+                title: "Strand",
                 includeZero: true,
-                title: "Number of Alumni",
-                ...axisOptions
-            },
-            axisX: {
-                includeZero: true,
-                title: "Year",
-                ...axisOptions
             },
             data: [{
-                type: "column",
+                setInterval: 1,
+                type: "bar",
                 indexLabel: "{y}",
-                yValueFormatString: "#, alumni",
-                dataPoints: <?php echo json_encode($batchOrYear, JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-
-        var tvl = new CanvasJS.Chart("tvl", {
-            colorSet: "matUIColors",
-            animationEnabled: true,
-            exportEnabled: true,
-            theme: "light1",
-            title: {
-                text: "TVL Track",
-                ...title
-            },
-            legend: {
-                cursor: "pointer",
-                horizontalAlign: "left",
-                verticalAlign: "center"
-            },
-            data: [{
-                type: "pie", //change type to bar, line, area, pie, etc
-                showInLegend: true,
-                yValueFormatString: "#,##0.00\"%\"",
-                indexLabel: "{label} ({y})",
-                dataPoints: <?php echo json_encode($accordingToStrand["TVL"], JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-
-        var academic = new CanvasJS.Chart("academic", {
-            colorSet: "matUIColors",
-            animationEnabled: true,
-            exportEnabled: true,
-            theme: "light1",
-            title: {
-                text: "Academic Track",
-                ...title
-            },
-            data: [{
-                type: "pie", //change type to bar, line, area, pie, etc
-                yValueFormatString: "#,##0.00\"%\"",
-                indexLabel: "{label} ({y})",
-                dataPoints: <?php echo json_encode($accordingToStrand["Academic"], JSON_NUMERIC_CHECK); ?>
+                indexLabelPlacement: "inside",
+                indexLabelFontWeight: "bolder",
+                indexLabelFontColor: "white",
+                dataPoints: <?php echo json_encode($graduatesPerStrand, JSON_NUMERIC_CHECK); ?>
             }]
         });
 
@@ -144,6 +106,33 @@
             }]
         });
 
+        var gender = new CanvasJS.Chart("gender", {
+            colorSet: "matUIColors",
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light1",
+            title: {
+                text: "Gender",
+                ...title
+            },
+            axisY: {
+                includeZero: true,
+                title: "Alumni",
+                ...axisOptions
+            },
+            axisX: {
+                includeZero: true,
+                title: "Gender",
+                ...axisOptions
+            },
+            data: [{
+                type: "column",
+                indexLabel: "{y}",
+                yValueFormatString: "#, alumni",
+                dataPoints: <?php echo json_encode($gender, JSON_NUMERIC_CHECK); ?>
+            }]
+        });
+
         var skills = new CanvasJS.Chart("skills", {
             colorSet: "matUIColors",
             animationEnabled: true,
@@ -187,11 +176,13 @@
                 dataPoints: <?php echo json_encode($skillsAcquired["Disagree"], JSON_NUMERIC_CHECK); ?>
             }]
         });
-        batch.render();
-        tvl.render();
-        academic.render();
+
+        
+
+        graduatesPerStrand.render();
         presentStatus.render();
         curriculumExit.render();
+        gender.render();
         skills.render();
     }
 </script>

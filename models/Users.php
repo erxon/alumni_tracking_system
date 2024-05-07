@@ -97,7 +97,7 @@ class Users extends UserUtility
 
     public function getUsers($offset)
     {
-        $sql = "SELECT user.id, user.username, user.firstName, user.lastName, user.email, user.type, alumni.status 
+        $sql = "SELECT user.id, user.username, user.firstName, user.lastName, user.email, user.type
         FROM user LEFT JOIN alumni ON user.id=alumni.userAccountID 
         WHERE alumni.status IS NULL OR alumni.status = 'active' 
         ORDER BY user.dateCreated DESC LIMIT 5 OFFSET $offset";
@@ -111,6 +111,14 @@ class Users extends UserUtility
         } catch (Exception $e) {
             $this->displayError($e);
         }
+    }
+
+    public function getAllUsers(){
+        $sql = "SELECT email FROM user";
+
+        $result = $this->db->query($sql);
+
+        return $result->fetch_all();
     }
 
     public function numberOfUsers(){
@@ -174,5 +182,17 @@ class Users extends UserUtility
         $result = $this->db->query($sql);
 
         return $result;
+    }
+
+    public function checkEmail($email){
+        $sql = "SELECT * FROM alumni WHERE email='$email'";
+
+        $result = $this->db->query($sql);
+
+        if($result->num_rows > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
