@@ -52,7 +52,7 @@ $countryOptions = [
 
 $institutionsInCavite = [
     "De La Salle University - Dasmariñas (DLSU-D)",
-    "Cavite State University (CavSU)",
+    "Cavite State University (CvSU)",
     "Lyceum of the Philippines University - Cavite (LPU Cavite)",
     "Far Eastern University - Cavite (FEU Cavite)",
     "Emilio Aguinaldo College - Cavite",

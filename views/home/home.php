@@ -39,13 +39,13 @@ if (empty($_SESSION["email"])) { ?>
         <div id="carouselExampleAutoplaying" class="carousel carousel-home slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="public/assets/carousel/alumni1.jpg" class="carousel-img d-block w-100" alt="image 1">
+                    <img src="public/assets/carousel/alumni-1.jpg" class="carousel-img d-block w-100" alt="image 1">
                 </div>
                 <div class="carousel-item">
-                    <img src="public/assets/carousel/alumni2.jpg" class="carousel-img d-block w-100" alt="image 2">
+                    <img src="public/assets/carousel/alumni-2.jpg" class="carousel-img d-block w-100" alt="image 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="public/assets/carousel/alumni6.jpg" class="carousel-img d-block w-100" alt="image 3">
+                    <img src="public/assets/carousel/alumni-3.jpg" class="carousel-img d-block w-100" alt="image 3">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">

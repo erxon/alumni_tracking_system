@@ -20,7 +20,7 @@ class Dashboard
         $db = new Database();
         $result = $db->query("SELECT * FROM alumni 
         JOIN alumni_school_history ON alumni.id = alumni_school_history.alumniID 
-        WHERE track='$track' AND status='active'");
+        WHERE alumni_school_history.track='$track' AND alumni.status='active'");
         $count = $result->num_rows;
 
         return $count;
@@ -29,7 +29,7 @@ class Dashboard
     public function tracks()
     {
         return array(
-            "TVL" => $this->queryTrackFinished('TVL'),
+            "TVL" => $this->queryTrackFinished('Technical-Vocational and Livelihood'),
             "Academic" => $this->queryTrackFinished('Academic')
         );
     }

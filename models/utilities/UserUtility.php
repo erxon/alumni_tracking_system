@@ -36,7 +36,7 @@ class UserUtility
     {
         if (
             $email == "" or
-            $type == "" 
+            $type == ""
         ) {
             throw new Exception("Empty fields");
         }
@@ -49,6 +49,17 @@ class UserUtility
             $username == ""
         ) {
             throw new Exception("Invalid fields");
+        }
+        return;
+    }
+
+    protected function emailExists($email)
+    {
+        $sql = "SELECT * FROM user WHERE email='$email'";
+        $result = $this->db->query($sql);
+
+        if ($result->num_rows > 0) {
+            throw new Exception("Email already exists");
         }
         return;
     }
@@ -85,7 +96,11 @@ class UserUtility
 
     protected function updateSession($changes)
     {
-        $_SESSION["username"] = $changes["username"];
+        if (isset($changes["username"])) {
+            $_SESSION["username"] = $changes["username"];
+        } else {
+            $_SESSION["email"] = $changes["email"];
+        }
     }
 
     protected function displayError($e)

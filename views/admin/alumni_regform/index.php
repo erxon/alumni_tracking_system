@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require "/xampp/htdocs/thesis/models/Database.php";
 require "/xampp/htdocs/thesis/models/Fields.php";
 
 $field = new Fields();

@@ -1,7 +1,7 @@
 <div class="d-flex flex-row mb-3">
     <div class="form-floating flex-fill me-2">
         <input id="first-name" type="text" class="form-control me-1" name="first-name" placeholder="First Name" required />
-        <label for="first-name">First name</label>
+        <label for="first-name">First name <span class="text-danger">*</span></label>
     </div>
     <div class="form-floating flex-fill me-2">
         <input id="middle-name" type="text" class="form-control me-1" name="middle-name" placeholder="Middle Name" />
@@ -9,18 +9,18 @@
     </div>
     <div class="form-floating flex-fill me-2">
         <input id="last-name" type="text" class="form-control" name="last-name" placeholder="Last Name" required />
-        <label for="last-name">Last name</label>
+        <label for="last-name">Last name <span class="text-danger">*</span></label>
     </div>
 </div>
 <hr class="my-3" />
 <div class="d-flex mb-3">
     <div class="form-floating flex-fill me-2">
         <input id="contact-number" type="text" class="form-control" name="contact-number" placeholder="Contact Number" required />
-        <label for="contact-number">Contact number <i>(+63)</i></label>
+        <label for="contact-number">Contact number <i>(+63)</i> <span class="text-danger">*</span></label>
     </div>
     <div class="form-floating flex-fill">
         <input id="email" type="email" class="form-control" name="email" placeholder="Email" required />
-        <label for="email">Email <i>(@gmail.com)</i></label>
+        <label for="email">Email <i>(@gmail.com) <span class="text-danger">*</span></i></label>
         <div style="display: none" id="email-already-exists" class="invalid-feedback">
             Email already exists
         </div>
@@ -29,13 +29,13 @@
 <div class="form-floating">
     <input id="address" type="text" class="mb-3 form-control" name="address" placeholder="Complete address" required />
     <label for="address">Complete address <i>(House number, Street name, Barangay, Municipality)
-        </i></label>
+        </i> <span class="text-danger">*</span></label>
 </div>
 <hr class="my-3" />
 <div class="d-flex mb-3 align-items-center">
     <div class="form-floating flex-fill me-2">
         <input id="birthdate" type="text" name="birthdate" class="form-control" placeholder="Birthdate" required />
-        <label for="birthdate">Birthdate</label>
+        <label for="birthdate">Birthdate <span class="text-danger">*</span></label>
     </div>
     <div class="form-floating flex-fill me-2">
         <input id="age" type="number" name="age" class="form-control" placeholder="Age" readonly />
@@ -48,6 +48,6 @@
             <option value="Female">Female</option>
             <option value="Other">Other</option>
         </select>
-        <label for="gender">Gender</label>
+        <label for="gender">Gender <span class="text-danger">*</span></label>
     </div>
 </div>

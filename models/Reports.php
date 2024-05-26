@@ -311,35 +311,71 @@ class Reports
         return $data;
     }
 
+    protected function yearGraduated(){
+        $query = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
+        FROM alumni_school_history 
+        JOIN alumni ON alumni_school_history.alumniID = alumni.id 
+        WHERE alumni.status = 'active' 
+        GROUP BY alumni_school_history.yearGraduated 
+        ORDER BY alumni_school_history.yearGraduated ASC";
+
+        $result = $this->db->query($query);
+
+        return $result;
+    }
+
+    protected function structureGraduatedTrend()
+    {
+        $yearGraduated = $this->yearGraduated();
+        $data = ["TVL" => [], "ACAD" => []];
+
+        foreach ($yearGraduated->fetch_all() as $year) {
+            array_push($data["TVL"], ["label" => $year[0], "y" => 0]);
+            array_push($data["ACAD"], ["label" => $year[0], "y" => 0]);
+        }
+
+        return $data;
+    }
+
     public function yearGraduatedTrend()
     {
-        $data = ["TVL" => [], "ACAD" => []];
+        $data = $this->structureGraduatedTrend();
 
 
         $tvl = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         WHERE alumni.status = 'active' AND alumni_school_history.track = 'Technical-Vocational and Livelihood' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated 
+        ORDER BY alumni_school_history.yearGraduated ASC";
 
         $academic = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         WHERE alumni.status = 'active' AND alumni_school_history.track = 'Academic' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated 
+        ORDER BY alumni_school_history.yearGraduated ASC";
 
         $resultTvl = $this->db->query($tvl);
         $resultAcademic = $this->db->query($academic);
 
         if ($resultTvl->num_rows > 0) {
             foreach ($resultTvl->fetch_all() as $row) {
-                array_push($data["TVL"], ["label" => $row[0], "y" => $row[1]]);
+                foreach ($data["TVL"] as &$point) {
+                    if ($point["label"] === $row[0]) {
+                        $point["y"] = $row[1];
+                    }
+                }
             }
         }
 
         if ($resultAcademic->num_rows > 0) {
             foreach ($resultAcademic->fetch_all() as $row) {
-                array_push($data["ACAD"], ["label" => $row[0], "y" => $row[1]]);
+                foreach ($data["ACAD"] as &$point) {
+                    if ($point["label"] === $row[0]) {
+                        $point["y"] = $row[1];
+                    }
+                }
             }
         }
 
@@ -362,7 +398,7 @@ class Reports
         $query = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni.id = alumni_school_history.alumniID
-        WHERE alumni.status = 'active'" . $params . "GROUP BY alumni_school_history.yearGraduated";
+        WHERE alumni.status = 'active'" . $params . "GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $result = $this->db->query($query);
 
@@ -375,45 +411,88 @@ class Reports
         return $data;
     }
 
-    public function yearGraduatedPresentStatusAll()
+    protected function structurePresentStatusData()
     {
+        $resultYearGraduated = $this->yearGraduated();
         $data = ["employed" => [], "university_student" => [], "unemployed" => []];
 
+        foreach ($resultYearGraduated->fetch_all() as $year) {
+            array_push($data["employed"], ["label" => $year[0], "y" => 0]);
+            array_push($data["university_student"], ["label" => $year[0], "y" => 0]);
+            array_push($data["unemployed"], ["label" => $year[0], "y" => 0]);
+        }
+
+        return $data;
+    }
+
+    protected function structureCurriculumExitData()
+    {
+        $resultYearGraduated = $this->yearGraduated();
+        $data = [
+            "employment" => [],
+            "higher_education" => [],
+            "entrepreneurship" => [],
+            "mid_level" => [],
+            "none" => []
+        ];
+
+        foreach ($resultYearGraduated->fetch_all() as $year) {
+            array_push($data["employment"], ["label" => $year[0], "y" => 0]);
+            array_push($data["higher_education"], ["label" => $year[0], "y" => 0]);
+            array_push($data["entrepreneurship"], ["label" => $year[0], "y" => 0]);
+            array_push($data["mid_level"], ["label" => $year[0], "y" => 0]);
+            array_push($data["none"], ["label" => $year[0], "y" => 0]);
+        }
+
+        return $data;
+    }
+
+    public function yearGraduatedPresentStatusAll()
+    {
+        $data = $this->structurePresentStatusData();
 
         $employed = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_present_status ON alumni_present_status.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_present_status.presentStatus = 'Employed' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $universityStudent = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_present_status ON alumni_present_status.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_present_status.presentStatus = 'University Student' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $unemployed = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_present_status ON alumni_present_status.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_present_status.presentStatus = 'Unemployed' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $resultEmployed = $this->db->query($employed);
 
         if ($resultEmployed->num_rows > 0) {
             foreach ($resultEmployed->fetch_all() as $row) {
-                array_push($data["employed"], ["label" => $row[0], "y" => $row[1]]);
+                foreach ($data["employed"] as &$point) {
+                    if ($point["label"] === $row[0]) {
+                        $point["y"] = $row[1];
+                    }
+                }
             }
         }
-
+        
         $resultUniversityStudent = $this->db->query($universityStudent);
 
         if ($resultUniversityStudent->num_rows > 0) {
             foreach ($resultUniversityStudent->fetch_all() as $row) {
-                array_push($data["university_student"], ["label" => $row[0], "y" => $row[1]]);
+                foreach ($data["university_student"] as &$point) {
+                    if ($point["label"] == $row[0]) {
+                        $point["y"] = (int) $row[1];
+                    }
+                }
             }
         }
 
@@ -421,7 +500,11 @@ class Reports
 
         if ($resultUnemployed->num_rows > 0) {
             foreach ($resultUnemployed->fetch_all() as $row) {
-                array_push($data["unemployed"], ["label" => $row[0], "y" => $row[1]]);
+                foreach ($data["unemployed"] as &$point) {
+                    if ($point["label"] == $row[0]) {
+                        $point["y"] = (int) $row[1];
+                    }
+                }
             }
         }
 
@@ -437,7 +520,7 @@ class Reports
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_present_status ON alumni_present_status.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_present_status.presentStatus = '$presentStatus' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $result = $this->db->query($query);
 
@@ -452,94 +535,108 @@ class Reports
 
     public function yearGraduatedCurriculumExitAll()
     {
-        $data = [
-            "employment" => [],
-            "higher_education" => [],
-            "entrepreneurship" => [],
-            "mid_level" => [],
-            "none" => []
-        ];
+        $data = $this->structureCurriculumExitData();
 
         $employment = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_pursued_curriculum_exits ON alumni_pursued_curriculum_exits.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_pursued_curriculum_exits.pursuedCurriculumExit = 'Employment' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $higherEducation = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_pursued_curriculum_exits ON alumni_pursued_curriculum_exits.alumniID = alumni_school_history.alumniID
-        WHERE alumni.status = 'active' AND alumni_pursued_curriculum_exits.pursuedCurriculumExit = 'HigherEducation' 
-        GROUP BY alumni_school_history.yearGraduated";
+        WHERE alumni.status = 'active' AND alumni_pursued_curriculum_exits.pursuedCurriculumExit = 'Higher Education' 
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $entrepreneurship = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_pursued_curriculum_exits ON alumni_pursued_curriculum_exits.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_pursued_curriculum_exits.pursuedCurriculumExit = 'Entrepreneurship' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $midLevel = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_pursued_curriculum_exits ON alumni_pursued_curriculum_exits.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_pursued_curriculum_exits.pursuedCurriculumExit = 'Middle-level skills development' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $none = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
         FROM alumni_school_history 
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_pursued_curriculum_exits ON alumni_pursued_curriculum_exits.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_pursued_curriculum_exits.pursuedCurriculumExit = 'None' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $resultEmployment = $this->db->query($employment);
 
-        if($resultEmployment->num_rows > 0){
-            foreach($resultEmployment->fetch_all() as $row){
-                array_push($data["employment"], ["label" => $row[0], "y"=>$row[1]]);
+        if ($resultEmployment->num_rows > 0) {
+            foreach ($resultEmployment->fetch_all() as $row) {
+                foreach ($data["employment"] as &$point) {
+                    if ($point["label"] == $row[0]) {
+                        $point["y"] = (int) $row[1];
+                    }
+                }
             }
         }
 
         $resultHigherEducation = $this->db->query($higherEducation);
 
-        if($resultHigherEducation->num_rows > 0){
-            foreach($resultHigherEducation->fetch_all() as $row){
-                array_push($data["higher_education"], ["label" => $row[0], "y"=>$row[1]]);
+        if ($resultHigherEducation->num_rows > 0) {
+            foreach ($resultHigherEducation->fetch_all() as $row) {
+                foreach ($data["higher_education"] as &$point) {
+                    if ($point["label"] == $row[0]) {
+                        $point["y"] = (int) $row[1];
+                    }
+                }
             }
         }
 
         $resultEntrepreneurship = $this->db->query($entrepreneurship);
 
-        if($resultEntrepreneurship->num_rows > 0){
-            foreach($resultEntrepreneurship->fetch_all() as $row){
-                array_push($data["entrepreneurship"], ["label" => $row[0], "y"=>$row[1]]);
+        if ($resultEntrepreneurship->num_rows > 0) {
+            foreach ($resultEntrepreneurship->fetch_all() as $row) {
+                foreach ($data["entrepreneurship"] as &$point) {
+                    if ($point["label"] == $row[0]) {
+                        $point["y"] = (int) $row[1];
+                    }
+                }
             }
         }
 
         $midLevel = $this->db->query($midLevel);
 
-        if($midLevel->num_rows > 0){
-            foreach($midLevel->fetch_all() as $row){
-                array_push($data["mid_level"], ["label" => $row[0], "y"=>$row[1]]);
+        if ($midLevel->num_rows > 0) {
+            foreach ($midLevel->fetch_all() as $row) {
+                foreach ($data["mid_level"] as &$point) {
+                    if ($point["label"] == $row[0]) {
+                        $point["y"] = (int) $row[1];
+                    }
+                }
             }
         }
 
         $none = $this->db->query($none);
 
-        if($none->num_rows > 0){
-            foreach($none->fetch_all() as $row){
-                array_push($data["none"], ["label" => $row[0], "y"=>$row[1]]);
+        if ($none->num_rows > 0) {
+            foreach ($none->fetch_all() as $row) {
+                foreach ($data["none"] as &$point) {
+                    if ($point["label"] == $row[0]) {
+                        $point["y"] = (int) $row[1];
+                    }
+                }
             }
         }
 
         return $data;
-
     }
 
-    public function yearGraduatedCurriculumExits($curriculumExit){
+    public function yearGraduatedCurriculumExits($curriculumExit)
+    {
         $data = [];
 
         $query = "SELECT alumni_school_history.yearGraduated, COUNT(*) 
@@ -547,12 +644,12 @@ class Reports
         JOIN alumni ON alumni_school_history.alumniID = alumni.id 
         JOIN alumni_pursued_curriculum_exits ON alumni_pursued_curriculum_exits.alumniID = alumni_school_history.alumniID
         WHERE alumni.status = 'active' AND alumni_pursued_curriculum_exits.pursuedCurriculumExit = '$curriculumExit' 
-        GROUP BY alumni_school_history.yearGraduated";
+        GROUP BY alumni_school_history.yearGraduated ORDER BY alumni_school_history.yearGraduated ASC";
 
         $result = $this->db->query($query);
 
-        if($result->num_rows > 0){
-            foreach($result->fetch_all() as $row){
+        if ($result->num_rows > 0) {
+            foreach ($result->fetch_all() as $row) {
                 array_push($data, ["label" => $row[0], "y" => $row[1]]);
             }
         }
@@ -578,7 +675,7 @@ class Reports
 
         $query = "SELECT alumni.gender, COUNT(*) FROM alumni
         JOIN alumni_school_history ON alumni_school_history.alumniID = alumni.id
-        WHERE alumni.status='active'" . $params . "GROUP BY alumni.gender";
+        WHERE alumni.status='active'" . $params . "GROUP BY alumni.gender ORDER BY alumni_school_history.yearGraduated ASC";
 
         $result = $this->db->query($query);
 
@@ -660,7 +757,7 @@ class Reports
     {
         $dataPoints = array();
 
-        $query = "SELECT gender, COUNT(*) FROM `alumni` WHERE status='active' GROUP BY gender";
+        $query = "SELECT gender, COUNT(*) FROM alumni WHERE status='active' GROUP BY gender";
 
         $result = $this->db->query($query);
 
@@ -751,7 +848,8 @@ class Reports
         return $dataPoints;
     }
 
-    public function getBatchTotalAlumni(){
+    public function getBatchTotalAlumni()
+    {
         $query = "SELECT yearGraduated, COUNT(*) 
         FROM alumni_school_history GROUP BY yearGraduated ORDER BY yearGraduated ASC";
 
@@ -760,7 +858,8 @@ class Reports
         return $result->fetch_all();
     }
 
-    public function getAlumniPerTrackPerBatch($batch, $track){
+    public function getAlumniPerTrackPerBatch($batch, $track)
+    {
         $query = "SELECT COUNT(*) 
         FROM alumni_school_history 
         WHERE yearGraduated='$batch' AND track='$track'
@@ -771,7 +870,8 @@ class Reports
         return $result->fetch_all();
     }
 
-    public function getAlumniPerGenderPerBatch($batch, $gender){
+    public function getAlumniPerGenderPerBatch($batch, $gender)
+    {
         $query = "SELECT COUNT(*) 
         FROM alumni_school_history
         JOIN alumni ON alumni.id = alumni_school_history.alumniID 
@@ -783,7 +883,8 @@ class Reports
         return $result->fetch_all();
     }
 
-    public function getAlumniPerPresentStatusPerBatch($batch, $presentStatus){
+    public function getAlumniPerPresentStatusPerBatch($batch, $presentStatus)
+    {
         $query = "SELECT COUNT(*) 
         FROM alumni_school_history
         JOIN alumni_present_status ON alumni_present_status.alumniID = alumni_school_history.alumniID 

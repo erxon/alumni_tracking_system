@@ -44,7 +44,7 @@ $gender = $reports->gender($batch, $track, $strand);
 
 $yearGraduatedTrend = $reports->yearGraduatedTrend();
 
-if (str_contains($_SERVER["REQUEST_URI"], "/thesis/admin/alumnitrends")) {
+if (str_contains($_SERVER["REQUEST_URI"],"/thesis/admin/alumnitrends")) {
     $yearGraduatedTrendTracks = $reports->yearGraduatedTrendTracks($trackTrend, $strandTrend);
     $yearGraduatedPresentStatusAll = $reports->yearGraduatedPresentStatusAll();
     $yearGraduatedPresentStatus = $reports->yearGraduatedPresentStatus($presentStatus);
@@ -70,16 +70,17 @@ if (str_contains($_SERVER["REQUEST_URI"], "/thesis/admin/alumnitrends")) {
                             <p class="fs-6 text-primary"><i class="fas fa-user-graduate me-2"></i> <?php echo $alumni . " " . "alumni"; ?></p>
                         </div>
                     </div>
+                    <?php if ($_SESSION["type"] == "admin") { ?>
+                        <div class="col shadow bg-white rounded p-3 me-2">
+                            <div class="d-flex flex-column" style="height: 100px;">
+                                <h5 class="h-100">Pending alumni registration</h5>
+                                <p class="fs-6 text-primary"><i class="fas fa-user-graduate me-2"></i> <?php echo $pendingAlumni . " " . "alumni"; ?></p>
+                            </div>
 
-                    <div class="col shadow bg-white rounded p-3 me-2">
-                        <div class="d-flex flex-column" style="height: 100px;">
-                            <h5 class="h-100">Pending alumni registration</h5>
-                            <p class="fs-6 text-primary"><i class="fas fa-user-graduate me-2"></i> <?php echo $pendingAlumni . " " . "alumni"; ?></p>
-                        </div>
-                        <?php if ($_SESSION["type"] == "admin") { ?>
                             <a role="button" href="/thesis/admin/registration" class="btn btn-sm btn-primary">View</a>
-                        <?php } ?>
-                    </div>
+
+                        </div>
+                    <?php } ?>
 
                     <div class="col shadow bg-white rounded p-3 me-2">
 
@@ -96,26 +97,14 @@ if (str_contains($_SERVER["REQUEST_URI"], "/thesis/admin/alumnitrends")) {
                     </div>
                 </div>
                 <div class="row mt-3 g-2 me-0">
-                    <div class="col shadow bg-white rounded p-3 me-2">
-                        <h5>Male</h5>
-                        <div class="d-flex flex-column justify-content-end" style="height: 50px;">
-                            <p class="fs-6 text-primary"><i class="fas fa-male"></i>
-                                <?php if (isset($accordingToGender[0]) && $accordingToGender[0]["label"] == "Male") {
-                                    echo $accordingToGender[0]["y"];
-                                } ?> alumni</p>
+                    <?php foreach ($accordingToGender as $genderRow) { ?>
+                        <div class="col shadow bg-white rounded p-3 me-2">
+                            <h5><?php echo $genderRow["label"] ?></h5>
+                            <div class="d-flex flex-column justify-content-end" style="height: 50px;">
+                                <p class="text-primary"><?php echo $genderRow["y"] ?> alumni</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col shadow bg-white rounded p-3 me-2">
-                        <h5>Female</h5>
-                        <div class="d-flex flex-column justify-content-end" style="height: 50px;">
-                            <p class="fs-6 text-primary"></i><i class="fas fa-female"></i>
-                                <?php if (isset($accordingToGender[1]) && $accordingToGender[0]["label"] == "Female") {
-                                    echo $accordingToGender[1]["y"];
-                                } else {
-                                    echo "0";
-                                } ?> alumni</p>
-                        </div>
-                    </div>
+                    <?php } ?>
                     <div class="col p-3 me-2"></div>
                     <div class="col p-3"></div>
                 </div>

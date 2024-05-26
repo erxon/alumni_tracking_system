@@ -25,6 +25,10 @@
                         <td>${gallery[2]}</td>
                         <td>
                             <a role="button" href="/thesis/contents/gallery?id=${gallery[0]}" class="btn btn-sm btn-dark">See images</a>
+                            <button onclick="alumniInfo('${gallery[1]}', 
+                            '${gallery[0]}', 
+                            '/thesis/contents/gallery?id=' . ${gallery[0]}',
+                            '${gallery[2]}')" data-bs-toggle="modal" data-bs-target="#send-email" class="btn btn-sm btn-dark">Send email</button>
                             <a role="button" href="/thesis/contents/gallery/edit?id=${gallery[0]}" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-edit"></i></a>
                             <button onclick="deleteGallery('${gallery[0]}')" data-bs-toggle="modal" data-bs-target="#delete-gallery-confirmation" class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash"></i></button>
                         </td>

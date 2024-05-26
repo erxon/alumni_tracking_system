@@ -241,7 +241,7 @@ if ($alumniDetails["status"] == "pending") {
     };
 
     $("#print").on("click", () => {
-        html2pdf(element, opt);
+        printWithoutHeader(element, '<?php echo $alumniDetails["id"]; ?>.pdf');
     })
 </script>
 <?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

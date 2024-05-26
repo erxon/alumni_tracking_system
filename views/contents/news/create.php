@@ -20,7 +20,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
     <form style="border-radius: 10px;" id="news-form" class="mt-3 bg-white p-3" novalidate enctype="multipart/form-data">
         <div class="mb-3">
             <!----------------Image Upload-------------------->
-            <input id="cover-image" name="coverImage" type="file" class="form-control" required />
+            <input id="cover-image" name="coverImage" type="file" accept="image/png, image/jpeg, image/jpg" class="form-control" required />
         </div>
         <div class="mb-5">
             <!--Title & Body-->

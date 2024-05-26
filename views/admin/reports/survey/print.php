@@ -22,11 +22,11 @@ $stringUtil = new StringUltilities();
         </ol>
     </nav>
     <hr class="my-3" />
+    <h5>Print preview</h5>
     <div id="survey-data" class="bg-white shadow p-3 mb-3">
-        <h5>Print preview</h5>
         <div>
-            <img class="mb-3 rounded" style="height: 300px; width: 100%; object-fit: cover;" src="/thesis/public/images/cover/<?php echo $survey['coverImage']; ?>" />
             <div class="print-area">
+                <h3><?php echo $survey["title"] ?></h3>
                 <div>
                     <!--TABLE-->
                     <div class="p-3">

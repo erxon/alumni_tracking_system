@@ -22,13 +22,13 @@ include("/xampp/htdocs/thesis/views/template/header.php");
         <form id="surveys-form" enctype="multipart/form-data" class="surveys-form">
             <div class="mb-3">
                 <!-----Survey Body----->
-                <input name="coverImage" type="file" class="form-control mb-2" />
+                <input name="coverImage" type="file" accept="image/jpeg, image/png, image/jpg" class="form-control mb-2" />
                 <input name="title" type="text" class="form-control mb-2" placeholder="Add title" />
                 <p class="m-0 text-secondary mb-1 mt-3" style="font-size: 14px;">Add description here</p>
                 <textarea name="description" id="content-body" class="content-body"></textarea>
             </div>
             <button class="btn btn-sm btn-dark" type="submit">Save</button>
-            <a role="button" href="/thesis/contents/surveys/all" class="btn btn-sm btn-secondary">Discard</a>
+            <a role="button" href="/thesis/contents/surveys/all?page=1" class="btn btn-sm btn-secondary">Discard</a>
         </form>
     </div>
 </div>

@@ -61,21 +61,18 @@
                 data: [{
                         type: "line",
                         name: "Employed",
-                        setInterval: 2,
                         showInLegend: true,
                         dataPoints: <?php echo json_encode($yearGraduatedPresentStatusAll["employed"], JSON_NUMERIC_CHECK); ?>
                     },
                     {
                         type: "line",
                         name: "University Student",
-                        setInterval: 2,
                         showInLegend: true,
                         dataPoints: <?php echo json_encode($yearGraduatedPresentStatusAll["university_student"], JSON_NUMERIC_CHECK); ?>
                     },
                     {
                         type: "line",
                         name: "Unemployed",
-                        setInterval: 2,
                         showInLegend: true,
                         dataPoints: <?php echo json_encode($yearGraduatedPresentStatusAll["unemployed"], JSON_NUMERIC_CHECK); ?>
                     }

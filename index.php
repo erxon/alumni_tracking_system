@@ -242,6 +242,9 @@ switch ($url) {
     case "/thesis/email":
         require __DIR__ . "/views/alumni/send_email.php";
         break;
+    case "/thesis/content/update":
+        require __DIR__ . "/views/contents/send_email/send_email_server.php";
+        break;
     case "/thesis/register":
         require __DIR__ . "/views/register.php";
         break;

@@ -21,7 +21,7 @@ if ($_FILES["alumni_photo"]) {
     move_uploaded_file($tempname, $folder);
 }
 
-$userID = $alumni->signupUser($_POST["email"], "alumni");
+$userID = $alumni->signupUser($_POST["first-name"], $_POST["last-name"],$_POST["email"], "alumni");
 $alumniID = $alumni->addAlumni($photo, $userID);
 $tracerStudy = $alumni->insertTracerStudy($alumniID);
 $additionalInformation = $alumni->additionalFieldAnswer($alumniID);

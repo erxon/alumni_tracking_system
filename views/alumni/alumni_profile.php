@@ -51,7 +51,9 @@ if ($alumniDetails["status"] == "pending") {
                 </ol>
             </nav>
             <!--Print-->
-            <a href="/thesis/admin/alumni/print?id=<?php echo $alumniID ?>" class="btn btn-dark btn-sm">Print Details</a>
+            <?php if ($alumniDetails["status"] === "active") { ?>
+                <a href="/thesis/admin/alumni/print?id=<?php echo $alumniID ?>" class="btn btn-dark btn-sm">Print Details</a>
+            <?php } ?>
         <?php } ?>
     </div>
     <div class="row">

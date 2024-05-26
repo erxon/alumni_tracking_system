@@ -6,7 +6,7 @@
                 <option value="<?php echo $track[2] ?>"><?php echo $track[2] ?></option>
             <?php } ?>
         </select>
-        <label for="track">Track</label>
+        <label for="track">Track <span class="text-danger">*</span></label>
     </div>
     <div class="form-floating flex-fill me-2">
         <select disabled id="strand" name="strand" class="me-2 form-select form-select-sm" aria-label="Small select example" required>
@@ -17,7 +17,7 @@
                 </option>
             <?php } ?>
         </select>
-        <label for="strand">Strand</label>
+        <label for="strand">Strand <span class="text-danger">*</span></label>
     </div>
     <div class="form-floating flex-fill me-2">
         <select class="form-select" disabled id="specialization" name="specialization">
@@ -26,15 +26,18 @@
                 <option hidden class="<?php echo $specialization[4]; ?>" value="<?php echo $specialization[3] ?>"><?php echo $specialization[3] ?></option>
             <?php } ?>
         </select>
-        <label for="specialization">Specialization</label>
+        <label for="specialization">Specialization <span class="text-danger">*</span></label>
     </div>
-    <div class="form-floating flex-fill me-2">
-        <input id="year-graduated" type="text" class="form-control" name="year-graduated" placeholder="Year graduated" required />
-        <label for="year-graduated">Year graduated</label>
-    </div>
+
 </div>
-<div class="mb-3">
-    <div class="d-flex mb-2">
+<div class="mb-3 d-flex align-items-center">
+    <div class="flex-fill me-2">
+        <div class="form-floating flex-fill me-2">
+            <input id="year-graduated" type="text" class="form-control" name="year-graduated" placeholder="Year graduated" required />
+            <label for="year-graduated">Year of Graduation <span class="text-danger">*</span></label>
+        </div>
+    </div>
+    <div class="d-flex mb-2 flex-fill">
         <p class="m-0 me-2">Do you have certifications?</p>
         <div class="form-check me-2">
             <input value="true" class="form-check-input is_certified" type="radio" name="isCertified" id="is_certified_true">
@@ -49,15 +52,15 @@
             </label>
         </div>
     </div>
-    <div class="form-floating" id="certification" hidden>
-        <input type="text" class="mb-3 form-control" name="certifications" default placeholder="What kind of certification did you acquired?" />
-        <label for="certifications">What kind of certification did you acquired?</label>
-    </div>
+</div>
+<div class="form-floating" id="certification" hidden>
+    <input type="text" class="mb-3 form-control" name="certifications" default placeholder="What kind of certification did you acquired?" />
+    <label for="certifications">What kind of certification did you acquired?</label>
 </div>
 <div class="border border-1 rounded p-3 flex-fill me-2">
     <div id="image-preview"></div>
     <p class="m-0 mb-1 text-secondary" style="font-size: 14px;">Digital photograph 2x2 (White
-        background)</p>
+        background) <span class="text-danger">*</span></p>
     <p class="m-0 mb-1 text-secondary" style="font-size: 14px;">Only accepts photo in .jpg, jpeg, and .png format</p>
     <input id="alumni_photo" accept="image/jpg, image/png, image/jpeg" type="file" name="alumni_photo" class="form-control" required />
     <div style="display: none" class="alert alert-danger mt-3" id="error" role="alert"> </div>

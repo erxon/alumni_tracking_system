@@ -52,7 +52,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
         </div>
         <div class="mb-3">
             <!----------------Image Upload-------------------->
-            <input id="cover-image" name="coverImage" type="file" class="form-control" required />
+            <input id="cover-image" name="coverImage" type="file" accept="image/jpeg, image/png, image/jpg" class="form-control" required />
         </div>
         <div class="mb-5">
             <!--Title & Body-->

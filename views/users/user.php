@@ -23,7 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <li class="breadcrumb-item" aria-current="page"><?php echo $rows["username"]; ?></li>
                     </ol>
                 </nav>
-
                 <?php
                 if ($rows["type"] == "alumni") {
                     $alumniProfile = $users->getAlumniProfile($rows["id"]);
@@ -37,11 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         echo "<div class='photo-container mb-3'></div>";
                     }
                 }
-
                 ?>
                 <div class="text-center">
                     <h2 class="mb-0"><?php echo $rows["firstName"] ?> <?php echo $rows["lastName"] ?></h2>
-
                     <p class="text-primary m-0 mb-4 fs-4"><?php echo $rows["type"] ?></p>
                     <p class="value m-0"><?php echo $rows["username"] ?></p>
                     <p class="value"><i class="fas fa-envelope"></i> <?php echo $rows["email"] ?></p>
@@ -55,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <i class="fas fa-pen"></i> Edit
                         </a>
                     <?php } ?>
-                    <?php if ($_SESSION["type"] == "admin" && $_SESSION["user_id"] != $rows["id"]) { ?>
+                    <?php if ($_SESSION["type"] == "admin" && $_SESSION["user_id"] != $rows["id"] && $rows["type"] !== "alumni") { ?>
                         <button class="mt-3 btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete</button>
                     <?php } ?>
                     <?php if ($rows["type"] == "alumni") { ?>

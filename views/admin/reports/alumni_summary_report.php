@@ -14,7 +14,8 @@ $batchTotalAlumni = $reports->getBatchTotalAlumni();
 <div>
     <button id="print-summary" class="btn btn-sm btn-dark my-3">Print</button>
     <div id="print-area">
-        <table class="table table-bordered">
+        <h3 class="mb-3">Alumni Summary Report</h3>
+        <table class="table table-bordered table-striped">
             <thead>
                 <th rowspan="1">Batch/Year Graduated</th>
                 <th rowspan="1">Total Number</th>

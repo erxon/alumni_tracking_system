@@ -30,4 +30,14 @@ class SchoolInformation{
 
         return $result->fetch_all();
     }
+
+    public function getBatches(){
+        $db = new Database();
+
+        $query = "SELECT yearGraduated FROM alumni_school_history";
+
+        $result = $db->query($query);
+
+        return $result->fetch_all();
+    }
 }

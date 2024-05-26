@@ -31,7 +31,7 @@ include("/xampp/htdocs/thesis/views/template/header.php");
                 <?php include "personal_information.php" ?>
             </div>
             <div class="rounded bg-white p-3 shadow-sm mb-3">
-                <h5>School information</h5>
+                <h5>Track and Strand Finished</h5>
                 <hr class="my-3" />
                 <?php include "school_information.php" ?>
             </div>

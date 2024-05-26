@@ -1,4 +1,18 @@
 <script>
+    $("#cover-image").on("change", (event) => {
+        const inputImage = event.target.files[0];
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        if (!allowedExtensions.exec(event.target.value)) {
+            const toast = new bootstrap.Toast("#error-response");
+            $(".toast-body").empty("");
+            $(".toast-body").append("Invalid file type");
+            toast.show();
+
+            $("#cover-image").val("");
+        }
+    });
+
     $("#news-form").on("submit", (event) => {
         event.preventDefault();
         $("#news-form").addClass("was-validated");

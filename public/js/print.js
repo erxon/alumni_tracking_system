@@ -47,9 +47,31 @@ async function print(element, outputName) {
     },
     output: outputName,
     success: (pdf) => {
-        const loadImage = pdf.loadImageFile("/thesis/public/assets/print_header.png");
-        pdf.addImage(loadImage, "PNG", 22, 0, 400, 120);
-        pdf.save(outputName);
-    }
+      const loadImage = pdf.loadImageFile(
+        "/thesis/public/assets/print_header.png"
+      );
+      pdf.addImage(loadImage, "PNG", 22, 0, 400, 120);
+      pdf.save(outputName);
+    },
+  });
+}
+
+function printWithoutHeader(element, outputName) {
+  html2PDF(element, {
+    jsPDF: {
+      format: "a4",
+      unit: "px",
+    },
+    html2canvas: { scale: 2 },
+    imageType: "image/jpeg",
+    margin: {
+      right: 30,
+      bottom: 20,
+      left: 30,
+    },
+    output: outputName,
+    success: (pdf) => {
+      pdf.save(outputName);
+    },
   });
 }

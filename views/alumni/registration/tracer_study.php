@@ -16,6 +16,10 @@
         </ul>
 
         <div class="container-fluid bg-white p-3 rounded">
+            <p>The Senior High School competencies has provided the
+                learners with the following skills that are essential on the
+                current exits they pursue:</p>
+
             <div class="d-flex">
                 <div style="width: 20%"></div>
                 <div class="flex-fill text-center" style="width: 20%; font-size: 14px;">

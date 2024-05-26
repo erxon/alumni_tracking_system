@@ -41,13 +41,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($action == "edit-user-basic-information") {
         $id = $_POST["id"];
-        $changes = [
-            "username" => $_POST["username"]
-        ];
+
+        $changes = [];
+
+        if(isset($_POST["username"])){
+            $changes = ["username" => $_POST["username"]];
+        }
+
+        if(isset($_POST["email"])){
+            $changes = ["email" => $_POST["email"]];
+        }
 
         $result = $user->editUser($id, $changes);
-
-        $_SESSION["username"] = $_POST["username"];
 
         echo json_encode(["response" => $result]);
     }

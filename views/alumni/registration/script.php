@@ -379,9 +379,10 @@
             }
 
         } catch (error) {
+            $(".toast-body").empty();
             document.getElementById("alumni-registration-form").classList.add("was-validated");
-            const toast = new bootstrap.Toast(document.getElementById("response"));
-            document.getElementById("toast-body").innerHTML = error;
+            const toast = new bootstrap.Toast("#error-response");
+            $(".toast-body").append(error);
             toast.show();
         }
 

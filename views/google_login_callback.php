@@ -25,7 +25,7 @@ if (!isset($_GET['code'])) {
 
     $userId = $existing_user["id"];
 
-    $updateUser = "UPDATE user SET photo='$photo' WHERE id=$userId";
+    $updateUser = "UPDATE user SET photo='$photo', firstName='$first_name', lastName='$last_name' WHERE id=$userId";
     $db->query($updateUser);
 
     $_SESSION["user_id"] = $existing_user["id"];

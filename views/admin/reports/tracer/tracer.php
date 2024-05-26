@@ -17,22 +17,23 @@ $skillsAcquired = $reports->getRelevantSkills();
 <?php include "/xampp/htdocs/thesis/views/admin/reports/layout/header.php" ?>
 <div>
     <div class="p-4 bg-white shadow-sm rounded">
-        <h3>Batch or year graduated</h3>
-        <div class="d-flex mb-3 align-items-center">
-            <form id="custom-filter" class="d-flex me-2 align-items-center">
-                <input id="custom-filter-year-1" name="custom-filter-year-1" type="number" class="form-control me-2" />
-                <p class="m-0 me-2">-</p>
-                <input id="custom-filter-year-2" name="custom-filter-year-2" type="number" class="form-control me-3" />
-                <button disabled id="filter-graph" type="submit" class="btn btn-sm btn-dark me-2">Filter</button>
-                <button id="refresh-graph" type="button" class="btn btn-sm btn-outline-dark w-50"><i class="fas fa-redo"></i> Clear</button>
-            </form>
-            <div class="flex-fill"></div>
-            <div>
-                <button id="print-tracer-report" class="btn btn-sm btn-dark">Print</button>
-            </div>
-        </div>
+
         <div id="tracer-study-reports">
             <!--Iterate this table -->
+            <h3>Batch or year graduated</h3>
+            <div class="d-flex mb-3 align-items-center">
+                <form id="custom-filter" class="d-flex me-2 align-items-center">
+                    <input style="display: block;" id="custom-filter-year-1" name="custom-filter-year-1" type="number" class="form-control me-2 controls" />
+                    <p style="display: block;" class="m-0 me-2 controls">-</p>
+                    <input style="display: block;" id="custom-filter-year-2" name="custom-filter-year-2" type="number" class="form-control me-3 controls" />
+                    <button style="display: block;" disabled id="filter-graph" type="submit" class="btn btn-sm btn-dark me-2 controls">Filter</button>
+                    <button style="display: block;" id="refresh-graph" type="button" class="btn btn-sm btn-outline-dark w-50 controls"><i class="fas fa-redo"></i> Clear</button>
+                </form>
+                <div class="flex-fill"></div>
+                <div>
+                    <button style="display: block;" id="print-tracer-report" class="btn btn-sm btn-dark controls">Print</button>
+                </div>
+            </div>
             <div class="border p-3 rounded" id="table-container-academic">
                 <?php
                 $curriculumExitsUnformatted = $reports->getCurriculumExitsUnformatted(0, 'Academic');
@@ -116,11 +117,11 @@ $skillsAcquired = $reports->getRelevantSkills();
         </div>
     </div>
     <div class="mt-3 mb-3 p-3 bg-white shadow-sm rounded">
-        <div class="d-flex align-items-center mb-3">
-            <h3 class="w-100">Relevant skills acquired</h3>
-            <button id="skills-print" class="btn btn-sm btn-dark">Print</button>
-        </div>
         <div id="skills">
+            <div class="d-flex align-items-center mb-3">
+                <h3 class="w-100">Relevant skills acquired</h3>
+                <button style="display: block;" id="skills-print" class="btn btn-sm btn-dark">Print</button>
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>

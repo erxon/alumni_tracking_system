@@ -11,7 +11,7 @@ $stringUtil = new StringUltilities();
 $page = "";
 $numberOfItemsPerPage = 4;
 
-if (isset($_GET["page"])){
+if (isset($_GET["page"])) {
     $page = $_GET["page"];
 }
 
@@ -77,6 +77,10 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                             ?></td>
                         <td>
                             <a href="/thesis/contents/news?id=<?php echo $news[$i][3]; ?>" class="btn btn-sm btn-dark">Details</a>
+                            <button onclick="alumniInfo('<?php echo $news[$i][0] ?>', 
+                            '<?php echo $news[$i][3] ?>', 
+                            '<?php echo '/thesis/contents/news?id=' . $news[$i][3]; ?>',
+                            '<?php echo $news[$i][5]; ?>',)" data-bs-toggle="modal" data-bs-target="#send-email" class="btn btn-sm btn-dark">Send email</button>
                         </td>
                     </tr>
                 <?php
@@ -145,7 +149,9 @@ include "/xampp/htdocs/thesis/views/template/header.php";
     </div>
 <?php } ?>
 <?php
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_modal.php";
 include "script.php";
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_script.php";
 include "/xampp/htdocs/thesis/views/contents/layout/footer.php";
 include "/xampp/htdocs/thesis/views/template/footer.php";
 ?>

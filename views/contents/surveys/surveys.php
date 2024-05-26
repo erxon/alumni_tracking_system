@@ -81,8 +81,13 @@ include "/xampp/htdocs/thesis/views/contents/layout/header.php";
                         ?></td>
                     <td>
                         <a href="/thesis/contents/surveys?id=<?php echo $surveys[$i][0]; ?>" class="btn btn-sm btn-dark action-link">Details</a>
+                        <button onclick="alumniInfo('<?php echo $surveys[$i][1] ?>', 
+                            '<?php echo $surveys[$i][0] ?>', 
+                            '<?php echo '/thesis/contents/surveys?id=' . $surveys[$i][0]; ?>',
+                            '<?php echo 'Survey' ?>')" data-bs-toggle="modal" data-bs-target="#send-email" class="btn btn-sm btn-dark">Send email</button>
                         <a role="button" href="/thesis/contents/surveys/edit?id=<?php echo $surveys[$i][0]; ?>" class="btn btn-sm btn-outline-secondary action-link"><i class="far fa-edit"></i></a>
                         <button onclick="deleteSurvey(<?php echo $surveys[$i][0]; ?>)" data-bs-toggle="modal" data-bs-target="#delete-survey-confirm" class="btn btn-sm btn-outline-secondary action"><i class="fas fa-trash"></i></button>
+
                         <div style="display: none" id="spinner-<?php echo $surveys[$i][0]; ?>" class="spinner-border text-dark spinner-border-sm" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
@@ -145,6 +150,8 @@ include "/xampp/htdocs/thesis/views/contents/layout/header.php";
 </div>
 
 <?php
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_modal.php";
 include "script.php";
-include("/xampp/htdocs/thesis/views/template/footer.php");
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_script.php";
+include "/xampp/htdocs/thesis/views/template/footer.php";
 ?>

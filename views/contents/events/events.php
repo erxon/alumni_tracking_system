@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_SESSION["user_id"])) {
+    header("Location: /thesis/");
+    return;
+}
+
 include "/xampp/htdocs/thesis/models/Contents.php";
 include "/xampp/htdocs/thesis/models/utilities/StringUtilities.php";
 
@@ -39,11 +44,11 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                     <select id="filter-table" name="sort" class="form-select me-2" aria-label="Default select example">
                         <option selected value="">Open this select menu</option>
                         <option <?php if (isset($_GET["sort"]) && $_GET["sort"] == "DESC") {
-                            echo "selected";
-                        } ?> value="DESC">Newest</option>
+                                    echo "selected";
+                                } ?> value="DESC">Newest</option>
                         <option <?php if (isset($_GET["sort"]) && $_GET["sort"] == "ASC") {
-                            echo "selected";
-                        } ?> value="ASC">Oldest</option>
+                                    echo "selected";
+                                } ?> value="ASC">Oldest</option>
                     </select>
                     <button disabled id="filter-table-button" class="btn btn-sm btn-dark" type="submit">Sort</button>
                 </div>
@@ -69,22 +74,26 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                 <?php
                 $number = 1;
                 for ($i = ($page - 1) * $numberOfItemsPerPage; $i < ($page * $numberOfItemsPerPage) && $i < count($events); $i++) {
-                    ?>
+                ?>
                     <tr>
                         <td><?php echo $i + 1 ?></td>
                         <td><?php echo $events[$i][0]; ?></td>
                         <td><?php echo $stringUtil->dateAndTime($events[$i][3]); ?></td>
                         <td><?php if (!($events[$i][4] == "0000-00-00 00:00:00")) {
-                            echo $stringUtil->dateAndTime($events[$i][4]);
-                        } else {
-                            echo "No end date specified";
-                        } ?></td>
+                                echo $stringUtil->dateAndTime($events[$i][4]);
+                            } else {
+                                echo "No end date specified";
+                            } ?></td>
                         <td>
-                            <a href="/thesis/contents/events?id=<?php echo $events[$i][5]; ?>"
-                                class="btn btn-sm btn-dark">Details</a>
+                            <a href="/thesis/contents/events?id=<?php echo $events[$i][5]; ?>" class="btn btn-sm btn-dark">Details</a>
+                            <button onclick="alumniInfo('<?php echo $events[$i][0] ?>', 
+                            '<?php echo $events[$i][5] ?>', 
+                            '<?php echo '/thesis/contents/events?id=' . $events[$i][5]; ?>',
+                            '<?php echo $events[$i][6]; ?>')" data-bs-toggle="modal" data-bs-target="#send-email" class="btn btn-sm btn-dark">Send email</button>
                         </td>
                     </tr>
-                    <?php
+
+                <?php
                     $number++;
                 } ?>
             </tbody>
@@ -94,16 +103,15 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                 <ul class="pagination">
                     <?php if ($page > 1) { ?>
                         <li class="page-item"><a class="page-link" href=<?php if (isset($_GET["sort"])) {
-                            echo "/thesis/contents/events/all?page=" . ($page - 1) . "&sort=" . $_GET["sort"];
-                        } else {
-                            echo "/thesis/contents/events/all?page=" . $page - 1;
-                        } ?>>
+                                                                            echo "/thesis/contents/events/all?page=" . ($page - 1) . "&sort=" . $_GET["sort"];
+                                                                        } else {
+                                                                            echo "/thesis/contents/events/all?page=" . $page - 1;
+                                                                        } ?>>
                                 Previous</a></li>
                     <?php } ?>
                     <?php for ($i = 1; $i < ceil(count($events) / $numberOfItemsPerPage) + 1; $i++) { ?>
                         <?php if (isset($_GET["sort"])) { ?>
-                            <li class="page-item"><a class="page-link"
-                                    href="/thesis/contents/events/all?page=<?php echo $i; ?>&sort=<?php echo $_GET["sort"]; ?>">
+                            <li class="page-item"><a class="page-link" href="/thesis/contents/events/all?page=<?php echo $i; ?>&sort=<?php echo $_GET["sort"]; ?>">
                                     <?php echo $i ?></a></li>
                         <?php } else { ?>
                             <li class="page-item"><a class="page-link" href="/thesis/contents/events/all?page=<?php echo $i; ?>">
@@ -112,10 +120,10 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                     <?php } ?>
                     <?php if ($page < ceil(count($events) / 3)) { ?>
                         <li class="page-item"><a class="page-link" href=<?php if (isset($_GET["sort"])) {
-                            echo "/thesis/contents/events/all?page=" . ($page + 1) . "&sort=" . $_GET["sort"];
-                        } else {
-                            echo "/thesis/contents/events/all?page=" . $page + 1;
-                        } ?>>
+                                                                            echo "/thesis/contents/events/all?page=" . ($page + 1) . "&sort=" . $_GET["sort"];
+                                                                        } else {
+                                                                            echo "/thesis/contents/events/all?page=" . $page + 1;
+                                                                        } ?>>
                                 Next</a></li>
                     <?php } ?>
                 </ul>
@@ -128,11 +136,10 @@ include "/xampp/htdocs/thesis/views/template/header.php";
         <div class="row g-1">
             <?php
             foreach ($events as $event) {
-                ?>
+            ?>
                 <div class="col-sm-6 col-md-4">
                     <div class="card p-0">
-                        <img style="height: 10rem; width: auto; object-fit: cover;"
-                            src="/thesis/public/images/cover/<?php echo $event[4]; ?>" class="card-img-top">
+                        <img style="height: 10rem; width: auto; object-fit: cover;" src="/thesis/public/images/cover/<?php echo $event[4]; ?>" class="card-img-top">
                         <div class="card-body" style="height: 240px">
                             <h5 class="card-title"><?php echo $event[0]; ?></h5>
                             <div>
@@ -151,18 +158,19 @@ include "/xampp/htdocs/thesis/views/template/header.php";
                                 <?php } ?>
                             </div>
                         </div>
-                        <div class="card-footer"><a href="/thesis/contents/events?id=<?php echo $event[5]; ?>"
-                                class="btn btn-sm btn-dark">Details</a></div>
+                        <div class="card-footer"><a href="/thesis/contents/events?id=<?php echo $event[5]; ?>" class="btn btn-sm btn-dark">Details</a></div>
                     </div>
                 </div>
-                <?php
+            <?php
             } ?>
         </div>
     </div>
 <?php } ?>
 
 <?php
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_modal.php";
 include "script.php";
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_script.php";
 include "/xampp/htdocs/thesis/views/contents/layout/footer.php";
 include "/xampp/htdocs/thesis/views/template/footer.php";
 ?>

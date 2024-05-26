@@ -24,7 +24,6 @@ $surveys = $contents->getSurveys();
                 <td><?php echo $votes; ?></td>
                 <td>
                     <a role="button" class="btn btn-sm btn-light" href="/thesis/admin/survey?id=<?php echo $survey[0]; ?>">View</a>
-                    <a role="button" class="btn btn-sm btn-light">Delete</a>
                 </td>
             </tr>
         <?php } ?>

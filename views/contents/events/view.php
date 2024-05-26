@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_SESSION["user_id"])) {
+    header("Location: /thesis/");
+    return;
+}
+
 include("/xampp/htdocs/thesis/models/Contents.php");
 include("/xampp/htdocs/thesis/models/utilities/StringUtilities.php");
 

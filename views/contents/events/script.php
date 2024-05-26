@@ -1,4 +1,18 @@
 <script>
+    $("#cover-image").on("change", (event) => {
+        const inputImage = event.target.files[0];
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        if (!allowedExtensions.exec(event.target.value)) {
+            const toast = new bootstrap.Toast("#error-response");
+            $(".toast-body").empty("");
+            $(".toast-body").append("Invalid file type");
+            toast.show();
+
+            $("#cover-image").val("");
+        }
+    });
+
     $("#events-form").on("submit", (event) => {
         event.preventDefault();
         $("#events-form").addClass("was-validated");
@@ -72,7 +86,7 @@
     });
 
     $("#title").on("keyup", (event) => {
-        if (event.target.value !== ""){
+        if (event.target.value !== "") {
             $("#search-by-name").prop("disabled", false);
         } else {
             $("#search-by-name").prop("disabled", true);
@@ -82,4 +96,5 @@
     $("#reload-page").on("click", (event) => {
         window.location = "/thesis/contents/events/all?page=1";
     });
+    
 </script>

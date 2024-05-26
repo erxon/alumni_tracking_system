@@ -57,7 +57,9 @@ include("/xampp/htdocs/thesis/views/template/header.php");
                 <?php } ?>
             </div>
         <?php } else { ?>
-            <p class="text-secondary">No images yet</p>
+            <div id="image-gallery" class="row">
+                <p class="text-secondary">No images yet</p>
+            </div>
         <?php } ?>
     </div>
 </div>

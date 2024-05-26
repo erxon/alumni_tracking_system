@@ -145,12 +145,18 @@
     });
     //print
     $("#print-tracer-report").on("click", () => {
+        $(".controls").hide()
+
         print("tracer-study-reports", "tracer-study-reports");
+
+        $(".controls").show()
         
     });
 
     $("#skills-print").on("click", (event) => {
+        $("#skills-print").hide();
         print("skills", "skills");
+        $("#skills-print").show();
     });
 
 </script>

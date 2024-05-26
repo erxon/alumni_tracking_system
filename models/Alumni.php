@@ -4,14 +4,14 @@ require("/xampp/htdocs/thesis/models/utilities/AlumniUtility.php");
 class Alumni extends AlumniUtility
 {
 
-    public function signupUser($email, $type)
+    public function signupUser($firstName, $lastName, $email, $type)
     {
         //Signup code goes here
         $db = new Database();
 
         try {
             $this->checkIfEmpty($email, $type);
-            $sql = "INSERT INTO user (email, type) VALUES ('$email', '$type')";
+            $sql = "INSERT INTO user (firstName, lastName, email, type) VALUES ('$firstName', '$lastName','$email', '$type')";
 
             $result = $db->query($sql);
 
@@ -698,26 +698,26 @@ class Alumni extends AlumniUtility
         $db->close();
     }
 
-    public function searchAlumni($name, $track, $strand, $batch)
-    {
-        $db = new Database();
-        $sql = "SELECT * FROM alumni 
-        WHERE (firstName='$name' OR 
-        middleName='$name' OR 
-        lastName='$name') OR
-        (trackFinished='$track' OR
-        strandFinished='$strand' OR
-        dateGraduated='$batch') LIMIT 3";
+    // public function searchAlumni($name, $track, $strand, $batch)
+    // {
+    //     $db = new Database();
+    //     $sql = "SELECT * FROM alumni 
+    //     WHERE (firstName='$name' OR 
+    //     middleName='$name' OR 
+    //     lastName='$name') OR
+    //     (trackFinished='$track' OR
+    //     strandFinished='$strand' OR
+    //     dateGraduated='$batch') LIMIT 3";
 
-        $result = $db->query($sql);
-        $db->close();
+    //     $result = $db->query($sql);
+    //     $db->close();
 
-        if ($result->num_rows > 0) {
-            return array("response" => $result->fetch_all(), "success" => true);
-        } else {
-            return array("response" => "Alumni not found", "success" => false);
-        }
-    }
+    //     if ($result->num_rows > 0) {
+    //         return array("response" => $result->fetch_all(), "success" => true);
+    //     } else {
+    //         return array("response" => "Alumni not found", "success" => false);
+    //     }
+    // }
 
 
 
@@ -920,6 +920,52 @@ class Alumni extends AlumniUtility
         $db = new Database();
 
         $query = "UPDATE alumni SET status='$status' WHERE id='$id'";
+
+        $result = $db->query($query);
+
+        return $result;
+    }
+
+    public function searchAlumni($firstName, $middleName, $lastName, $track, $strand, $batch)
+    {
+        $db = new Database();
+
+        $params = "";
+
+        if (
+            $firstName == "" && $middleName == "" && $lastName == "" && $track == ""
+            && $strand == "" && $batch == ""
+        ) {
+            return;
+        }
+
+        if ($firstName !== "") {
+            $params .= " AND alumni.firstName='$firstName' ";
+        }
+        if ($middleName !== "") {
+            $params .= " AND alumni.middleName='$middleName' ";
+        }
+        if ($lastName !== "") {
+            $params .= " AND alumni.lastName='$lastName' ";
+        }
+        if ($track !== "") {
+            $params .= " AND alumni_school_history.track='$track' ";
+        }
+        if ($strand !== "") {
+            $params .= " AND alumni_school_history.strand='$strand' ";
+        }
+        if ($batch !== "") {
+            $params .= " AND alumni_school_history.yearGraduated='$batch' ";
+        }
+
+        $query = "SELECT 
+        alumni.id, alumni.userAccountID, alumni.photo, alumni.firstName, alumni.middleName, alumni.lastName,
+        alumni.contactNumber, alumni.email, alumni.address, alumni.gender, alumni.age, alumni.birthday,
+        alumni.dateCreated, alumni.dateModified, alumni.status, alumni_school_history.track, alumni_school_history.strand, 
+        alumni_school_history.yearGraduated 
+        FROM alumni 
+        JOIN alumni_school_history ON alumni.id = alumni_school_history.alumniID
+        WHERE alumni.status='active'" . $params;
 
         $result = $db->query($query);
 

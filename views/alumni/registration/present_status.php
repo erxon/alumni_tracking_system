@@ -17,7 +17,7 @@
             <option value="local">Local</option>
             <option value="international">International</option>
         </select>
-        <label for="work-location">Are you working?</label>
+        <label for="work-location">Are you working? <span class="text-danger">*</span></label>
     </div>
     <!--Internationa/Local Setting-->
     <div>
@@ -57,7 +57,7 @@
                     <option value="Spain">Spain</option>
                     <option value="Other">Other</option>
                 </select>
-                <label for="country">Country</label>
+                <label for="country">Country </label>
             </div>
             <input class="form-control mt-1" placeholder="Other" name="country-other" />
         </div>
@@ -79,7 +79,7 @@
                 <option value="Telecommunications">Telecommunications</option>
                 <option value="Government">Government</option>
             </select>
-            <label for="job-industry">What job industry?</label>
+            <label for="job-industry">What job industry? <span class="text-danger">*</span></label>
         </div>
         <!--Organization type-->
         <div class="form-floating mt-2">
@@ -88,7 +88,7 @@
                 <option value="private">Private</option>
                 <option value="public">Public</option>
             </select>
-            <label for="org-type">Type of Organization you work for</label>
+            <label for="org-type">Type of Organization you work for <span class="text-danger">*</span></label>
         </div>
         <!--Employment type-->
         <div class="form-floating mt-2">
@@ -99,7 +99,7 @@
                 <option value="contractual">Contractual or Freelancing</option>
                 <option value="self-employed">Self-employed</option>
             </select>
-            <label for="employment-type">Type of Employment</label>
+            <label for="employment-type">Type of Employment <span class="text-danger">*</span></label>
         </div>
         <!--Job level-->
         <div class="form-floating mt-2">
@@ -111,17 +111,17 @@
                 <option value="senior">Senior</option>
                 <option value="executive">Executive</option>
             </select>
-            <label for="job-level">Job level</label>
+            <label for="job-level">Job level <span class="text-danger">*</span></label>
         </div>
         <!--Company name-->
         <div class="form-floating mt-2">
             <input id="company-name" class="form-control" name="company-name" placeholder="Company name" value="" required/>
-            <label for="company-name">Company name</label>
+            <label for="company-name">Company name <span class="text-danger">*</span></label>
         </div>
         <!--Date hired-->
         <div class="form-floating mt-2">
             <input id="date-hired" class="form-control date-hired" name="date-hired" placeholder="Date hired" value="" />
-            <label for="date-hired">Date hired</label>
+            <label for="date-hired">Date hired <span class="text-danger">*</span></label>
         </div>
         <!--Salary Range-->
         <div class="form-floating mt-2">
@@ -132,12 +132,12 @@
                 <option value="26000-50000">PHP 26,000 - PHP 50,000</option>
                 <option value="51000-100000">PHP 51,000 - PHP 100,000</option>
             </select>
-            <label for="salary-range">Monthly salary range</label>
+            <label for="salary-range">Monthly salary range <span class="text-danger">*</span></label>
         </div>
         <!--Contact information of the company-->
         <div class="form-floating mt-2">
             <input id="company-contact" class="form-control" name="company-contact" placeholder="Company contact information" value="" />
-            <label for="company-contact">Company contact information</label>
+            <label for="company-contact">Company contact information <span class="text-danger">*</span></label>
         </div>
         <!--Work setup-->
         <div class="form-floating mt-2">
@@ -147,7 +147,7 @@
                 <option value="Work from home">Work from home</option>
                 <option value="Hybrid">Hybrid</option>
             </select>
-            <label for="work-setup">Work set-up</label>
+            <label for="work-setup">Work set-up <span class="text-danger">*</span></label>
         </div>
     </div>
 </div>
@@ -159,7 +159,7 @@
             <option value="private">Private</option>
             <option value="public">Public</option>
         </select>
-        <label for="school-type">Type of school you are enrolled</label>
+        <label for="school-type">Type of school you are enrolled <span class="text-danger">*</span></label>
     </div>
     <div class="form-floating">
         <select class="form-select" id="school-location" name="school-location" required>
@@ -167,7 +167,7 @@
             <option value="Cavite">Cavite</option>
             <option value="Outside Cavite">Outside Cavite</option>
         </select>
-        <label for="school-location">Are you enrolled in?</label>
+        <label for="school-location">Are you enrolled in? <span class="text-danger">*</span></label>
     </div>
     <!--Institutions in Cavite-->
     <div class="collapse mt-2" id="cavite">
@@ -178,7 +178,7 @@
                     <option value="<?php echo $institution ?>"><?php echo $institution ?></option>
                 <?php } ?>
             </select>
-            <label for="inst-name">College or University</label>
+            <label for="inst-name">College or University <span class="text-danger">*</span></label>
         </div>
         <div class="d-flex mt-2 align-items-center">
             <p class="m-0 me-2">Others: </p>
@@ -194,7 +194,7 @@
                     <option value="<?php echo $institution ?>"><?php echo $institution ?></option>
                 <?php } ?>
             </select>
-            <label for="inst-name">College or University</label>
+            <label for="inst-name">College or University <span class="text-danger">*</span></label>
         </div>
         <div class="d-flex mt-2 align-items-center">
             <p class="m-0 me-2">Others: </p>
@@ -209,7 +209,7 @@
             <option id="undergraduate-option" value="Undergraduate">Undergraduate</option>
             <option id="graduate-option" value="Graduate">Graduate</option>
         </select>
-        <label for="program">Program enrolled</label>
+        <label for="program">Program enrolled <span class="text-danger">*</span></label>
     </div>
     <div class="collapse mt-2" id="undergraduate-selection">
         <div class="d-flex">
@@ -220,7 +220,7 @@
                         <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
                     <?php } ?>
                 </select>
-                <label for="college">Colleges</label>
+                <label for="college">Colleges <span class="text-danger">*</span></label>
             </div>
             <div class="form-floating flex-fill me-1">
                 <select name="course" class="form-select" id="course">
@@ -233,7 +233,7 @@
                     <?php } ?>
 
                 </select>
-                <label for="course">Courses</label>
+                <label for="course">Courses <span class="text-danger">*</span></label>
             </div>
             <input class="form-control" placeholder="Others" name="course-other" value="" />
         </div>
@@ -246,13 +246,13 @@
                     <option value="<?php echo $course; ?>"><?php echo $course; ?></option>
                 <?php } ?>
             </select>
-            <label for="graduate-course">Courses</label>
+            <label for="graduate-course">Courses <span class="text-danger">*</span></label>
         </div>
         <input class="form-control" placeholder="Others" name="graduate-course-other" value="" />
     </div>
     <div class="form-floating mt-2">
         <input id="graduation-date" type="text" class="form-control" name="graduation-date" required />
-        <label for="graduation-date">Expected Graduation Date</label>
+        <label for="graduation-date">Expected Graduation Date <span class="text-danger">*</span></label>
     </div>
 </div>
 

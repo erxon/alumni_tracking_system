@@ -17,7 +17,7 @@ $stringUtil = new StringUltilities();
 $page = "";
 $numberOfItemsPerPage = 4;
 
-if (isset($_GET["page"])){
+if (isset($_GET["page"])) {
     $page = $_GET["page"];
 }
 
@@ -84,8 +84,13 @@ if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
                         <td><?php echo $stringUtil->truncate($allGallery[$i][2], 50); ?></td>
                         <td>
                             <a role="button" href="/thesis/contents/gallery?id=<?php echo $allGallery[$i][0]; ?>" class="btn btn-sm btn-dark action-link">See images</a>
+                            <button onclick="alumniInfo('<?php echo $allGallery[$i][1] ?>', 
+                            '<?php echo $allGallery[$i][0] ?>', 
+                            '<?php echo '/thesis/contents/gallery?id=' . $allGallery[$i][0]; ?>',
+                            '<?php echo $allGallery[$i][2] ?>')" data-bs-toggle="modal" data-bs-target="#send-email" class="btn btn-sm btn-dark">Send email</button>
                             <a role="button" href="/thesis/contents/gallery/edit?id=<?php echo $allGallery[$i][0]; ?>" class="btn btn-sm btn-outline-secondary me-1 action-link"><i class="fas fa-edit"></i></a>
                             <button onclick="deleteGallery('<?php echo $allGallery[$i][0]; ?>')" data-bs-toggle="modal" data-bs-target="#delete-gallery-confirmation" class="btn btn-sm btn-outline-secondary action"><i class="fas fa-trash"></i></button>
+
                             <div style="display: none" id="spinner-<?php echo $allGallery[$i][0]; ?>" class="spinner-border text-dark spinner-border-sm" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
@@ -170,7 +175,9 @@ if (isset($_SESSION["type"]) && $_SESSION["type"] == "admin") { ?>
 </div>
 
 <?php
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_modal.php";
 include "script.php";
+include "/xampp/htdocs/thesis/views/contents/send_email/send_email_script.php";
 include "/xampp/htdocs/thesis/views/contents/layout/footer.php";
 include("/xampp/htdocs/thesis/views/template/footer.php")
 ?>

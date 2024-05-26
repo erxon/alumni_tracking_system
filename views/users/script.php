@@ -1,4 +1,5 @@
 <script>
+    const currentUser = <?php echo $_SESSION["user_id"] ?>;
 
     function getUsers(pageNum) {
         $("#users-table").empty();
@@ -27,12 +28,22 @@
                                 <td>${item}</td>
                             `);
                         });
-                        $(`#${index}`).append(`
+
+                        if (Number(row[0]) === currentUser || row[5] === "alumni") {
+                            $(`#${index}`).append(`
+                        <td class="actions">
+                            <a role="button" class="btn btn-sm btn-light" href="/thesis/users?id=${row[0]}">View</a>
+                        </td>
+                            `);
+                        } else {
+                            $(`#${index}`).append(`
                         <td class="actions">
                             <a role="button" class="btn btn-sm btn-light" href="/thesis/users?id=${row[0]}">View</a>
                             <button onclick="deleteUser('${row[0]}', '${row[5]}')" data-bs-toggle="modal" data-bs-target="#delete-confirmation" class="btn btn-sm btn-danger">Delete</button>
                         </td>
                             `);
+                        }
+
                     })
                 }
             }

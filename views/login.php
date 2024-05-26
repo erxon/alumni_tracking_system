@@ -1,6 +1,6 @@
 <?php session_start(); ?>
 <?php
-require ("/xampp/htdocs/thesis/models/Authentication.php");
+require("/xampp/htdocs/thesis/models/Authentication.php");
 
 $auth = new Authentication();
 $message;
@@ -20,21 +20,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_SESSION["username"])) {
   header("Location: /thesis/home");
 } else {
-  include ("/xampp/htdocs/thesis/views/template/header.php");
-  ?>
+  include("/xampp/htdocs/thesis/views/template/header.php");
+?>
 
   <div class="login-form bg-white rounded shadow-sm p-2">
-    <div class="row g-0">
-      <img style="object-fit: cover;" class="col-lg-6 col-md-12" src="/thesis/public/assets/login-form.jpg" />
-      <div class="col-lg-6 col-md-12 p-4">
-
-        <p class="mb-0">Alumni Tracking System</p>
-        <h2 class="mb-3">Login</h2>
+    <div class="g-0">
+      <div class="d-flex align-items-center">
+        <img style="object-fit: cover; width: 200px; height: 200px;" class="mx-auto" src="/thesis/public/assets/login-form.png" />
+      </div>
+      <div class="p-4 w-50 mx-auto">
+        <p class="mb-0 text-center">Alumni Tracking System</p>
+        <h2 class="mb-3 text-center">Login</h2>
         <div class="d-grid gap-2">
           <a role="button" class="btn btn-outline-dark" href="/thesis/google_login"><i class="fab fa-google"></i> Continue
             with Google</a>
-          <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-            data-bs-target="#termsAndConditions">Register here</button>
+          <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#termsAndConditions">Register here</button>
         </div>
       </div>
     </div>
@@ -49,4 +49,4 @@ if (isset($_SESSION["username"])) {
 <?php } ?>
 
 <?php include "/xampp/htdocs/thesis/views/home/alumni_registration_modal.php"; ?>
-<?php include ("/xampp/htdocs/thesis/views/template/footer.php"); ?>
+<?php include("/xampp/htdocs/thesis/views/template/footer.php"); ?>

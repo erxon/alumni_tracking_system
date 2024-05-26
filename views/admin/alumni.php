@@ -19,17 +19,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $alumni->setStatus($status, $id);
         // echo $result;
 
-        $title = "Alumni Approval";
-        $body = "Contratulations, you are now registered in LYFJSHS - Alumni Tracking System";
-        $subject = "Account approval";
         $recipientName = $alumniDetails["firstName"] . " " . $alumniDetails["lastName"];
         $recipientEmail = $alumniDetails["email"];
 
+        $title = "Alumni Approval";
+        $body = "
+        <p>Dear Mr. or Mrs. $recipientName,<p>
+
+        <p>We have received your application within the Luis Y. Ferrer Jr.
+        Senior High School Alumni Tracking System. It is with pleasure
+        that we notify you of the approval of your registration.</p>
+
+        <p>To access your account, you may use your registered email
+        address.</p>
+
+        <p>If you require any further information or assistance, please do not
+        hesitate to contact us. Thank you.</p>
+
+        <p>Sincerely,</p>
+
+        <p>Luis Y. Ferrer Senior High School ICT</p>
+        ";
+        $subject = "Luis Y. Ferrer Jr. Senior High School Alumni Tracking System Application Notice";
+
+
         $email->sendCustomEmail(
-            $title, 
+            $title,
             $body,
             $subject,
-            $recipientName, 
+            $recipientName,
             $recipientEmail
         );
 
@@ -40,17 +58,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // echo $userAccountID;
         $result = $alumni->deleteAlumni($id, $alumniDetails["userAccountID"]);
 
-        $title = "Registration Declined";
-        $body = "We're sorry, your details was not found on our alumni database.";
-        $subject = "Registration Declined";
         $recipientName = $alumniDetails["firstName"] . " " . $alumniDetails["lastName"];
         $recipientEmail = $alumniDetails["email"];
 
+        $title = "Registration Declined";
+        $body = "
+        <p>Dear Mr./Ms. $recipientName, </p>
+
+        <p>We have received your application within the Luis Y. Ferrer Jr.
+        Senior High School Alumni Tracking System. We are sorry to
+        inform you that your registration has been rejected due to the 
+        reason that we have no records of the details you have provided 
+        us.</p>
+
+        <p>If you require any further information or assistance, please do not
+        hesitate to contact us. Thank you.</p>
+
+        <p>Sincerely,</p>
+
+        <p>Luis Y. Ferrer Senior High School ICT</p>
+        ";
+        $subject = "Luis Y. Ferrer Jr. Senior High School Alumni Tracking System Application Notice";
+
+
         $email->sendCustomEmail(
-            $title, 
+            $title,
             $body,
             $subject,
-            $recipientName, 
+            $recipientName,
             $recipientEmail
         );
 

@@ -15,8 +15,6 @@ if (isset($result)) {
 ?>
 
 <?php include("/xampp/htdocs/thesis/views/template/header.php"); ?>
-
-
 <div class="main-body-padding" style="margin-top: 5%">
     <div class="bg-white rounded shadow w-50 container-fluid p-4">
         <nav aria-label="breadcrumb">
@@ -128,10 +126,19 @@ if (isset($result)) {
                 }
             }
         });
+    });
 
+    $("#email").on("keyup", (event) => {
+        console.log(event.target.value);
+        const sessionEmail = "<?php echo $_SESSION["email"] ?>"
 
-
-    })
+        console.log(sessionEmail)
+        if (event.target.value !== sessionEmail) {
+            $("#save-email").prop("disabled", false);
+        } else {
+            $("#save-email").prop("disabled", true);
+        }
+    });
 
     $("#basic-information").on("submit", (event) => {
         event.preventDefault();
@@ -151,10 +158,10 @@ if (isset($result)) {
             cache: false,
             processData: false,
             success: (response) => {
-                if (response.response) {
+                if (typeof(response.response) === "boolean" && response.response) {
                     toastShow("text-bg-primary", "User updated");
                 } else {
-                    toastShow("text-bg-danger", "Something went wrong");
+                    toastShow("text-bg-danger", response.response);
                 }
             }
         });

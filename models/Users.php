@@ -1,7 +1,7 @@
 <?php
 
-require ("Database.php");
-require ("/xampp/htdocs/thesis/models/utilities/UserUtility.php");
+require("Database.php");
+require("/xampp/htdocs/thesis/models/utilities/UserUtility.php");
 
 class Users extends UserUtility
 {
@@ -24,22 +24,39 @@ class Users extends UserUtility
     public function editUser($user_id, $changes)
     {
         //changes is an associative array containing all the values to change
-        $username = $changes["username"];
 
-        try {
-            $this->editUserCheckFields($username);
-            $this->editUserCheckUsername($username, $user_id);
-            //Update Session Variables
-            $this->updateSession($changes);
+        if (isset($changes["username"])) {
+            $username = $changes["username"];
+            try {
+                $this->editUserCheckFields($username);
+                $this->editUserCheckUsername($username, $user_id);
+                //Update Session Variables
+                $this->updateSession($changes);
 
-            $sql = "UPDATE user SET 
-            username='$username' WHERE id='$user_id'";
+                $sql = "UPDATE user SET 
+                username='$username' WHERE id='$user_id'";
 
-            $result = $this->db->query($sql);
+                $result = $this->db->query($sql);
 
-            return $result;
-        } catch (Exception $e) {
-            return false;
+                return $result;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        }
+        if (isset($changes["email"])) {
+            try {
+                $email = $changes["email"];
+                
+                $this->emailExists($email);
+                $this->updateSession($changes);
+
+                $sql = "UPDATE user SET email='$email' WHERE id='$user_id'";
+                $result = $this->db->query($sql);
+
+                return $result;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
     }
 
@@ -113,7 +130,8 @@ class Users extends UserUtility
         }
     }
 
-    public function getAllUsers(){
+    public function getAllUsers()
+    {
         $sql = "SELECT email FROM user";
 
         $result = $this->db->query($sql);
@@ -121,7 +139,8 @@ class Users extends UserUtility
         return $result->fetch_all();
     }
 
-    public function numberOfUsers(){
+    public function numberOfUsers()
+    {
         $sql = "SELECT * FROM user";
         $result = $this->db->query($sql);
 
@@ -155,7 +174,6 @@ class Users extends UserUtility
         } catch (Exception $e) {
             $this->displayError($e);
         }
-
     }
 
     public function getNumberOfUsers()
@@ -184,12 +202,13 @@ class Users extends UserUtility
         return $result;
     }
 
-    public function checkEmail($email){
+    public function checkEmail($email)
+    {
         $sql = "SELECT * FROM alumni WHERE email='$email'";
 
         $result = $this->db->query($sql);
 
-        if($result->num_rows > 0){
+        if ($result->num_rows > 0) {
             return true;
         } else {
             return false;

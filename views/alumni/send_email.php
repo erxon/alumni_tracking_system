@@ -20,11 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $recipient = $_POST["recipient"];
     $perTrackRecipient = $_POST["per-track-recipient"];
     $perBatchRecipient = $_POST["per-batch-recipient"];
-    $title = $_POST["title"];
     $body = $_POST["alumni_email_content"];
     $subject = $_POST["subject"];
 
-    $message = "<div><h1>$title</h1><p>$body</p></div>";
+    $message = "<div><p>$body</p></div>";
 
     $mail = new PHPMailer(true);
 

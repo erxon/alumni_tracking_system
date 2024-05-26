@@ -27,17 +27,6 @@ if ($page !== 0) {
     }
 }
 
-$result = array();
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS);
-    $track = filter_input(INPUT_POST, "track", FILTER_SANITIZE_SPECIAL_CHARS);
-    $strand = filter_input(INPUT_POST, "strand", FILTER_SANITIZE_SPECIAL_CHARS);
-    $batch = filter_input(INPUT_POST, "batch", FILTER_SANITIZE_SPECIAL_CHARS);
-
-    $result = $alumni->searchAlumni($name, $track, $strand, $batch);
-}
-
 include("/xampp/htdocs/thesis/views/template/header.php");
 
 if (isset($_SESSION["type"]) && ($_SESSION["type"] == "admin" || $_SESSION["type"] == "teacher" || $_SESSION["type"] == "principal")) { ?>
@@ -59,11 +48,11 @@ if (isset($_SESSION["type"]) && ($_SESSION["type"] == "admin" || $_SESSION["type
         <h3>Alumni</h3>
         <?php include "/xampp/htdocs/thesis/views/alumni/alumni_all.php"; ?>
     </div>
-    
+
 <?php } ?>
 
-<?php 
+<?php
 include "script.php";
 include "/xampp/htdocs/thesis/views/alumni/admin_search/script.php";
-include "/xampp/htdocs/thesis/views/template/footer.php"; 
+include "/xampp/htdocs/thesis/views/template/footer.php";
 ?>

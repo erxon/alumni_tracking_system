@@ -32,6 +32,10 @@
                             <a href="/thesis/contents/surveys?id=${survey[0]}" class="btn btn-sm btn-dark">Details</a>
                             <a role="button" href="/thesis/contents/surveys/edit?id=${survey[0]}" class="btn btn-sm btn-outline-secondary"><i class="far fa-edit"></i></a>
                             <button onclick="deleteSurvey(${survey[0]})" data-bs-toggle="modal" data-bs-target="#delete-survey-confirm" class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash"></i></button>
+                            <button onclick="alumniInfo('${survey[1]}', 
+                            '${survey[0]}', 
+                            '/thesis/contents/surveys?id='.${survey[0]}',
+                            'Survey')" data-bs-toggle="modal" data-bs-target="#send-email" class="btn btn-sm btn-dark">Send email</button>
                         </td>
                     </tr>
                     `);
@@ -50,7 +54,7 @@
         $(".action").prop("disabled", true);
         $(".action-link").addClass("disabled");
         $(`#spinner-${surveyId}`).show();
-        
+
         $.ajax({
             type: "POST",
             url: "/thesis/contents/survey/server",

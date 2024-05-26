@@ -89,7 +89,12 @@
             cache: false,
             processData: false,
             success: (response) => {
+                console.log(response)
                 const toast = new bootstrap.Toast("#response");
+                $("#toast-body").empty();
+                $("#toast-body").append(response.response);
+                $("#response").addClass("text-bg-success");
+                toast.show();
                 if (response.image) {
                     $("#image-gallery").append(`<div id="image_${response.id}" class="col-sm-6 col-md-4">
                         <div class="card mb-2">
@@ -101,9 +106,6 @@
                         </div>
                     </div>`);
 
-                    $("#toast-body").append(response.response);
-                    $("#response").addClass("text-bg-success");
-                    toast.show();
                 } else {
                     $("#toast-body").append(response.response);
                     $("#response").addClass("text-bg-primary");
