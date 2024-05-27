@@ -321,6 +321,7 @@
         try {
             const users = <?php echo json_encode($users); ?>;
 
+            //Validate email
             const findEmail = users.find((user) => {
                 return user[0] === formData.get("email")
             })
@@ -334,9 +335,19 @@
             $("#email").removeClass("border border-danger")
             $("#email-already-exists").hide();
 
+
+            //Validate form
             const validate = await validation(formData, page);
 
             page += 1;
+
+            //Page number
+            $("#page-number").empty();
+            $("#page-number").append(page);
+
+            //Progress bar
+            const width = Math.round((page / 3) * 100);
+            $("#progress-bar").css("width", `${width}%`);
 
             if (page < 4) {
                 document.getElementById(`form-page-${page - 1}`).style.display = "none";
@@ -350,6 +361,7 @@
             }
 
             if (page === 4) {
+                $("#page-number-paragraph").prop("hidden", true);
                 $.ajax({
                     type: "POST",
                     url: "/thesis/alumni/create",
@@ -395,6 +407,15 @@
 
         if (page !== 1) {
             page -= 1;
+
+            //Page number
+            $("#page-number").empty();
+            $("#page-number").append(page);
+
+            //Progress bar
+            const width = Math.round((page / 3) * 100);
+            $("#progress-bar").css("width", `${width}%`);
+            console.log(width)
 
             document.getElementById(`form-page-${page + 1}`).style.display = "none";
             document.getElementById(`form-page-${page}`).style.display = "block";

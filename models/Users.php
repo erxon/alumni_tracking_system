@@ -114,7 +114,7 @@ class Users extends UserUtility
 
     public function getUsers($offset)
     {
-        $sql = "SELECT user.id, user.username, user.firstName, user.lastName, user.email, user.type
+        $sql = "SELECT user.id, user.firstName, user.lastName, user.email, user.type
         FROM user LEFT JOIN alumni ON user.id=alumni.userAccountID 
         WHERE alumni.status IS NULL OR alumni.status = 'active' 
         ORDER BY user.dateCreated DESC LIMIT 5 OFFSET $offset";

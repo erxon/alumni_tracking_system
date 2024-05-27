@@ -24,6 +24,10 @@ include("/xampp/htdocs/thesis/views/template/header.php");
 <div class="registration-form">
     <form id="alumni-registration-form" class="container m-auto p-2" novalidate>
         <h1>Alumni Registration</h1>
+        <p id="page-number-paragraph">Page <span id="page-number">1</span> of 3</p>
+        <div class="progress my-3" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" id="progress-bar" style="width: 25%"></div>
+        </div>
         <div id="form-page-1" class="mb-3">
             <div class="bg-white rounded p-3 shadow-sm mb-3">
                 <h5>Personal information</h5>
