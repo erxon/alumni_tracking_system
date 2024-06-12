@@ -25,7 +25,7 @@ class Email
             "
         );
 
-        $sendgrid = new \SendGrid("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");
+        $sendgrid = new \SendGrid("asdf");
 
         try {
             $sendgrid->send($email);
@@ -44,7 +44,7 @@ class Email
         $mail->Host = "smtp.sendgrid.net";
         $mail->SMTPAuth = true;
         $mail->Username = "apikey";
-        $mail->Password = "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";
+        $mail->Password = "asdf";
         $mail->SMTPSecure = "ssl";
         $mail->Port = 465;
 

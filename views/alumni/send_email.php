@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->Host = "smtp.sendgrid.net";
     $mail->SMTPAuth = true;
     $mail->Username = "apikey";
-    $mail->Password = "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";
+    $mail->Password = "asdf";
     $mail->SMTPSecure = "ssl";
     $mail->Port = 465;
 
